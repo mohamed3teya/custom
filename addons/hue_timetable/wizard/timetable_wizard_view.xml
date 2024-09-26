@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- form -->
+        <record id="timetable_wizard_form" model="ir.ui.view">
+            <field name="name">timetable.wizard.form</field>
+            <field name="model">timetable.wizard</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="Timetable Report">
+                    <sheet>
+                        <div>
+                            <group colspan="8" cols="8">
+                                <group>
+                                    <field name="course_id" required="not facility_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="subject_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="facility_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="student_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                </group>
+                                <group>
+                                    <field name="batch_id" required="not facility_id" context="{'course_id': course_id,'get_parent_batch':1}" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="faculty_id"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+                                    <field name="level_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+                                    <field name="actual_lectures"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <span groups="base.group_user">
+                            <button string="Print" type="object" name="print_report" class="oe_highlight"/>
+                            <button special="cancel" string="Close" type="object"/>
+                        </span>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- action  -->
+        <record model="ir.actions.act_window" id="action_timetable_wizard">
+            <field name="name">Timetable Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">timetable.wizard</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- menu -->
+        <menuitem id="menu_timetable_wizard"
+                  name="Timetable Report"
+                  sequence="1"
+                  parent="menu_timetable_reports_root"
+                  action="action_timetable_wizard"/>
+    </data>
+</odoo>

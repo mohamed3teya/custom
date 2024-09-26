@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--hue_exam_room_tree_ext_view-->
+        <record id="hue_exam_room_tree_ext_view" model="ir.ui.view">
+            <field name="name">hue.exam.room.tree</field>
+            <field name="model">op.exam.room</field>
+            <field name="inherit_id" ref="openeducat_exam.view_op_exam_room_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='classroom_id']" position="replace">
+                    <field name="college_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="facility_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="start" />
+                    <field name="sequence" />
+                </xpath>
+            </field>
+        </record>
+        <!--hue_exam_room_form_ext_view-->
+        <record id="hue_exam_room_form_ext_view" model="ir.ui.view">
+            <field name="name">hue.exam.room.form</field>
+            <field name="model">op.exam.room</field>
+            <field name="inherit_id" ref="openeducat_exam.view_op_exam_room_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='classroom_id']" position="replace">
+                    <field name="start" />
+                    <field name="sequence" />
+                    <field name="computer_lab"/>
+                </xpath>
+                <xpath expr="//field[@name='capacity']" position="after">
+                    <field name="college_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="facility_id"  options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                </xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

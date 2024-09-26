@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_transcript_internal" model="ir.actions.report">
+            <field name="name">Student Transcript Internal Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.report_transcript_internal</field>
+            <field name="report_file">hue_student_reports.report_transcript_internal</field>
+            <field name="print_report_name">"Student Transcript Form"</field>
+        </record>
+        <record id="action_report_student_progress_internal" model="ir.actions.report">
+            <field name="name">Student Progress Internal Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_progress_report_stu</field>
+            <field name="report_file">hue_student_reports.student_progress_report_stu</field>
+            <field name="print_report_name">"Student Progress Report"</field>
+        </record>
+        <record id="action_student_form_attendance_report" model="ir.actions.report">
+            <field name="name">Student Absence Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_attendance_report</field>
+            <field name="report_file">hue_student_reports.student_attendance_report</field>
+            <field name="print_report_name">"Student Absence Report"</field>
+        </record>
+        <record id="action_student_gpa_debug_report" model="ir.actions.report">
+            <field name="name">GPA Debug report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_gpa_debug_reports</field>
+            <field name="report_file">hue_student_reports.student_gpa_debug_reports</field>
+            <field name="print_report_name">"GPA Debug report"</field>
+        </record>
+        <record id="action_student_registration_report" model="ir.actions.report">
+            <field name="name">Student Registration Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_registration_reports</field>
+            <field name="report_file">hue_student_reports.student_registration_reports</field>
+            <field name="print_report_name">"Student Registration Report"</field>
+        </record>
+        <record id="action_student_exam_report" model="ir.actions.report">
+            <field name="name">Student ExamTimeTable Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_exam_report_template</field>
+            <field name="report_file">hue_student_reports.student_exam_report_template</field>
+            <field name="print_report_name">"Student ExamTimeTable Report"</field>
+        </record>
+        <record id="action_subject_result_report" model="ir.actions.report">
+            <field name="name">Student ExamTimeTable Report</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.subject_result_template</field>
+            <field name="report_file">hue_student_reports.subject_result_template</field>
+            <field name="print_report_name">"subject result report"</field>
+        </record>
+    </data>
+</odoo>

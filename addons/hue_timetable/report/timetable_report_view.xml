@@ -1,0 +1,93 @@
+<odoo>
+    <data>
+        <template id="timetable_report_view">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="font">
+                        <div class="page">
+                            <style>
+                                thead{
+                                background-color:#eeeeee;
+                                }
+                            </style>
+                            <br/>
+                            <div class="text-center">
+                                <h3>Timetable</h3>
+                            </div>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>From</th>
+                                        <th>To</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Group</th>
+                                        <th>Place</th>
+                                        <th>Lecturer</th>
+                                        <th>Course</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <t t-foreach="sessions" t-as="session">
+                                        <t t-if="chkday != session.type">
+                                            <tr>
+                                                <td colspan="8" align="center" ><span t-esc="session.type" /></td>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <td><span t-esc="session.timing_id.name" /></td>
+                                            <td><span t-esc="session.to_timing_id.name" /></td>
+                                            <td><span t-esc="session.subject_id.name" /></td>
+                                            <t t-if="session.session_type == 'Lecture' ">
+                                               <td><span t-esc="session.session_type" /></td>
+                                            </t>
+                                            <t t-elif="session.session_type == 'Lab' ">
+                                               <td><span t-esc="session.session_type" /></td>
+                                            </t>
+                                            <t t-else="">
+                                               <td><span t-esc="session.session_type" /></td>
+                                            </t>
+                                            <td><span t-esc="session.classroom_id.name" />
+                                                <t t-if="session.sub_classroom != 0 ">
+                                                 - <span t-esc="session.sub_classroom" />
+                                                </t>
+                                            </td>
+                                            <td><span t-esc="session.facility_id.name" /> (<span t-esc="session.student_count" />)</td>
+                                            <t t-if="actual_lectures">
+                                                <td>
+                                                   <t t-if="session.q_faculty_ids">
+                                                        <t t-foreach="session.q_faculty_ids" t-as="lect">
+                                                            <span t-esc="lect.name" /><br />
+                                                        </t>
+                                                   </t>
+                                                </td>
+                                            </t>
+                                            <t t-else="">
+                                            <td>
+                                                <t t-if="session.faculty_ids">
+                                                    <t t-foreach="session.faculty_ids" t-as="lect">
+                                                        <span t-esc="lect.name" /><br />
+                                                    </t>
+                                                </t>
+                                            </td>
+                                            </t>
+                                            <td><span t-esc="session.course_id.name" /></td>
+                                      </tr>
+                                    <t t-set="chkday" t-value="session.type" />
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+         <record id="action_report_timetable" model="ir.actions.report">
+            <field name="name">timetable</field>
+            <field name="model">op.session</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_timetable.timetable_report_view</field>
+            <field name="report_file">hue_timetable.timetable_report_view</field>
+        </record>
+    </data>
+</odoo>

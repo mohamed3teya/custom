@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_semesters_form" model="ir.ui.view">
+			<field name="name">HUE Semesters</field>
+			<field name="model">op.semesters</field>
+			<field name="arch" type="xml">
+				<form string="Semesters">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="sequence"/>
+							<field name="term_id"/>
+							<field name="run_semester_gpa"/>
+						</group>
+						<group>
+							<field name="sds_current"/>
+							<field name="enroll_semester"/>
+							<field name="current"/>
+							<field name="timetable_current"/>
+							<field name="gpa_current"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_semester">
+			<field name="name">HUE Semesters</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.semesters</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

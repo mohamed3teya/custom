@@ -1,0 +1,28 @@
+<odoo>
+	<data>
+        <!--student registration log tree-->
+        <record id="hue_student_registration_log_tree" model="ir.ui.view">
+            <field name="name">hue.student.registration.log.tree</field>
+            <field name="model">hue.student.registration.log</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Registration Log">
+                    <field name="student_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" />
+                    <field name="batch_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="user_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" />
+                    <field name="update_time" />
+                    <field name="status" />
+                    <field name="registerer" />
+                    <field name="session_ids" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+		<!--Actions-->
+        <record id="hue_student_registration_log_action" model="ir.actions.act_window">
+            <field name="name">Registration Log</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hue.student.registration.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	</data>
+</odoo>

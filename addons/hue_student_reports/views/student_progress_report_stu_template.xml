@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="student_progress_report_stu">
+            <t t-call="web.html_container">
+                <!--         <t t-foreach="docs" t-as="o">-->
+                <t t-call="web.basic_layout">
+                    <style>
+                        .transcript td, th {
+                            border:none !important;
+                        }
+                        .transcript td {
+                            padding: 1px !important;
+                        }
+                    </style>
+                    <button onclick="javascript:window.print()" class="btn-print">Print</button>
+                    <!-- Header -->
+                    <t t-if="docs['language'] == 'en'">
+                        <table class="table">
+                            <tr>
+                                <td width="40%" class="text-center">
+                                    <span>
+                                        <img height="100" src="/web/binary/company_logo?company=1"/>
+                                    </span>
+                                    <h5>Mansoura Higher Institute for Engineering and Technology</h5>
+                                    
+                                </td>
+                                <td width="30%" class="text-center"
+                                    style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+                                    <h2>Student Progress</h2>
+                                </td>
+                                <td width="30%" class="text-right">
+                                    <!-- <img height="100" alt="Pic" class="kt-radius-100"
+                                        t-att-src="'data:image/png;base64,%s' % to_text(docs['student_id'].image)"/> -->
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <table class="table" style="direction: rtl;">
+                            <tr>
+                                <td width="40%" class="text-center">
+                                    <span>
+                                        <img height="100" src="/web/binary/company_logo?company=1"/>
+                                    </span>
+                                    <h5>معهد المنصورة العالي للهندسة والتكنولوجيا</h5>
+                                    
+                                </td>
+                                <td width="30%" class="text-center"
+                                    style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+                                    <h2>تقدم الطالب</h2>
+                                </td>
+                                <td width="30%" class="text-right">
+                                    <!-- <img height="100" alt="Pic" class="kt-radius-100"
+                                        t-att-src="'data:image/png;base64,%s' % to_text(docs['student_id'].image)"/> -->
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <!-- Student data -->
+                    <t t-if="docs['language'] == 'en'">
+                        <table class="table transcript">
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">Student Code</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].student_code"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">Full Name</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].en_name"/>
+                                </td>
+                            </tr>
+                            <tr t-if="docs['student_id'].sudo().course_id">
+                                <td>
+                                    <span style="font-size: 18px;">Program</span>
+                                    :
+                                    <span style="font-size: 16px;"
+                                        t-esc="docs['student_id'].sudo().course_id.name.split('|')[0]"/>
+                               </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">Semester Count</span>
+                                    :
+                                    <span t-esc="get_semesters_count(docs['student_id'].course_id,docs['student_id'])"/>
+                                </td>
+                                <td t-if="docs['cgpa']">
+                                    <span style="font-size: 18px;">GPA</span>
+                                    :
+                                    <t t-if="not docs['student_id'].checkblock()">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().new_gpa"/>
+                                    </t>
+                                    <t t-else ="">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().cgpa"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">Required Hours:</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.credithours"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">Earned Hours</span>
+                                    :
+                                    <t t-if="not docs['student_id'].checkblock()">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].new_crh"/>
+                                    </t>
+                                    <t t-else ="">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].crh"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">Project Hours</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].project_crh"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">Core Hours</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].core_crh"/>
+                                    /
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.corehours"/>
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">Elective Hours</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].elective_crh"/>
+                                    /
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.electivehours"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <table class="table transcript" style="direction: rtl;">
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">رقم الطالب</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].student_code"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">اسم الطالب</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].name"/>
+                                </td>
+                            </tr>
+                            <tr t-if="docs['student_id'].sudo().course_id">
+                                <td>
+                                    <span style="font-size: 18px;">التخصص</span>
+                                    :
+                                    <span style="font-size: 16px;"
+                                        t-esc="docs['student_id'].sudo().course_id.name.split('|')[0]"/>
+                               </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">الفصول الدراسية</span>
+                                    :
+                                    <span t-esc="get_semesters_count(docs['student_id'].course_id,docs['student_id'])"/>
+                                </td>
+                                <td t-if="docs['cgpa']">
+                                    <span style="font-size: 18px;">المعدل التراكمي</span>
+                                    :
+                                    <t t-if="not docs['student_id'].checkblock()">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().new_gpa"/>
+                                    </t>
+                                    <t t-else ="">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().cgpa"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">الساعات المطلوبة</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.credithours"/>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">الساعات المكتسبة</span>
+                                    :
+                                    <t t-if="not docs['student_id'].checkblock()">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].new_crh"/>
+                                    </t>
+                                    <t t-else ="">
+                                        <span style="font-size: 16px;" t-esc="docs['student_id'].crh"/>
+                                    </t>
+                                </td>
+                                <td>
+                                    <span style="font-size: 18px;">ساعات المشروع</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].project_crh"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">الساعات الاجباري</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].core_crh"/>
+                                    /
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.corehours"/>
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-size: 18px;">الساعات الاختياري</span>
+                                    :
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].elective_crh"/>
+                                    /
+                                    <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().course_id.electivehours"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </t>
+                    <div>
+                    <div class="clearfix">
+                        <br/>
+                    </div>
+                    <div class="table-responsive">
+                        <t t-if="docs['language'] == 'en'">
+                            <table class="table" border="1">
+                                <thead>
+                                    <tr style='background:#f4f5f7;'>
+                                        <th>Code</th>
+                                        <th>Course Title</th>
+                                        <th>Cr.H</th>
+                                        <th>Lec</th>
+                                        <th>Ex</th>
+                                        <th>Lab</th>
+                                        <th>Pre-Requisite</th>
+                                        <th>State</th>
+                                        <th>Required by</th>
+                                        <th>Year-Semester</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totalCH" t-value="0"/>
+                                    <t t-foreach="course_subjects" t-as="course_subject">
+                                        <t t-set="totalCH" t-value="totalCH+1"/>
+                                            <tr>
+                                                <td>
+                                                    <div style="white-space: nowrap;">
+                                                        <span t-if="course_subject"
+                                                            t-esc="course_subject.code.split('|')[0]"/>
+                                                    </div>
+                                                </td>
+                                                <td style='white-space:nowrap'>
+                                                    <span t-if="course_subject"
+                                                        t-esc="course_subject.name.split('|')[0]"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_credithours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_lecturehours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_oralhours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_practhours"/>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="course_subject.subject_prerequisites" t-as="prereq">
+                                                        <span t-if="prereq"
+                                                            t-esc="prereq.name.split('|')[0]"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_type"/>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <div style="white-space: nowrap;">
+                                                        <span t-esc="get_subject_data(course_subject.course_id.id,docs['student_id'].id, course_subject.id, course_subject)"/>
+                                                    </div>
+                                                </td>
+                                                <!-- <td>
+                                                    <span t-esc="get_grade(docs['student_id'],course_subject)"/>
+                                                </td> -->
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-else="">
+                            <table class="table" border="1" style="direction: rtl;">
+                                <thead>
+                                    <tr style='background:#f4f5f7;'>
+                                        <th>كود المقرر</th>
+                                        <th>اسم المقرر</th>
+                                        <th>س معتمدة</th>
+                                        <th>س محاضرات</th>
+                                        <th>س تدريب</th>
+                                        <th>س عملي</th>
+                                        <th>متطلب سابق</th>
+                                        <th>نوع المقرر</th>
+                                        <th>نوع المتطلب</th>
+                                        <th>العام - الفصل</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="totalCH" t-value="0"/>
+                                    <t t-foreach="course_subjects" t-as="course_subject">
+                                        <t t-set="totalCH" t-value="totalCH+1"/>
+                                            <tr>
+                                                <td>
+                                                    <div style="white-space: nowrap;">
+                                                        <span t-if="course_subject"
+                                                            t-esc="course_subject.code.split('|')[0]"/>
+                                                    </div>
+                                                </td>
+                                                <td style='white-space:nowrap'>
+                                                    <span t-if="course_subject"
+                                                        t-esc="course_subject.name.split('|')[0]"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_credithours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_lecturehours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_oralhours"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="course_subject.subject_practhours"/>
+                                                </td>
+                                                <td>
+                                                    <t t-foreach="course_subject.subject_prerequisites" t-as="prereq">
+                                                        <span t-if="prereq"
+                                                            t-esc="prereq.name.split('|')[0]"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <t t-set="values" t-value="dict([('compulsory','اجباري'),('elective','اختياري'),('project','مشروع'), (False,False)])"/> 
+                                                    <t t-esc="values[course_subject.subject_type]"/>
+                                                </td>
+                                                <td>
+                                                </td>
+                                                <td>
+                                                    <div style="white-space: nowrap;">
+                                                        <span t-esc="get_subject_data(course_subject.course_id.id,docs['student_id'].id, course_subject.id, course_subject)"/>
+                                                    </div>
+                                                </td>
+                                                <!-- <td>
+                                                    <span t-esc="get_grade(docs['student_id'],course_subject)"/>
+                                                </td> -->
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </div>
+                    </div>
+                    <div t-if="docs['notes']" class="col-md-12 text-center">
+                        <span style="font-size: 16px;" t-esc="docs['notes']"/>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

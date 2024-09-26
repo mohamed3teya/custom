@@ -1,0 +1,37 @@
+<odoo>
+	<data>
+        <!--university_transfer_tree_view-->
+        <record id="university_transfer_tree_view" model="ir.ui.view">
+            <field name="name">university transfer</field>
+            <field name="model">hue.university.transfer</field>
+            <field name="arch" type="xml">
+                <tree string="university transfer">        
+                    <field name="name"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+        <!--university_transfer_form_view-->
+        <record id="university_transfer_form_view" model="ir.ui.view">
+            <field name="name">university transfer form</field>
+            <field name="model">hue.university.transfer</field>
+            <field name="arch" type="xml">
+                <form string="university transfer">
+                    <sheet> 
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="country_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<!--Actions-->
+		<record id="university_transfer_action" model="ir.actions.act_window">
+			<field name="name">university transfer</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.university.transfer</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

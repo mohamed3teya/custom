@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<data>
+       	<record id="view_custom_fees_terms_form" model="ir.ui.view">
+			<field name="name">Fees Terms</field>
+			<field name="model">op.fees.terms</field>
+			<field name="inherit_id" ref="openeducat_fees.view_fees_terms_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="years_id"/>
+                    <field name="term_id"/>
+                    <field name="currency"/>
+                    <field name="extra_inv"/>
+                    <field name="special_case"/>
+                    <field name="one_time"/>
+                    <field name="foreign_nationality"/>
+				</xpath>
+                <xpath expr="//field[@name='fees_terms']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+                <xpath expr="//field[@name='note']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+			</field>
+		</record> 
+	</data>
+</odoo>

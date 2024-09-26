@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="student_evaluation_grades_tree_view" model="ir.ui.view">
+			<field name="name">Student Subject Control</field>
+			<field name="model">students.subject.control</field>
+			<field name="arch" type="xml">
+				<tree string="Evaluation Grades ">
+					<field name="course_id"/>
+					<field name="batch_id"/>
+					<field name="subject_id"/>
+					<field name="student_ids"/>
+					<field name="state"/>
+				</tree>
+			</field>
+		</record>
+		<record id="student_evaluation_grades_form_view" model="ir.ui.view">
+			<field name="name">Student Subject Control</field>
+			<field name="model">students.subject.control</field>
+			<field name="arch" type="xml">
+				<form string="Subject Control Grades" class="testtttt">
+					<header>
+						<button name="button_done" string="Finish" class="oe_highlight" type="object"
+                             	invisible="state=='done'"/>
+						<button name="button_draft"
+                                groups="hr_extention.group_service_manager"
+								invisible="state=='draft'"
+                                string="set to draft" class="oe_highlight" type="object"
+                                />
+						<button name="get_student_list" type="object" 
+                                string="Get Students" groups="base.group_user"
+								invisible="state=='done'"
+                                help="Click to get student list"/>
+						<button type="object" name="importXls"
+                            string="import Xls"
+							invisible="state=='done'"
+                            class="oe_highlight"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="course_id"
+								   readonly ="id != False"
+                                   options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="batch_id"
+								   readonly ="id != False"
+                                   options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="subject_id"
+								   readonly ="id != False"
+                                   options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="student_ids"/>
+							<field name="date" readonly ="id != False"/>
+							<field name="no_of_student"/>
+							<field name="flag_grade_final" invisible="1"/>
+							<field name="flag_grade_quiz" invisible="1"/>
+							<field name="flag_grade_activity" invisible="1"/>
+							<field name="flag_grade_attendance" invisible="1"/>
+							<field name="flag_grade_pract" invisible="1"/>
+							<field name="flag_grade_pract2" invisible="1"/>
+							<field name="flag_grade_oral" invisible="1"/>
+							<field name="flag_grade_medterm" invisible="1"/>
+							<field name="flag_grade_coursework" invisible="1"/>
+							<field name="flag_grade_pract_oral" invisible="1"/>
+							<field name="flag_grade_clinic" invisible="1"/>
+							<field name="flag_grade_mcq" invisible="1"/>
+							<field name="flag_grade_eassy" invisible="1"/>
+							<field name="flag_grade_skilllab" invisible="1"/>
+							<field name="flag_grade_practical" invisible="1"/>
+							<field name="degree_tb" string="Subject Degree" invisible="1"/>
+							<field name="assessment_sum" string="Total Degree"/>
+						</group>
+						<group>
+							<field name="xls_list" 
+                                       options="{'no_open': True}" invisible="state=='done'">
+								<tree limit="20" string="XLS List" class="xls_list" editable="bottom"  options="{'no_open': True}">
+									<field name="xls"/>
+									<field name="assessment_id"    options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+								</tree>
+							</field>
+						</group>
+						<group >
+							<label for="grade_final" invisible ="flag_grade_final == False "/>
+							<div class="o_row" invisible ="flag_grade_final == False ">
+								<field name="grade_final" string="Final"/>
+								<button name="button_fill_grade_final" string="Fill Final Mark" 
+									class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_quiz" invisible ="flag_grade_quiz == False "/>
+							<div class="o_row" invisible ="flag_grade_quiz == False ">
+								<field name="grade_quiz" string="Quiz"/>
+								<button name="button_fill_grade_quiz" string="Fill Quiz Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_activity" invisible ="flag_grade_activity == False "/>
+							<div class="o_row" invisible ="flag_grade_activity == False ">
+								<field name="grade_activity" string="Activity"/>
+								<button name="button_fill_grade_activity" string="Fill Activity Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_attendance" invisible ="flag_grade_attendance == False"/>
+							<div class="o_row" invisible ="flag_grade_attendance == False ">
+								<field name="grade_attendance" string="Attendance"/>
+								<button name="button_fill_grade_attendance" string="Fill Attendance Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_pract" invisible ="flag_grade_pract == False "/>
+							<div class="o_row" invisible ="flag_grade_pract == False ">
+								<field name="grade_pract" string="Practical"/>
+								<button name="button_fill_grade_pract" string="Fill Practical Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_pract2" invisible ="flag_grade_pract2 == False "/>
+							<div class="o_row" invisible ="flag_grade_pract2 == False ">
+								<field name="grade_pract2" string="Practical 2"/>
+								<button name="button_fill_grade_pract2" string="Fill Practical Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_oral" invisible ="flag_grade_oral == False "/>
+							<div class="o_row" invisible ="flag_grade_oral == False ">
+								<field name="grade_oral" string="Oral"/>
+								<button name="button_fill_grade_oral" string="Fill Oral Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_medterm" invisible ="flag_grade_medterm == False "/>
+							<div class="o_row" invisible ="flag_grade_medterm == False ">
+								<field name="grade_medterm" string="Med Term"/>
+								<button name="button_fill_grade_medterm" string="Fill Med Term Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_coursework" invisible ="flag_grade_coursework == False "/>
+							<div class="o_row" invisible ="flag_grade_coursework == False ">
+								<field name="grade_coursework" string="Course Work"/>
+								<button name="button_fill_grade_coursework" string="Fill Course Work Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_pract_oral" invisible ="flag_grade_pract_oral == False "/>
+							<div class="o_row" invisible ="flag_grade_pract_oral == False ">
+								<field name="grade_pract_oral" string="Pract &amp; Oral"/>
+								<button name="button_fill_grade_pract_oral" string="Fill Pract &amp; Oral Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_clinic" invisible ="flag_grade_clinic == False "/>
+							<div class="o_row" invisible ="flag_grade_clinic == False ">
+								<field name="grade_clinic" string="Clinic Work"/>
+								<button name="button_fill_grade_clinic" string="Fill Clinic Work Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_mcq" invisible ="flag_grade_mcq == False "/>
+							<div class="o_row" invisible ="flag_grade_mcq == False ">
+								<field name="grade_mcq" string="MCQ"/>
+								<button name="button_fill_grade_mcq" string="Fill MCQ Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_eassy" invisible ="flag_grade_eassy == False "/>
+							<div class="o_row" invisible ="flag_grade_eassy == False ">
+								<field name="grade_eassy" string="Essay"/>
+								<button name="button_fill_grade_eassy" string="Fill Essay Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_skilllab" invisible ="flag_grade_skilllab == False "/>
+							<div class="o_row" invisible ="flag_grade_skilllab == False ">
+								<field name="grade_skilllab" string="skill lab"/>
+								<button name="button_fill_grade_skilllab" string="Fill skill lab Mark" class="oe_highlight"
+                                        type="object" invisible="state=='done'"/>
+							</div>
+							<label for="grade_practical" invisible ="flag_grade_practical == False "/>
+							<div class="o_row" invisible ="flag_grade_practical == False ">
+								<field name="grade_practical" string="Practical"/>
+								<button name="button_fill_grade_practical" string="Fill Practical Mark"
+                                        class="oe_highlight" type="object" invisible="state=='done'"/>
+							</div>
+							<button name="button_add_1_att" string="-1  Atten "
+                                        class="oe_highlight" type="object"
+										invisible="state=='done'"
+										groups="hr_extention.group_service_manager"/>
+							<button name="button_add_2_att" string="1  Atten "
+                                        class="oe_highlight" type="object"
+										invisible="state=='done'"   
+										groups="hr_extention.group_service_manager"/>
+						</group>
+						<notebook>
+							<page string="Student List">
+								<field name="student_list" 
+                                       options="{'no_open': True}"
+									   invisible="state=='done'">
+									<tree limit="20" string="Student List" class="student_list" editable="bottom"
+                                          create="false" delete="false"
+                                          options="{'no_open': True}">
+										<field name="seq"/>
+										<field name="student_code" string="Code"/>
+										<field name="student_id" string="Name" options="{'no_open': True}"/>
+										<field name="grade_quiz"
+											   column_invisible ="parent.flag_grade_quiz == False "/>
+										<field name="grade_medterm"
+											   column_invisible ="parent.flag_grade_medterm == False "/>
+										<field name="grade_attendance" string="Attend"
+											   column_invisible ="parent.flag_grade_attendance == False "/>
+										<field name="grade_pract" string="Pract"
+											   column_invisible ="parent.flag_grade_pract == False "/>
+										<field name="grade_final"
+											   column_invisible ="parent.flag_grade_final == False "/>
+										<field name="grade_activity"
+											   column_invisible ="parent.flag_grade_activity == False "/>
+										<field name="grade_oral"
+											   column_invisible ="parent.flag_grade_oral == False "/>
+										<field name="grade_coursework"
+											   column_invisible ="parent.flag_grade_coursework == False "/>
+										<field name="grade_pract_oral"
+											   column_invisible ="parent.flag_grade_pract_oral == False "/>
+										<field name="grade_clinic"
+											   column_invisible ="parent.flag_grade_clinic == False "/>
+										<field name="grade_mcq"
+											   column_invisible ="parent.flag_grade_mcq == False "/>
+										<field name="grade_eassy"
+											   column_invisible ="parent.flag_grade_eassy == False "/>
+										<field name="grade_practical"
+											   column_invisible ="parent.flag_grade_practical == False "/>
+										<field name="grade_skilllab"
+											   column_invisible ="parent.flag_grade_skilllab == False "/>
+										<field name="grade_pract2" string="Pract 2"
+											   column_invisible ="parent.flag_grade_pract2 == False "/>
+										<field name="total" force_save="1"/>
+										<field name="grade" force_save="1"
+                                               options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+										<field name="control_degree" string="C Degree"/>
+										<field name="control_grade" string="C Grade" 
+                                               options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+										<field name="student_semester_subject_id" invisible="1"    groups="hr_extention.group_service_manager" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--control_student_action-->
+		<record model="ir.actions.act_window" id="control_student_action">
+			<field name="name">Student control</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">students.subject.control</field>
+			<!--<field name="domain">[('tree_clo_acl_ids','=',1)]</field>-->
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

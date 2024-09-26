@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- migration menu items -->
+		<!--Migration Root-->
+		<menuitem id="menu_migration" name="Migrations" sequence="60"/>
+		<!--Migration Sub Menu-->
+		<menuitem id="sub_menu_migration" name="Migrations" parent="menu_migration" sequence="1"/>
+		<!--menu_get_hue_certificates-->
+		<menuitem id="menu_get_hue_certificates" name="Get Hue Certificates"
+        action="get_hue_certificates_action" parent="sub_menu_migration" sequence="1"/>
+		<!--menu_get_hue_nationalities-->
+		<menuitem id="menu_get_hue_nationalities" name="Get Hue nationalities"
+        action="get_hue_nationalities_action" parent="sub_menu_migration" sequence="2"/>
+		<!--menu_get_hue_join_years-->
+		<menuitem id="menu_get_hue_join_years" name="Get Hue Join Years"
+        action="get_hue_joining_years_action" parent="sub_menu_migration" sequence="3"/>
+		<!--menu_get_stu_status-->
+		<menuitem id="menu_get_stu_status" name="Get Hue Student Status"
+        action="get_hue_student_status_action" parent="sub_menu_migration" sequence="4"/>
+		<!--menu_get_hue_cities-->
+		<menuitem id="menu_get_hue_cities" name="Get Hue Cities"
+        action="get_hue_cities_action" parent="sub_menu_migration" sequence="5"/>
+		<!--menu_get_hue_basic_student-->
+		<menuitem id="menu_get_hue_basic_student" name="Get Hue Basic students"
+        action="get_hue_basic_student_action" parent="sub_menu_migration" sequence="6"/>
+		<!--menu_get_hue_subject_data-->
+		<menuitem id="menu_get_hue_subject_data" name="Get Hue Subject Data"
+        action="get_hue_subject_data_action" parent="sub_menu_migration" sequence="7"/>
+	</data>
+</odoo>

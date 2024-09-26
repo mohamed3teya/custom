@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_financial_year_form" model="ir.ui.view">
+			<field name="name">Financial Years</field>
+			<field name="model">hue.years</field>
+			<field name="arch" type="xml">
+				<form string="Financial Years">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="join_year"/>
+							<field name="total"/>
+							<field name="total_dollar"/>
+							<field name="total_special"/>
+						</group>
+						<group>
+							<field name="year"/>
+							<field name="faculty"/>
+							<field name="course_id"/>
+							<field name="notes"/>
+							<field name="active"/>
+						</group>
+						<notebook>
+							<page name="Year_Installments" string="Year Installments">
+								<field name="in_ids"   nolabel="1">
+									<tree editable="bottom">
+										<field name="name"/>
+										<field name="installments"/>
+										<field name="term_id"/>
+										<field name="one_time"/>
+										<field name="foreign_nationality"/>
+										<field name="currency"/>                                 
+									</tree>
+								</field>                    
+							</page>
+							<page string="Year Installments increase">
+								<field name="increase_ids">
+									<tree string="Year Installments" editable="bottom">
+										<field name="sequence"/>
+										<field name="name"/>
+										<field name="increase_type"/>
+										<field name="academic_id"/>
+										<field name="increase_percentage"/>
+										<field name="amount"/>
+										<field name="foreign_nationality"/>
+										<field name="property_account_income_id"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_financial_year_tree" model="ir.ui.view">
+			<field name="name">Financial years</field>
+			<field name="model">hue.years</field>
+			<field name="arch" type="xml">
+				<tree string="Financial years">
+					<field name="name"/>
+					<field name="join_year"/>
+					<field name="total"/>
+					<field name="total_dollar"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_financial_year">
+			<field name="name">HUE Financial years</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.years</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

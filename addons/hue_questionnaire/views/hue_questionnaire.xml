@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--hue_questionnaire_tree_view-->
+		<record id="hue_questionnaire_tree_view" model="ir.ui.view">
+			<field name="name">Questionnaire</field>
+			<field name="model">hue.questionnaire</field>
+			<field name="arch" type="xml">
+				<tree string="Channel Book">
+					<field name="name"/>
+					<field name="faculty_id"/>
+					<field name="survey_id"/>
+					<field name="instructor_survey_id"/>
+					<field name="t_assistant_survey_id"/>
+					<field name="service_survey_id"/>
+					<field name="validation_min_date"/>
+					<field name="validation_max_date"/>
+					<field name="done_count"/>
+					<field name="all_count"/>
+					<field name="count_percentage"/>
+				</tree>
+			</field>
+		</record>
+		<!--hue_questionnaire_form_view-->
+		<record id="hue_questionnaire_form_view" model="ir.ui.view">
+			<field name="name">Questionnaire</field>
+			<field name="model">hue.questionnaire</field>
+			<field name="arch" type="xml">
+				<form string="Channel Book">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="faculty_id"/>
+							<field name="survey_id"/>
+							<field name="instructor_survey_id"/>
+							<field name="t_assistant_survey_id"/>
+							<field name="service_survey_id"/>
+							<field name="validation_min_date"/>
+							<field name="validation_max_date"/>
+							<field name="notes"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--hue_questionnaire_action-->
+		<record model="ir.actions.act_window" id="hue_questionnaire_action">
+			<field name="name">Questionnaire</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.questionnaire</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

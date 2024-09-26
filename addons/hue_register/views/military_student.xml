@@ -1,0 +1,89 @@
+<odoo>
+	<data>
+		<!--op_student_military_form_ext-->
+		<record id="op_student_military_form_ext" model="ir.ui.view">
+            <field name="name">op.student.military</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+				<!--military form-->
+				<xpath expr="//page[4]" position="after">
+					<page name="military" string="Military">
+						<group>
+							<field name="military_done"/>
+							<field name="done_military_id" invisible="military_done==False"/>
+							<field name="military_notes" invisible="military_done==False"/>
+						</group>
+					</page>
+				</xpath>
+            </field>
+        </record>
+		<!--military student tree-->
+		<record id="military_student_tree" model="ir.ui.view">
+			<field name="name">Military Student</field>
+			<field name="model">military.student</field>
+			<field name="arch" type="xml">
+				<tree string="Military Student">
+					<field name="academic_year_id" />
+					<field name="semester_id" />
+					<field name="fromdate"/>
+					<field name="todate"/>
+					<field name="name"/>
+					<field name="militarynumber"/>
+				</tree>
+			</field>
+		</record>
+		<!--Military student form-->
+		<record id="military_student_view" model="ir.ui.view">
+			<field name="name">Military Student</field>
+			<field name="model">military.student</field>
+			<field name="arch" type="xml">
+				<form string="Military Student">
+					<header>
+						<button name="get_student_list" type="object" class="oe_highlight"
+                                string="Get Students" groups="base.group_user"
+                                help="Click to get student list"/>
+						<button name="button_done" string="Finish" class="oe_highlight" type="object" invisible="state=='done'"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="academic_year_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"  />
+							<field name="semester_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="fromdate"/>
+							<field name="todate"/>
+							<field name="name"/>
+							<field name="militarynumber"/>
+						</group>
+						<notebook>
+							<page string="Military Student ">
+								<field name="student_military_ids"
+                                       options="{'no_open': True}">
+									<tree limit="20" string="military Student " class="student_military_data" editable="bottom" create="0" delete="0"
+                                          options="{'no_open': True}">
+										<field name="name" string="Student"/>
+										<field name="student_code" string="Code"/>
+										<field name="faculty" string="Faculty"/>
+										<field name="military_done" string="Done" />
+										<field name="military_notes" string="Note" />
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--Actions-->
+		<record id="military_student_action" model="ir.actions.act_window">
+			<field name="name">Military Student</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">military.student</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

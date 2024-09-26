@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_timing_tree_ext" model="ir.ui.view">
+            <field name="name">op.timing.tree.ext</field>
+            <field name="model">op.timing</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_op_timing_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='minute']" position="after">
+                    <field name="time" widget='float_time'/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

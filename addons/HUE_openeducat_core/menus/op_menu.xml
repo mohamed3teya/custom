@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!-- Separate courses menu -->
+        <menuitem id="menu_separate_courses_root" name="MC courses"
+                  sequence="90"/>
+        <menuitem id="menu_separate_courses_submenu" name="MC courses"
+                  sequence="1"
+                  parent="menu_separate_courses_root"
+                  action="openeducat_core.act_open_op_course_view"/>
+		<!--faculty menu-->
+		<menuitem id="menu_faculty" name="HUE Faculities"
+                  sequence="1"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_faculy"/>
+		<!--level menu-->
+		<menuitem id="menu_level" name="HUE Levels"
+                  sequence="1"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_level"/>
+		<!--financial year menu-->
+		<menuitem id="menu_financial_year" name="HUE Financial Years"
+                  sequence="2"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_financial_year"/>
+		<!--installment menu menu-->
+		<menuitem id="menu_installment" name="HUE Installments"
+                  sequence="3"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_installment"/>
+		<!--Join_year menu-->
+		<menuitem id="menu_join_year" name="HUE Joining Years"
+                  sequence="4"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_join_year"/>
+        <!--Join_year menu-->
+		<menuitem id="menu_timing_gap" name="HUE Timing Gap"
+                  sequence="4"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_timing_gap"/>
+		<!--Academic_year menu-->
+		<menuitem id="openeducat_core.menu_academic_year" name="HUE Academic Years"
+				  parent="openeducat_core.menu_op_school_config"
+                  sequence="5"/>
+		<!--Terms menu-->
+		<menuitem id="openeducat_core.menu_academic_term" name="Terms"
+				  parent="openeducat_core.menu_op_school_config"
+                  sequence="6"/>
+		<!--Semester menu-->
+		<menuitem id="menu_semester" name="HUE Semester"
+                  sequence="6"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_semester"/>
+		<!--grade menu-->
+		<menuitem id="menu_grade" name="Grades"
+                  sequence="7"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_grade"/>
+		<!--assessment menu-->
+		<menuitem id="menu_assessment" name="Assessments"
+                  sequence="8"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_assessment"/>
+		<!--Block menu-->
+		<menuitem id="menu_block" name="Registration Block"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_block"/>
+		<!--city menu-->
+		<menuitem id="menu_city" name="Cities"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_city"/>
+		<!--Grades Equivalent menu-->
+		<menuitem id="menu_grade_equiv" name="Course Grades Equivalent"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_grade_equiv"/>
+		<!--Discount menu-->
+		<menuitem id="menu_discount" name="Discounts"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_discount"/>
+		<!--certificates menu-->
+		<menuitem id="menu_certificate" name="Certificate Types"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_certificate"/>
+		<!--nationality menu-->
+		<menuitem id="menu_nationality" name="Nationalities Types"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_nationality"/>
+		<!--student status menu-->
+		<menuitem id="menu_student_status" name="Student Status"
+                  sequence="9"
+                  parent="openeducat_core.menu_op_school_config"
+                  action="act_open_op_student_status"/>
+		<!--fees terms menu-->
+		<menuitem id="openeducat_fees.menu_fees_terms" name="fees terms"
+				  parent="openeducat_core.menu_op_school_config"
+                  sequence="90"/>
+        <!-- menu_op_section -->
+        <menuitem id="menu_op_section"
+              name="Manage Sections"
+              parent="openeducat_core.menu_op_school_config"
+              action="action_op_section"
+              sequence="10"/>
+	</data>
+</odoo>

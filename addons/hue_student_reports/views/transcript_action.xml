@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_transcript" model="ir.actions.report">
+            <field name="name">Transcript Report</field>
+            <field name="model">student.transcript.wizard</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.report_transcript</field>
+            <field name="report_file">hue_student_reports.report_transcript</field>
+            <field name="binding_model_id" ref="model_student_transcript_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+        <record id="action_report_student_transcript_progress" model="ir.actions.report">
+            <field name="name">Student Transcript progress</field>
+            <field name="model">student.transcript.wizard</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports.student_progress_report_stu</field>
+            <field name="report_file">hue_student_reports.student_progress_report_stu</field>
+            <field name="binding_model_id" ref="model_student_transcript_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--hue_control_root-->
+		<menuitem id="hue_control_root" name="Control" sequence="50"/>
+		<menuitem id="hue_control_sub_menu" name="Control" parent="hue_control_root"/>
+		<!--Sub Menus-->
+		<menuitem id="student_subject_control" name="Subject Control" sequence="1"
+		          parent="hue_control_sub_menu" action="student_subject_control_action"/>
+		<menuitem id="student_subject_control_security" name="Subject Control Security" sequence="2"
+		          parent="hue_control_sub_menu" action="subject_control_security_action"/>
+		<menuitem id="student_subject_final_grades" name="Student Subject Final Grades" sequence="3"
+		          parent="hue_control_sub_menu" action="student_subject_final_grades_action"/>
+		<menuitem id="control_student_action_menu" name="Student Subject control" sequence="4"
+		          parent="hue_control_sub_menu" action="control_student_action"/>
+	</data>
+</odoo>

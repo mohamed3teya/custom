@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="subject_result_template">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.basic_layout">
+					<t class="page">
+						<div  align="center" style="color:#031f4a;background-color:#d1be41;">
+							<B>
+								<font color="#1f4791" size="4">Subjects Results</font>
+								<br/>
+								<font color="#1f4791" size="4">
+									<span t-esc="academicyear.name"/>
+                                - Semester :
+                                
+									<span t-if="semester" t-esc="semester.name.split('|')[1]"/>
+								</font>
+							</B>
+						</div>
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead class="thead-white">
+									<tr style="color:#fff;background-color:#031f4a;">
+										<th>Subject Name</th>
+										<th>Subject Code</th>
+										<th>Credit Hours</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-foreach="studentresults" t-as="StuResults">
+										<tr style="color:black">
+											<td style="color:#000;">
+												<span t-esc="StuResults.subject_id.subject_name.split('|')[0]"/>
+											</td>
+											<td style="color:#000;">
+												<span t-esc="StuResults.subject_id.subject_code.split('|')[0]"/>
+											</td>
+											<td style="color:#000;">
+												<span t-esc="StuResults.subject_id.subject_credithours"/>
+											</td>
+											<td style="color:#000;">
+												<table style="width:100%">
+													<t t-if="getmaxdegree(StuResults.subject_id,2)">
+														<tr>
+															<td>Midterm</td>
+															<td>Max :
+                                                                        
+																<span t-esc="getmaxdegree(StuResults.subject_id,2)"/>
+															</td>
+															<td>
+																<span t-esc="StuResults.grade_medterm"/>
+															</td>
+														</tr>
+													</t>
+												</table>
+											</td>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+						</div>
+					</t>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

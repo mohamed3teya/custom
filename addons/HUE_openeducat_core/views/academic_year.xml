@@ -1,0 +1,39 @@
+<odoo>
+	<data>
+		<record id="view_hue_op_academic_year" model="ir.ui.view">
+			<field name="name">Academic Year</field>
+			<field name="model">op.academic.year</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_academic_year_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='start_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='end_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="join_year"/>
+					<field name="faculty"/>
+					<field name="course_id"/>
+					<field name="student_id"/>
+					<field name="year"/>
+					<field name="sequence"/>
+					<field name="current"/>
+					<field name="timetable_current"/>
+					<field name="gpa_current"/>
+					<field name="run_semester_gpa"/>
+				</xpath>
+				<xpath expr="//field[@name='academic_term_ids']" position="after">
+					<group>
+						<field name="year_code"/>
+						<field name="start_date"/>
+						<field name="end_date"/>
+					</group>
+				</xpath>
+				<xpath expr="//field[@name='term_structure']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

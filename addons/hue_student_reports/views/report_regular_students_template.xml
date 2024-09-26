@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_regular_students">
+            <t t-call="web.html_container">
+                <t t-call="web.basic_layout">
+                    <button onclick="javascript:window.print()" class="btn-print">Print</button>
+                    <table class="table">
+                        <tr>
+                            <td width="20%">
+                                <span>
+                                    <img src="/web/binary/company_logo?company=1"/>
+                                </span>
+                            </td>
+                            <td width="80%" class="text-center"
+                                style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+                                <h2>تقرير عن الطلاب المنتظمين</h2>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="table-responsive">
+                        <table class="table" border="1" style="direction: rtl;">
+                            <thead class="text-center">
+                               <tr style='background:#f4f5f7;'>
+                                    <th>م</th>
+                                    <th>الكود</th>
+                                    <th>برنامج الطالب</th>
+                                    <th>الاسم باللغة العربية</th>
+                                    <th>الاسم باللغة الانجليزية</th>
+                                    <th>الديانة</th>
+                                    <th>النوع</th>
+                                    <th>بلد الجنسية</th>
+                                    <!-- <th>جنسية أخرى</th> -->
+                                    <th>تاريخ الميلاد</th>
+                                    <th>محل الميلاد</th>
+                                    <th>رقم البطاقة</th>
+                                    <th>تاريخ اصدار البطاقة</th>
+                                    <!-- <th>وسيلة الاتصال مفضلة</th> -->
+                                    <th>تليفون</th>
+                                    <th>وظيفة ولي الأمر</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <t t-set="count" t-value="0"/>
+                                <t t-foreach="students" t-as="student">
+                                    <t t-set="count" t-value="count+1"/>
+                                        <tr>
+                                            <td>
+                                                <div style="white-space: nowrap;">
+                                                    <span style="font-size: 18px;" t-esc="count"/>
+                                                </div>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.student_code"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student.course_id.name"
+                                                      t-esc="student.course_id.name.split('|')[0].strip()"/>
+                                            </td>
+                                            <td>
+                                                <span t-if="student"
+                                                      t-esc="student.name"/>
+                                            </td>
+                                            <td>
+                                                <span t-if="student"
+                                                      t-esc="student.en_name"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <t t-set="values" t-value="dict([('m','مسلم'),('c','مسيحي'), (False,False)])"/> 
+                                                <t t-esc="values[student.religion]"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <t t-set="values" t-value="dict([('m','ذكر'),('f','أنثى'), (False,False)])"/> 
+                                                <t t-esc="values[student.gender]"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.nationality.name"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.birth_date"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student.student_birth_place"
+                                                      t-esc="student.student_birth_place.name"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.national_id"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.national_id_issue_date"/>
+                                            </td>
+                                            <td style='white-space:nowrap'>
+                                                <span t-if="student"
+                                                      t-esc="student.stumobile"/>
+                                            </td>
+                                            <td>
+                                                <span t-if="student"
+                                                      t-esc="student.gardian_job"/>
+                                            </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

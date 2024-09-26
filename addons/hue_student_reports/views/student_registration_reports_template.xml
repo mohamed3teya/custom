@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="student_registration_reports">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <style>
+                    .header{
+                    display:none;
+                    }.table > tbody > tr > td{
+                    border-top : 0px;
+
+                    }
+                     @media print {
+                        .btn-print {
+                        display:none;
+
+                        }
+                        }
+                </style>
+                        <button style=" border-radius: 0.6em;border-color:#00438b;background-color:#00438b !important;color:#B68914 !important;font-weight: bold;padding: 5px; margin-bottom: 10px;    padding-left: 15px;padding-right: 15px;"
+                                onclick="javascript:window.print()" class="btn-print">Print
+                        </button>
+                <table class="table" style="margin-bottom: 0px;">
+                    <tr>
+                        <td width="33.33%">
+                            <img src="/hue_student_reports/static/src/images/MClogo.png" alt="MC Academy"
+                                 height="80"/>
+                        </td>
+                        <td width="33.33%" class="text-center"
+                            style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+                            <div style="text-align: center;font-weight: bold;font-size: 18px;">
+                                <p style="margin: 0;">استمارة تسجيل طالب</p>
+                                <p style="margin: 0;">
+                                    <t t-esc="curr_academic_year.name.split(':')[1]"/>
+                                </p>
+                                <p style="margin: 0;">
+                                    الفصل
+                                    <t t-esc="curr_semester.name.split('|')[0]"/>
+                                </p>
+
+                            </div>
+
+                        </td>
+                        <td width="33.33%" class="text-right">
+                            <span style="font-size: 18px;float: right;">المعهد العالي للهندسة منصورة كولدج  -
+                                <span t-esc="docs['student_id'].sudo().course_id.name.split('|')[0]"/>
+                            </span>
+                        </td>
+                    </tr>
+                </table>
+                <hr style="border-top: 2px solid #dddddd;margin: 3px;padding: 0;"/>
+                <div style="direction:rtl;">
+                    <table class="table">
+                        <tr>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">اسم الطالب :</span>
+
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].name"/>
+                            </td>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">رقم الطالب :</span>
+
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].student_code"/>
+                            </td>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">المستوي :</span>
+
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().level.name"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">التخصص :</span>
+                                <span style="font-size: 16px;"
+                                      t-esc="docs['student_id'].sudo().course_id.name.split('|')[0]"/>
+                            </td>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">عدد الساعات المسموح بها :</span>
+
+                                <span style="font-size: 16px;" t-esc="load_hours"/>
+                            </td>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">المعدل التراكمي :</span>
+                            <t t-if="not docs['student_id'].checkblock()">
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().new_gpa"/>
+                            </t>
+                            <t t-else ="">
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].sudo().cgpa"/>
+                            </t>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">تاريخ التسجيل :</span>
+                                <t t-foreach="student" t-as="StuAcc">
+                                    <t t-foreach="StuAcc.accum_semesters_ids" t-as="AcadSemester">
+                                        <t t-if="AcadSemester.semester_id.id == curr_semester.id">
+                                            <span style="font-size: 16px;" t-esc="(AcadSemester.create_date)"  t-options="{'widget': 'datetime', 'tz_name': 'Africa/Cairo'}"/>
+                                        </t>
+                                    </t>
+                                </t>
+                            </td>
+                        </tr>
+                    </table>
+                    <t t-foreach="student" t-as="StuAcc">
+                        <t t-foreach="StuAcc.accum_semesters_ids"
+                           t-as="AcadSemester">
+                            <t t-if="AcadSemester.semester_id.id == curr_semester.id">
+                                <div>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr style='background:#f4f5f7;'>
+                                                <th>كود المقرر</th>
+                                                <th>المقرر</th>
+                                                <th>الساعات المعتمدة</th>
+                                                <th>ساعات المحاضرة</th>
+                                                <th>ساعات الفصل</th>
+                                                <th>ساعات المعمل</th>
+                                                <th>معتمد البيان</th>
+                                                <th>تاريخ التسجيل</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="totalCH" t-value="0"/>
+                                            <t t-foreach="AcadSemester.accum_semesters_subjects_ids"
+                                               t-as="SemesterSubjects">
+                                                <t t-set="totalCH"
+                                                   t-value="totalCH+SemesterSubjects.subject_id.subject_credithours"/>
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_code.split('|')[0]"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_name.split('|')[0]"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_credithours"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_lecturehours"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_practhours"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.subject_id.subject_oralhours"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="SemesterSubjects.approved_by.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span t-esc="(SemesterSubjects.create_date)"  t-options="{'widget': 'datetime', 'tz_name': 'Africa/Cairo'}"/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td style="text-align: center;" colspan="2">الساعات المسجلة</td>
+                                                <td>
+                                                    <span t-esc="totalCH"/>
+                                                </td>
+                                                <td colspan="5"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                    <h4>التسجيل مسئولية الطالب من حيث :</h4>
+                                    <ul>
+                                        <li>صحة البيانات واكواد المواد وارقام المجموعات المراد تسجيلها .</li>
+                                        <li>ضرورة مراجعة المرشد الأكاديمي للتاكد من صحة البند الاول علي ان يقوم المرشد
+                                            الأكاديمي بالتوقيع بعد المراجعة .
+                                        </li>
+                                        <li>توقيع الطالب والمرشد الأكاديمي علي نموذج استمارة التسجيل يؤكد ما جاء بها من
+                                            البيانات .
+                                        </li>
+                                    </ul>
+                                    <br/>
+
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                <B>الطالب
+                                                    <br/>
+                                                </B>
+                                            </td>
+                                            <td>
+                                                <B>المرشد الأكاديمي
+
+                                                </B>
+                                            </td>
+                                            <td>
+                                                <B>مكتب الارشاد
+
+                                                </B>
+                                            </td>
+                                            <td>
+                                                <B>القبول والتسجيل
+
+                                                </B>
+                                            </td>
+                                            <td>
+                                                <B>رئيس القبول والتسجيل
+
+                                                </B>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

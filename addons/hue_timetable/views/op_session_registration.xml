@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--op_session_registration_tree-->
+		<record id="op_session_registration_tree" model="ir.ui.view">
+			<field name="name">Session Registration</field>
+			<field name="model">op.session.registration</field>
+			<field name="arch" type="xml">
+				<tree string="Session Registration">
+					<field name="course_id"/>
+					<field name="subject_id"/>
+					<field name="exam_date"/>
+					<field name="batch_id"/>
+					<field name="classroom_id"/>
+					<field name="session_type"/>
+					<field name="sub_classroom"/>
+					<field name="session_sync_type"/>
+				</tree>
+			</field>
+		</record>
+		<!--op_session_registration_form-->
+		<record id="op_session_registration_form" model="ir.ui.view">
+			<field name="name">Session Registration</field>
+			<field name="model">op.session.registration</field>
+			<field name="arch" type="xml">
+				<form string="Session Registration">
+					<sheet>
+						<group colspan="8" cols="8">
+						<group>
+							<field name="name"/>
+							<field name="course_id"/>
+							<field name="batch_id" context="{'course_id': course_id,'get_parent_batch':1}"/>
+							<field name="subject_id"/>
+							<field name="classroom_id"/>
+							<field name="session_type"/>
+							<field name="sub_classroom"/>
+							<field name="facility_id"/>
+							<field name="session_sync_type"/>
+							<field name="owners" options="{'no_create': True}" widget="many2many_tags" invisible ="session_parent_id != False"/>
+						</group>
+						<group>
+							<field name="exam_id"/>
+							<field name="exam_date"/>
+							<field name="exam_block" invisible ="session_parent_id != False"/>
+							<field name="graph_group_id" invisible ="session_parent_id != False"/>
+							<field name="graph_channel_id" invisible ="session_parent_id == False"/>
+							<field name="teams_member_count" invisible ="session_parent_id != False"/>
+							<field name="session_parent_id" invisible="1"/>
+							<field name="status"/>
+						</group>
+						</group>
+						<notebook colspan="4">
+							<page string="Enrollments" name="enrollment_data">
+								<field name="enrollment_ids">
+									<tree decoration-danger="status=='inactive'" decoration-info="status == 'active'"
+                                      string="Enrollments" editable="bottom" create="0">
+										<field name="name"/>
+										<field name="role"/>
+										<field name="beginDate"/>
+										<field name="endDate"/>
+										<field name="status"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Related Session" name="session_data"
+							  invisible ="session_parent_id != False">
+								<field name="relative_session_ids">
+									<tree string="Related Session" editable="bottom" create="0">
+										<field name="name"/>
+										<field name="graph_channel_id"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--op_session_registration_action-->
+		<record model="ir.actions.act_window" id="op_session_registration_action">
+			<field name="name">Session Registration</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.session.registration</field>
+			<field name="view_mode">tree,form,pivot</field>
+		</record>
+	</data>
+</odoo>

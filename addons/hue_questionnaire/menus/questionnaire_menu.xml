@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--hue_control_root-->
+		<menuitem id="hue_questionnaire_root" name="Questionnaire" sequence="60"/>
+		<menuitem id="hue_questionnaire_sub_menu" name="Questionnaire" parent="hue_questionnaire_root"/>
+		<!--Sub Menus-->
+		<menuitem id="question_types_menu" name="Question Category" sequence="1"
+		          parent="hue_questionnaire_sub_menu" action="questionTypes_action"/>
+        <menuitem id="questions_menu" name="Questions" sequence="2"
+		          parent="hue_questionnaire_sub_menu" action="questions_action"/>
+        <menuitem id="hue_questionnaire_instructors_menu" name="Questionnaire Instructors" sequence="3"
+		          parent="hue_questionnaire_sub_menu" action="hue_questionnaire_instructors_action"/>
+        <menuitem id="students_questionnaire_answers_menu" name="Subject Questionnaire Answers" sequence="4"
+		          parent="hue_questionnaire_sub_menu" action="students_questionnaire_answers_action"/>
+		<menuitem id="instructor_questionnaire_answers_menu" name="Instructor Questionnaire Answers" sequence="5"
+		          parent="hue_questionnaire_sub_menu" action="instructor_questionnaire_answers_action"/>
+		<menuitem id="service_questionnaire_answers_menu" name="service Questionnaire Answers" sequence="6"
+		          parent="hue_questionnaire_sub_menu" action="service_questionnaire_answers_action"/>
+		<menuitem id="students_questionnaire_menu" name="Students Questionnaire" sequence="7"
+		          parent="hue_questionnaire_sub_menu" action="students_questionnaire_action"/>
+		<!--serveys menus-->
+		<menuitem id="hue_questionnaire_menu" name="Questionnaire" sequence="2"
+		          parent="survey.menu_surveys" action="hue_questionnaire_action"/>
+	</data>
+</odoo>

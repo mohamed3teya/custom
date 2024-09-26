@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--    show student exam report-->
+    <template id="student_exam_report_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <t class="page">
+                        <style>
+                            @media print {
+                            .btn-print {
+                            display:none;
+                            }
+                            }
+
+                        </style>
+                        <button style=" border-radius: 0.6em;border-color:#00438b;background-color:#00438b;color:#B68914;font-weight: bold;padding: 5px; margin-bottom: 10px;    padding-left: 15px;padding-right: 15px;"
+                                onclick="javascript:window.print()" class="btn-print">Print
+                        </button>
+                        <br/>
+                        <!--       show course-->
+                        <t t-if=" not show_student and not student_id ">
+                            <table class="table table-bordered"
+                                   style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                <tr>
+                                    <td style="position:relative;">
+                                        <span style="font-size: 18px;color:#00438b;">Course</span>
+                                        :
+                                        <span style="font-size: 16px;" t-esc="docs.course_id.name.split('|')[1]"/>
+                                        <br/>
+                                        <span style="font-size: 18px; color:#00438b;"
+                                              t-esc="docs.batch_id.sudo().academic_year.name.split('|')[0]"/>
+                                        <span style="font-size: 18px; color:#00438b;">- Semester:</span>
+                                        <span style="font-size: 18px; color:#00438b;"
+                                              t-esc="docs.batch_id.sudo().semester.name.split('|')[1]"/>
+
+                                        <span>
+
+                                            <img style="position:absolute; top:10px; right:20px;"
+                                                 src="/hue_students_reports/static/src/images/horuslogo.png"
+                                                 alt="Horus University" height="60" width="200"/>
+                                            <span style="margin-top:35px;font-size: 18px;float: right;margin-right:50px;">
+                                                جامعة حورس مصر
+                                            </span>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-bordered"
+                                       style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                    <thead>
+                                        <tr style="color:#fff;background-color:#00438b">
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold;border-color: #9abad9;">
+                                                <font size="3">#</font>
+                                            </th>
+                                            <th width="15%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">Exam</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">Type</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold;border-color: #9abad9;">
+
+                                                <font size="3">Date</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold;border-color: #9abad9;">
+
+                                                <font size="3">From</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">To</font>
+                                            </th>
+                                            <th width="15%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">place</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold;border-color: #9abad9;">
+
+                                                <font size="3">count</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">Start</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">End</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold;border-color: #9abad9;">
+
+                                                <font size="3">رئيس اللجنة</font>
+                                            </th>
+                                            <th width="7%"
+                                                style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; border-color: #9abad9;">
+
+                                                <font size="3">المراقبين</font>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="count" t-value="1"/>
+                                        <t t-foreach="exams" t-as="exam">
+                                            <tr>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="count"/>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                    <span t-esc="exam.name.split('|')[0]"/>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                    <span t-esc="exam.session_id.exam_type.name"/>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <!--                                                    <span t-esc="exams.start_time.split(' ')[0]"/>-->
+                                                    <span t-esc="datetime.datetime.strptime(exam.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]"/>
+
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="datetime.datetime.strptime(exam.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="datetime.datetime.strptime(exam.end_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <t t-foreach="exam.sudo().attendees_line.mapped('room_id')"
+                                                       t-as="exam_rooms">
+                                                        <span style="font-size: 12px;" t-esc="exam_rooms.name"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <t t-foreach="exam.sudo().attendees_line.mapped('room_id')"
+                                                       t-as="exam_rooms">
+                                                        <span style="font-size: 12px;"
+                                                              t-esc="len(exam.attendees_line.filtered(lambda x: x.room_id == exam_rooms))"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <t t-foreach="exam.sudo().attendees_line.mapped('room_id')" t-as="exam_rooms">
+                                                        <!--<span style="font-size: 12px;" t-esc="exam_rooms.start"/>-->
+                                                        <span style="font-size: 12px;" t-esc="exam.attendees_line.filtered(lambda x: x.room_id == exam_rooms)[0].seat_no"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td width="7%"
+                                                    style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <t t-foreach="exam.sudo().attendees_line.mapped('room_id')"
+                                                       t-as="exam_rooms">
+                                                        <span style="font-size: 12px;"
+                                                              t-esc="int(exam.attendees_line.filtered(lambda x: x.room_id == exam_rooms)[0].seat_no)+len(exam.attendees_line.filtered(lambda x: x.room_id == exam_rooms))-1"/>
+                                                        <br/>
+                                                    </t>
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                </td>
+                                                <td
+                                                        style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                </td>
+                                                <t t-set="count" t-value="count+1"/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                      </t>                 
+                        <!--        show student -->
+                        <t t-if="student_id and not show_student ">
+                            <table class="table table-bordered"
+                                   style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                <tr>
+                                    <td>
+                                        <div class="text-center">
+                                            <span style="font-size: 18px;color:#00438b;">Student Name</span>
+                                            :
+                                            <span style="font-size: 16px;" t-esc="student_id.name"/>
+                                            <br/>
+                                            <span style="font-size: 18px;color:#00438b;">Student Code</span>
+                                            :
+                                            <span style="font-size: 16px;" t-esc="student_id.student_code"/>
+                                        </div>
+                                        <span>
+                                            <img style="position:absolute; top:50px; right:20px;"
+                                                 src="/hue_students_reports/static/src/images/horuslogo.png"
+                                                 alt="Horus University" height="60" width="200"/>
+                                            <span style="margin-top:10px;font-size: 18px;float: right;margin-right:50px;">
+                                                جامعة حورس مصر
+                                            </span>
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <table class="table table-bordered"
+                                   style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                <thead>
+                                    <tr style='background:#f4f5f7;'>
+                                        <th width="10%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Date</font>
+                                        </th>
+                                        <th width="20%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Subject Name</font>
+                                        </th>
+                                        <th width="20%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Subject Code</font>
+                                        </th>
+                                        <th width="10%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">From</font>
+                                        </th>
+                                        <th width="10%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">To</font>
+                                        </th>
+                                        <th width="10%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Seat No</font>
+                                        </th>
+                                        <th width="15%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Place</font>
+                                        </th>
+                                        <th width="10%"
+                                            style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                            <font size="3">Type</font>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="student != '' ">
+                                        <!--                                        <span t-esc="exam_sessions"/>-->
+                                        <t t-foreach="all_exams" t-as="CrsExams">
+                                            <tr>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="datetime.datetime.strptime(CrsExams.end_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="CrsExams.exam_id.subject_id.name.split('|')[0]"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                    <span t-esc="CrsExams.exam_id.subject_id.code.split('|')[0]"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                
+                                                    <span t-esc="datetime.datetime.strptime(CrsExams.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                
+                                                    <span t-esc="datetime.datetime.strptime(CrsExams.end_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                
+                                                    <span t-esc="CrsExams.seat_no"/>
+                                                </td>
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                
+                                                    <span t-esc="CrsExams.room_id.name"/>
+                                                </td>
+                                                   
+                                                <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                
+                                                    <span t-esc="CrsExams.exam_id.session_id.exam_type.name"/>
+                                                </td>                                
+
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                        <t t-if=" show_student">
+                            <div class="table-responsive">
+                                <table class="table table-bordered"
+                                       style="background: #f2ffff; border-collapse: collapse; margin-bottom:10px;"
+                                       dir="ltr">
+                                    <t t-foreach="std_id" t-as="std">
+                                        <!--                                        <t t-set="get_std" t-value="get_stds(std,docs.course_id)"/>-->
+                                        <thead>
+                                            <t t-if="docs.course_id">
+                                                <tr>
+                                                    <td t-att-colspan="8" style="direction:rtl;position:relative;">
+                                                        <span>
+
+                                                            <img style="position:absolute; top:10px; right:20px;"
+                                                                 src="/hue_students_reports/static/src/images/horuslogo.png"
+                                                                 alt="Horus University" height="60" width="200"/>
+                                                            <span style="margin-top:60px;font-size: 18px;float: right;margin-right:50px;">
+                                                                جامعة حورس مصر
+                                                            </span>
+                                                        </span>
+                                                        <div class="text-center" style="margin-bottom: 40px;">
+                                                            <span style="font-size: 20px;color:#00438b;">Student exam
+                                                                table
+                                                            </span>
+                                                            <br/>
+                                                            <span style="font-size: 18px;color:#00438b;">Course</span>
+                                                            <span style="font-size: 16px;"
+                                                                  t-esc="docs.course_id.name.split('|')[1]"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr style="font-weight: bold; color:#00438b;background-color:#B68914;padding:7px;">
+                                                <td t-att-colspan="4"
+                                                    style=" text-align: center;font-size: 18px;padding: 10px;border: 1px solid #ccc; border-color: #9abad9;">
+                                                    <span>Student Name:</span>
+                                                    <span t-esc="std.name"/>
+                                                </td>
+                                                <td t-att-colspan="4"
+                                                    style=" text-align: center;font-size: 18px;padding: 10px;border: 1px solid #ccc; border-color: #9abad9;">
+                                                    <span>Student code:</span>
+                                                    <span t-esc="std.student_code"/>
+                                                </td>
+                                            </tr>
+                                            <tr style="color:#fff;background-color:#00438b">
+
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Date</font>
+                                                </th>
+                                                <th width="20%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Subject Name</font>
+                                                </th>
+                                                <th width="20%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Subject Code</font>
+                                                </th>
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">From</font>
+                                                </th>
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">To</font>
+                                                </th>
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-cSubject Nameolor: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Seat No</font>
+                                                </th>
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Place</font>
+                                                </th>
+                                                <th width="10%"
+                                                    style="font-size: 12px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68914;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Type</font>
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="table table-bordered"
+                                               style="margin-top:-20px;background: #f2ffff; border-collapse: collapse;"
+                                               dir="ltr">
+                                            <t t-set="count" t-value="1"/>
+                                            <t t-set="get_std" t-value="get_stds(std,docs.batch_id)"/>
+                                            <t t-foreach="get_std" t-as="CrsExams">
+
+                                                <tr>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                        <span t-esc="datetime.datetime.strptime(CrsExams.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]"/>
+
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                        <span t-esc="CrsExams.exam_id.subject_id.name.split('|')[0]"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+                                                        <span t-esc="datetime.datetime.strptime(CrsExams.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[0]"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                        <span t-esc="datetime.datetime.strptime(CrsExams.start_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                        <span t-esc="datetime.datetime.strptime(CrsExams.end_time, '%Y-%m-%d %H:%M:%S').astimezone(timezone('Africa/Cairo')).strftime('%Y-%m-%d %H:%M:%S').split(' ')[1]"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                        <span t-esc="CrsExams.seat_no"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                        <span t-esc="CrsExams.room_id.name"/>
+                                                    </td>
+                                                    <td style="font-size: 12px;padding: 10px;border: 1px solid #ccc;text-align: left; border-color: #9abad9;">
+
+                                                        <span t-esc="CrsExams.exam_id.session_id.exam_type.name"/>
+                                                    </td>
+                                                </tr>
+                                              
+                                            </t>
+                                        </tbody>
+                                    </t>
+                                </table>
+                            </div>
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

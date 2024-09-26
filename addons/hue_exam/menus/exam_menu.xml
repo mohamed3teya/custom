@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem id="student_online_exam" name="OnlineExam Result"
+                parent="openeducat_exam.menu_op_school_exam_result"
+                action="student_online_exam_result"/>
+        <menuitem id="student_online_exam_student" name="Student OnlineExam Result"
+                parent="openeducat_exam.menu_op_school_exam_result"
+                action="student_online_exam_result_student"/>
+    </data>
+</odoo>

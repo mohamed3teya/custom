@@ -1,0 +1,177 @@
+@import url('base.css');
+@import url('layout.css');
+@import url('layout-grid.css');
+@import url('module.css');
+@import url('module-form.css');
+@import url('module-button.css');
+@import url('module-tab.css');
+@import url('module-steps.css');
+@import url('media.css');
+@import url('state.css');
+@import url('theme.css');
+@import url('ion-range-slider.css');
+@import url('ion-range-slider-skin.css');
+ .solid-form .form-group label, .solid-form .form-group .f-label {
+
+    color: #2d455d;
+    letter-spacing: 0px; 
+
+    font-weight: bold;
+    font-size: 15px;
+}table { 
+    width: 750px; 
+    border-collapse: collapse; 
+    margin:50px auto;
+    }
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+    background: #eee; 
+    }
+th { 
+    background: #29233d;
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
+    }
+td, th { 
+   
+    text-align: left; 
+
+    }.solid-form .btn {
+    position: relative;
+    padding: 13px;
+font-size: 16px;
+    margin: 0 6px 10px 0;
+    color: rgb(255, 255, 255);
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    display: inline-block;
+    text-align: center;
+     letter-spacing: 0px; 
+    font-family: 'Almarai', sans-serif;
+    -moz-border-radius: 18px;
+    border-radius: 14px;
+    min-width: 130px;
+}.solid-form .form-body fieldset legend {
+
+    background: #b88b1a; 
+    }
+    .solid-form .form-body fieldset {
+
+    border-top: 3px solid #b88b1a;
+    }body {
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}.solid-form #solid-form-container {
+
+    margin: 45px auto 4em auto;
+    }@media (max-width: 568px){
+#wrapper {
+   
+    padding: 0px;
+}}@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {
+
+	table { 
+	  	width: 100%; 
+	}
+
+	/* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr { 
+		display: block; 
+	}
+	
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+	
+	tr { border: 1px solid #ccc; }
+	
+	td { 
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee; 
+		position: relative;
+		padding-left: 50%; 
+	}
+
+	td:before { 
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		/* Label the data */
+		content: attr(data-column);
+
+		color: #000;
+		font-weight: bold;
+	}
+
+}.btn-secondary {
+    background: #797b7f;
+    background: -moz-linear-gradient(-45deg, #797b7f 0%, #b5b8bf 50%, #8e9397 51%, #8e9397 71%, #828589 100%);
+    background: -webkit-linear-gradient(-45deg, #797b7f 0%,#b5b8bf 50%,#8e9397 51%,#8e9397 71%,#828589 100%);
+    background: linear-gradient(135deg, #797b7f 0%,#b5b8bf 50%,#8e9397 51%,#8e9397 71%,#828589 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#797b7f', endColorstr='#828589',GradientType=1 );
+    background-size: 400% 400%;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    border: medium none;
+}.solid-form a:link, .solid-form a:visited {
+    outline: 0;
+    color: #ffffff;
+}.btn-primary {
+    background: #5a7ce2;
+    background: -moz-linear-gradient(-45deg, #5a7ce2 0%, #8283e8 50%, #5c5de8 51%, #565bd8 71%, #575cdb 100%);
+    background: -webkit-linear-gradient(-45deg, #5a7ce2 0%,#8283e8 50%,#5c5de8 51%,#565bd8 71%,#575cdb 100%);
+    background: linear-gradient(135deg, #5a7ce2 0%,#8283e8 50%,#5c5de8 51%,#565bd8 71%,#575cdb 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5a7ce2', endColorstr='#575cdb',GradientType=1 );
+    background-size: 400% 400%;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    border: medium none;
+}.btn-warning {
+    background: #e5ae09;
+    background: -moz-linear-gradient(-45deg, #e5ae09 0%, #ffd044 50%, #ffc107 51%, #fc9014 71%, #f1890b 100%);
+    background: -webkit-linear-gradient(-45deg, #e5ae09 0%,#ffd044 50%,#ffc107 51%,#fc9014 71%,#f1890b 100%);
+    background: linear-gradient(135deg, #e5ae09 0%,#ffd044 50%,#ffc107 51%,#fc9014 71%,#f1890b 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5ae09', endColorstr='#f1890b',GradientType=1 );
+    background-size: 400% 400%;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    -webkit-animation: AnimationName 3s ease infinite;
+    -moz-animation: AnimationName 3s ease infinite;
+    animation: AnimationName 3s ease infinite;
+    border: medium none;
+    color: #fff !important;
+}.btn-xs {
+        font-size: 16px !important;
+    padding: 10px 14px !important;
+}.arabic_span{
+font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;
+}.solid-form .btn-success:hover {
+    background: #3F51B5;
+}.solid-form .btn-success {
+    background: #3F51B5;
+    }

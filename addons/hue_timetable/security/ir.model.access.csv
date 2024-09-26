@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_calendar_event,access.calendar.event,model_calendar_event,base.group_erp_manager,1,1,1,1
+access_generate_time_table,access.generate.time.table,model_generate_time_table,base.group_erp_manager,1,1,1,1
+access_gen_time_table_line,access.gen.time.table.line,model_gen_time_table_line,base.group_erp_manager,1,1,1,1
+access_op_session_registration_enrollment,access.op.session.registration.enrollment,model_op_session_registration_enrollment,base.group_erp_manager,1,1,1,1
+access_op_session_registration,access.op.session.registration,model_op_session_registration,base.group_erp_manager,1,1,1,1
+access_op_session,access.op.session,model_op_session,base.group_erp_manager,1,1,1,1
+access_hue_similarity_wizard,access.hue.similarity.wizard,model_hue_similarity_wizard,base.group_erp_manager,1,1,1,1
+access_timetable_wizard,access.timetable.wizard,model_timetable_wizard,base.group_erp_manager,1,1,1,1

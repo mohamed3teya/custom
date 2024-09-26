@@ -1,0 +1,1566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="registration" name="Registration">
+             <!-- Include jQuery via CDN -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <t t-call="hue_student_portal.student_portal_main_layout">
+                <!-- <script type="text/javascript" src="hue_register/static/front/js/jquery.min.js"/> -->
+                <t t-if="not data['admin_user']">
+                    <script>
+                        function check_same(group,sec,th) {
+                        //alert('OK');
+                        var sections = document.getElementsByName(sec);
+                        var groups = document.getElementsByClassName(group);
+                        //alert(sections.length);
+                        //alert(groups.length);
+                        ch = false
+                        if (th) {
+                        for (var i = 0; i &lt; sections.length; i++) {
+                        $( sections[i] ).find("input").prop("checked" , th.checked);
+                        if ($( sections[i] ).find("input")[0].checked || th.checked) {
+                        ch = true;
+                        }
+
+                        //alert(groups[i]);
+                        //sections[i].checked = true;
+                        }
+                        }
+                        g = ['A_','B_','C_','D_','E_','F_','G_','H_','I_','J_','K_','L_'];
+                        for (var t = 0; t &lt; g.length; t++) {
+                        elms = document.getElementsByClassName(g[t]);
+                        //alert(elms.length);
+                        for (var i = 0; i &lt; elms.length; i++) {
+                        //alert($(elms[i]).find("input")[0].checked);
+                        if ($(elms[i]).find("input")[0].checked == true) {
+                        //alert($(elms[i]).attr('class'));
+                        group = $(elms[i]).attr('class')
+                        ch = true;
+                        }
+                        }
+                        }
+                        //if (ch) {
+
+                        g = ['A_','B_','C_','D_','E_','F_','G_','H_','I_','J_','K_','L_'];
+                        //alert(g.length);
+                        for (var t = 0; t &lt; g.length; t++) {
+                        //alert(group);
+                        if (g[t] == group) {
+                        console.log(g[t]);
+                        elms = document.getElementsByClassName(g[t]);
+                        for (var i = 0; i &lt; elms.length; i++) {
+                        //alert(elms[i]);
+                        $(elms[i]).show();
+                        }
+                        ///////////////////////////////////////////////////////////////////////
+                        check_sec = false;
+                        for (var s = 1; s &lt; 10; s++) {
+                        secs = document.getElementsByName(g[t]+String(s));
+                        //console.log('_______');
+                        console.log(g[t]+String(s));
+                        for (var tt = 0; tt &lt; secs.length; tt++) {
+                        //console.log($(secs[tt]).find("input")[0].checked)
+
+                        if ($(secs[tt]).find("input")[0].checked) {
+                        //console.log('!= '+ $(secs[tt]).attr('name')+' SHOW');
+                        check_sec = true;
+                        //$(secs[tt]).show();
+                        }
+                        else{
+                        //console.log('== '+ $(secs[tt]).attr('name')+' HIDE');
+                        //$(secs[tt]).hide();
+                        }
+                        }
+                        }
+                        //console.log('------');
+                        console.log(check_sec);
+                        if (check_sec) {
+                        for (var s = 1; s &lt; 10; s++) {
+                        secs = document.getElementsByName(g[t]+String(s));
+                        //console.log('_______');
+                        //console.log(g[t]+String(s));
+                        for (var tt = 0; tt &lt; secs.length; tt++) {
+                        //console.log($(secs[tt]).find("input")[0].checked)
+
+                        if ($(secs[tt]).find("input")[0].checked) {
+                        //console.log('!= '+ $(secs[tt]).attr('name')+' SHOW');
+                        //check_sec = true;
+                        $(secs[tt]).show();
+
+                        grp = document.getElementsByName(g[t]+'0');
+                        for (var gtt = 0; gtt &lt; grp.length; gtt++) {
+                        //$(secs[gtt]).find("input")[0].checked = true;
+                        $(grp[gtt]).find("input").prop("checked" , true);
+                        }
+                        }
+                        else{
+                        //console.log('== '+ $(secs[tt]).attr('name')+' HIDE');
+                        $(secs[tt]).hide();
+                        }
+                        }
+                        }
+                        }
+                        /**/
+                        /////////////////////////////////////////////////////////////////////
+                        }
+                        else if (ch) {
+                        //alert(g[t]);
+                        elms = document.getElementsByClassName(g[t]);
+                        for (var i = 0; i &lt; elms.length; i++) {
+                        $(elms[i]).hide();
+                        }
+                        }
+                        else {
+                        elms = document.getElementsByClassName(g[t]);
+                        for (var i = 0; i &lt; elms.length; i++) {
+                        $(elms[i]).show();
+                        }
+                        }
+                        }
+                        //}
+                        }
+                        $( document ).ready(function() {
+                        check_same('A_','A_0',false)
+                        console.log( "ready!" );
+                        });
+                         function myFunctionreject() {
+                        var text = document.getElementById("textreject");
+                        text.style.display = "block";
+                        var btn = document.getElementById('reject_id');
+                        btn.style.display = 'none';
+                        var btn = document.getElementById('approve_id');
+                        btn.style.display = 'none';
+                        }
+                         function myFunctionapprove() {
+                        var text = document.getElementById("textapprove");
+                        text.style.display = "block";
+                         var btn = document.getElementById('approve_id');
+                        btn.style.display = 'none';
+                         var btn = document.getElementById('reject_id');
+                        btn.style.display = 'none';
+                        }
+                    </script>
+                </t>
+                <t t-else="">
+                    <script>
+                        function check_same(group,sec,th) {
+                        var sections = document.getElementsByName(sec);
+                        var groups = document.getElementsByClassName(group);
+                        //alert(sections.length);
+                        //alert(groups.length);
+                        ch = false
+                        if (th) {
+                        for (var i = 0; i &lt; sections.length; i++) {
+                        $( sections[i] ).find("input").prop("checked" , th.checked);
+                        if ($( sections[i] ).find("input")[0].checked || th.checked) {
+                        ch = true;
+                        }
+
+                        //alert(groups[i]);
+                        //sections[i].checked = true;
+                        }
+                        }
+                        g = ['A_','B_','C_','D_','E_','F_','G_','H_','I_','J_','K_','L_'];
+                        for (var t = 0; t &lt; g.length; t++) {
+                        elms = document.getElementsByClassName(g[t]);
+                        //alert(elms.length);
+                        for (var i = 0; i &lt; elms.length; i++) {
+                        //alert($(elms[i]).find("input")[0].checked);
+                        if ($(elms[i]).find("input")[0].checked == true) {
+                        //alert($(elms[i]).attr('class'));
+                        group = $(elms[i]).attr('class')
+                        ch = true;
+                        }
+                        }
+                        }
+                        }
+                         function myFunctionreject() {
+                        var text = document.getElementById("textreject");
+                        text.style.display = "block";
+                         var btn = document.getElementById('reject_id');
+                        btn.style.display = 'none';
+                        var btn = document.getElementById('approve_id');
+                        btn.style.display = 'none';
+                        }
+                        function myFunctionapprove() {
+                        var text = document.getElementById("textapprove");
+                        text.style.display = "block";
+                        var btn = document.getElementById('approve_id');
+                        btn.style.display = 'none';
+                         var btn = document.getElementById('reject_id');
+                        btn.style.display = 'none';
+                        }
+                    </script>
+                </t>
+                <style>
+                    .err_msg {
+                    color:red;
+                    }
+                    .tabset > input[type="radio"] {
+                    position: absolute;
+                    left: -200vw;
+                    }
+
+
+                    .tabset > input:first-child:checked ~ .tab-panels > .tab-panel:first-child,
+                    .tabset > input:nth-child(3):checked ~ .tab-panels > .tab-panel:nth-child(2),
+                    .tabset > input:nth-child(5):checked ~ .tab-panels > .tab-panel:nth-child(3),
+                    .tabset > input:nth-child(7):checked ~ .tab-panels > .tab-panel:nth-child(4),
+                    .tabset > input:nth-child(9):checked ~ .tab-panels > .tab-panel:nth-child(5),
+                    .tabset > input:nth-child(11):checked ~ .tab-panels > .tab-panel:nth-child(6) {
+                    display: block;
+                    }
+
+                    /*
+                    Styling
+                    */
+                    body {
+                    font: 16px/1.5em "Overpass", "Open Sans", Helvetica, sans-serif;
+                    color: #333;
+                    font-weight: 300;
+                    }
+
+                    .tabset > label {
+                    position: relative;
+                    display: inline-block;
+                    padding: 15px 15px 25px;
+                    border: 1px solid transparent;
+                    border-bottom: 0;
+                    cursor: pointer;
+                    font-weight: 600;
+                    }
+
+                    .tabset > label::after {
+                    content: "";
+                    position: absolute;
+                    left: 15px;
+                    bottom: 10px;
+                    width: 22px;
+                    height: 4px;
+                    background: #8d8d8d;
+                    }
+
+                    .tabset > label:hover,
+                    .tabset > input:focus + label {
+                    color: #06c;
+                    }
+
+                    .tabset > label:hover::after,
+                    .tabset > input:focus + label::after,
+                    .tabset > input:checked + label::after {
+                    background: #06c;
+                    }
+
+                    .tabset > input:checked + label {
+                    border-color: #ccc;
+                    border-bottom: 1px solid #fff;
+                    margin-bottom: -1px;
+                    }
+
+                    .tab-panel {
+                    /*padding: 30px 0;
+                    border-top: 1px solid #ccc;*/
+                    }
+
+                    /*
+                    Demo purposes only
+                    */
+                    *,
+                    *:before,
+                    *:after {
+                    box-sizing: border-box;
+                    }
+
+
+                    .tabset {
+                    /*max-width: 65em;*/
+                    }
+
+                    /*
+                    Radio
+                    */
+                    @keyframes click-wave {
+                    0% {
+                    height: 40px;
+                    width: 40px;
+                    opacity: 0.35;
+                    position: relative;
+                    }
+                    100% {
+                    height: 200px;
+                    width: 200px;
+                    margin-left: -80px;
+                    margin-top: -80px;
+                    opacity: 0;
+                    }
+                    }
+
+                    .option-input {
+                    -webkit-appearance: none;
+                    -moz-appearance: none;
+                    -ms-appearance: none;
+                    -o-appearance: none;
+                    appearance: none;
+                    position: relative;
+                    /*top: 13.33333px;*/
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    height: 40px;
+                    width: 40px;
+                   
+                    background: #cbd1d8;
+                    border: none;
+                    color: #fff;
+                    cursor: pointer;
+                    display: inline-block;
+                    margin-right: 0.5rem;
+                    outline: none;
+                    position: relative;
+
+                    }
+                    .option-input:hover {
+                    background: #9faab7;
+                    }
+                    .option-input:checked {
+                    background: #40e0d0;
+                    }
+                    .option-input:checked::before {
+                    height: 40px;
+                    width: 40px;
+                    position: absolute;
+                    content: '✔';
+                    display: inline-block;
+                    font-size: 26.66667px;
+                    text-align: center;
+                    line-height: 40px;
+                    }
+                    .option-input:checked::after {
+ 
+                    background: #40e0d0;
+                    content: '';
+                    display: block;
+                    position: relative;
+                    z-index: 100;
+                    }
+                    .option-input.radio {
+                    border-radius: 50%;
+                    }
+                    .option-input.radio::after {
+                    border-radius: 50%;
+                    }
+                    .radio_label {
+                    display: block;
+                    line-height: 38px;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: box;
+                    background: #e8ebee;
+                    color: #9faab7;
+                    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+                    font-size: 11px !important;
+                    /*text-align: center;*/
+                    width:100%;
+                    float:left;
+                    margin: 5px;
+                    }
+                    .radio_label2 {
+                    display: block;
+                    line-height: 38px;
+                    display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: box;
+                    background: #c1ffc1e0;
+                    color: #9faab7;
+                    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+                    font-size: 11px !important;
+                    /*text-align: center;*/
+                    width:100%;
+                    float:left;
+                    margin: 5px;
+                    }
+                    .navbar-header {
+                    float: none !important;
+                    }
+                    .main-header {
+                    top:0;
+                    left:0;
+                    right:0;
+                    height: 60px;
+                    }
+                    .table2 {
+                    width: 100%;
+                    max-width: 100%;
+                    margin-bottom: 20px;
+                    }
+                    .table2 td, .table2 th {
+                    font-size: 14px;
+                    border-top-width: 0;
+                    border-bottom: 1px solid;
+                    border-color: #ebedf2!important;
+                    padding: 0 20px!important;
+                    height: 60px;
+                    vertical-align: middle!important;
+                    }
+
+                    @media (max-width: 670px) {
+                    .option-input {
+                    height: 20px;
+                    width: 20px;
+                    }
+                    .option-input:checked::before {
+                    height: 20px;
+                    width: 20px;
+                    position: absolute;
+                    content: '✔';
+                    display: inline-block;
+                    font-size: 13.33333px;
+                    text-align: center;
+                    line-height: 20px;
+                    }
+                    .radio_label {
+                    display: block;
+                    line-height: 38px;
+                    /*display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: box;*/
+                    background: #e8ebee;
+                    color: #9faab7;
+                    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+                    font-size: 11px !important;
+                    /*text-align: center;*/
+                    width:100%;
+                    float:left;
+                    margin: 5px;
+                    }
+                    .radio_label2 {
+                    display: block;
+                    line-height: 38px;
+                    /*display: -webkit-box;
+                    display: -moz-box;
+                    display: -ms-flexbox;
+                    display: box;*/
+                    background: #c1ffc1e0;
+                    color: #9faab7;
+                    font-family: "Helvetica Neue", "Helvetica", "Roboto", "Arial", sans-serif;
+                    font-size: 11px !important;
+                    /*text-align: center;*/
+                    width: 100%;
+                    float: left;
+                    margin: 5px;
+                    }
+                    .table2 td, .table2 th {
+                    font-size: 14px;
+                    border-top-width: 0;
+                    border-bottom: 1px solid;
+                    border-color: #ebedf2!important;
+                    padding: 0 5px!important;
+                    /* height: 60px; */
+                    vertical-align: middle!important;
+                    }
+                    }
+                    .main-panel>.content(
+                    margin-top:0px !important;
+                    }
+                </style>
+                <section class="content-header">
+<!--                    <h1>Courses Registration</h1>-->
+                    <ol class="breadcrumb">
+                        <li>
+                            <a href="index.html"
+                            ><i class="fa fa-university"></i>MC Academy | Portal
+                            </a
+                            >
+                        </li>
+<!--                        <li class="active">Courses Registration</li>-->
+                    </ol>
+                </section>
+                <!--data['closed'] == True and not data['student_obj'].registration_block_reason and data['student_obj'].allow_registration == True and data['student_obj'].student_status.id == 2-->
+                <!--    and not data['closed_invoice'] and-->
+                <t t-if="data['closed'] == False">
+                <div class="box box-default">
+                  <div class="box-header with-border">
+                    <i class="fa fa-bullhorn"></i>
+
+                    <h3 class="box-title">
+                     <strong>Student Registration for </strong>
+                      <strong>
+                          <span t-esc="data['stu_course'][0]['name'].split('|')[1]"/>
+                          <span t-esc="data['semester']"/>
+                          <span t-if="data['academic_year']"
+                                t-esc="data['academic_year'].split(':')[1]"/>
+                      </strong>
+                    </h3>
+                  </div>
+                  <!-- /.box-header -->
+
+                  <!-- box body -->
+                <t t-if="not data['student_obj'].checkblock()">
+                <div class="box-body">
+                    <div class="col-md-4 text-left">Name:
+                          <strong>
+                              <span t-esc="data['student']['name']"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Code:
+                          <strong>
+                              <span t-esc="data['student']['student_code']"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Level:
+                          <strong>
+                              <span t-esc="data['student']['level'][-1]"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">GPA:
+                          <strong>
+                              <span t-esc="'%.2f'% data['student']['new_gpa']"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Earned Hours:
+                          <strong>
+                              <span t-esc="'%.2f'% data['student']['crh']"/>
+                          </strong>
+                      </div>
+                     <div class="col-md-4 text-left">Core Hours:
+                          <strong>
+                           <!-- <span t-esc="data['core_hours']"/>-->
+                            <span t-esc="data['student']['core_crh']"/>
+                            /
+                              <span t-esc="data['stu_course'][0]['corehours']"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Elective Hours:
+                          <strong>
+                            <!--<span t-esc="data['elec_hours']"/>-->
+                            <span t-esc="data['student']['elective_crh']"/>
+                          /
+                              <span t-esc="data['stu_course'][0]['electivehours']"/>
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Project Hours:
+                          <strong>
+                            <!--<span t-esc="data['project_hours']"/>-->
+                            <span t-esc="data['student']['project_crh']"/>
+                          /
+                              <span t-esc="data['stu_course'][0]['projecthours']"/>
+                          </strong>
+                      </div>
+  <!--										t-if="data['stu_course']['course_id']['loadhourstype'] == 'Level'"-->
+                      <div class="col-md-4 text-left">Min Hours:
+                          <strong>
+                              <!--<t t-foreach="data['stu_course'].course_id.course_loadhourslevels_ids" t-as="lev">-->
+                               <span t-esc="data['min_hours']"/>
+ 												<!--</t>-->
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Max Hours:
+                          <strong>
+ 		<!--<t t-foreach="data['stu_course'].course_id.course_loadhourslevels_ids" t-as="lev">-->
+                        <span t-esc="data['max_hours']"/>
+            <!--</t>-->
+                          </strong>
+                      </div>
+                      <div class="col-md-4 text-left">Registered Hours:
+                          <strong>
+                              <span t-esc="reg_hours"/>
+                          </strong>
+                      </div>
+                </div>
+               </t>
+<!-- /.box-body -->
+                </div>
+                </t>
+                
+                
+                <div class="wrap table-responsive">
+                    <div class="container"
+                         style="margin-left: 0px;margin-right: 0px;width:100%;overflow:hidden;max-width:100%;">
+                        <!--						<div class="page-header">-->
+                        <!--							<h4 class="page-title">Questionnaire</h4>-->
+                        <!--						</div>-->
+
+                        <div class="row">
+                            <div class="col-md-12" style="">
+                                <!--								<div class="card">-->
+                                <!--									<div class="card-body">-->
+                                <t t-if="data">
+
+<!--                                    <div class="row jumbotron mt32"-->
+<!--                                         style="margin-top:0px !important;padding:5px !important;color:#fff;background-color:#031f4a;">-->
+
+
+<!--                                        <div class="col-md-2">-->
+<!--                                            <t t-call="hue_registration.back"/>-->
+<!--                                        </div>-->
+<!--                                        &lt;!&ndash;										<div class="col-md-3 text-left">&ndash;&gt;-->
+<!--                                        &lt;!&ndash;											<strong><span t-esc="data['academic_year']"/></strong>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;										</div>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;										<div class="col-md-3 text-left">Semester:&ndash;&gt;-->
+<!--                                        &lt;!&ndash;											<strong><span t-esc="data['semester']"/></strong>&ndash;&gt;-->
+<!--                                        &lt;!&ndash;										</div>&ndash;&gt;-->
+
+
+
+<!--                                    </div>-->
+
+                    <t t-if="data['closed'] == False and data['student_obj'].registration_block_reason and data['student_obj'].allow_registration == False">
+                        <div class="container">
+                            <div class="jumbotron mt32">
+                                <p>Registration is closed now</p>
+                            <strong>Reason : <span>   <span t-esc="data['student_obj'].registration_block_reason.name"/></span></strong>
+                            </div>
+                        </div>
+
+                    </t>
+                    <t  t-elif="get_user(data['student']['id']) == 0">
+                        <div class="container">
+                            <div class="jumbotron mt32">
+                                <h2>Sorry, you cannot register for this student</h2>
+                            </div>
+                        </div>
+
+                    </t>
+                    <t t-else="">
+                                    <t t-if="data['student_obj'].student_status.id not in [2,10]">
+                                        <div class="container">
+                                            <div class="jumbotron mt32">
+                                                <p>Registration is closed now</p>
+                                               <strong>Reason : <span>   <span t-esc="data['student_obj'].student_status.name"/></span></strong>
+                                            </div>
+                                        </div>
+                                    </t>
+                                    
+                                    <t t-if="data['closed'] == False and data['closed_invoice'] and data['student_obj'].allow_registration == False" t-call="hue_register.closed_invoice"/>
+                                    <t t-if="data['closed']" t-call="hue_register.notopen"/>
+<!--                                    <t t-if="data['closed'] and data['closed_invoice'] == False and data['student_obj'].allow_registration == False" t-call="hue_registration.notopen"/>
+-->
+                                    <div t-if="data['closed'] == False and data['student_obj'].student_status.id in [2,10]" class="tabset row">
+                                        <t t-if="data['closed_invoice'] == False or  data['student_obj'].allow_registration == True">
+                                        <t t-if="not approved">
+                                            <div class="col-md-3">
+                                                <div class="box box-default">
+                                                    <div class="box-header with-border">
+                                                        <i class="fa fa-files-o"></i>
+                                                        <h3 class="box-title" id="box-courses">Courses Subjects</h3>
+                                                    </div>
+
+                                                    <div class="box-body" id="Coursescontent">
+                                                        <form method="GET" t-attf-action="/registration/{{student_id if student_id  else None }}">
+                                                            <t t-if="data['subjects']" t-foreach='data["subjects"]'
+                                                               t-as='subject'>
+                                                                <t t-set="course_subject"
+                                                                   t-value="_get_course_subject(data['stu_course'],subject.id)"/>
+                                                                <t t-set="service_manager" t-value="_get_group()"/>
+                                                                    <t t-if="service_manager">
+                                                                    <label style="display: flex;line-height: 20px;" t-if="('subject' in post and post['subject'] == str(subject.id)) or subject.id in subjects"
+                                                                           class="radio_label2 Courses-label">
+                                                                        <input t-if="('subject' in post and post['subject'] == str(subject.id))"
+                                                                               type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio "
+                                                                               checked="checked"
+                                                                               onChange="this.form.submit()"/>
+                                                                        <input t-else="" type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio CoursesOptions"
+                                                                               onChange="this.form.submit()"/>
+                                                                       <div style="margin-left: 8px;">
+                                                                       <span t-esc="subject.code.split('|')[0]"/>
+                                                                        <br/>
+                                                                        <span t-esc="subject.name.split('|')[0]"/>
+
+
+<br/>
+                                                                        Level:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_level.name"/>
+
+                                                                        CH:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_credithours"/>
+
+                                                                        Type:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_type"/>
+                                                                        </div>
+                                                                    </label>
+                                                                    <label style="display: flex;line-height: 20px;" t-else="" class="radio_label Courses-label">
+                                                                        <input type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio CoursesOptions"
+                                                                               onChange="this.form.submit()"/>
+
+                                                                         <div style="margin-left: 8px;">
+                                                                                 <span t-esc="subject.code.split('|')[0]"/>
+                                                                         <br/>
+                                                                        <span t-esc="subject.name.split('|')[0]"/>
+
+
+                                                                            <br/>
+
+                                                                            Level:<span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_level.name"/>
+
+                                                                        CH:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_credithours"/>
+
+                                                                        Type:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_type"/>
+ </div>
+                                                                    </label>
+                                                                    </t>
+                                                                 <t t-if=" not service_manager">
+                                                                    <t t-if="course_subject.subject_type == 'project' or course_subject.subject_type == 'compulsory' or (course_subject.subject_type == 'elective' and int(data['student']['elective_crh']) &lt; int(data['stu_course'][0]['electivehours']))">
+                                                                    <label style="display: flex;line-height: 20px;" t-if="('subject' in post and post['subject'] == str(subject.id)) or subject.id in subjects"
+                                                                           class="radio_label2 Courses-label">
+                                                                        <input t-if="('subject' in post and post['subject'] == str(subject.id))"
+                                                                               type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio "
+                                                                               checked="checked"
+                                                                               onChange="this.form.submit()"/>
+                                                                        <input t-else="" type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio CoursesOptions"
+                                                                               onChange="this.form.submit()"/>
+                                                                       <div style="margin-left: 8px;">
+                                                                       <span t-esc="subject.code.split('|')[0]"/>
+                                                                        <br/>
+                                                                        <span t-esc="subject.name.split('|')[0]"/>
+
+
+<br/>
+                                                                        Level:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_level.name"/>
+
+                                                                        CH:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_credithours"/>
+
+                                                                        Type:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_type"/>
+                                                                        </div>
+                                                                    </label>
+                                                                    <label style="display: flex;line-height: 20px;" t-else="" class="radio_label Courses-label">
+                                                                        <input type="radio" name="subject"
+                                                                               t-attf-value='#{subject.id}'
+                                                                               class="option-input radio CoursesOptions"
+                                                                               onChange="this.form.submit()"/>
+
+                                                                         <div style="margin-left: 8px;">
+                                                                                 <span t-esc="subject.code.split('|')[0]"/>
+                                                                         <br/>
+                                                                        <span t-esc="subject.name.split('|')[0]"/>
+
+
+                                                                            <br/>
+
+                                                                            Level:<span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_level.name"/>
+
+                                                                        CH:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_credithours"/>
+
+                                                                        Type:
+                                                                            <span style="font-size:12px;"
+                                                                                  t-esc="course_subject.subject_type"/>
+ </div>
+                                                                    </label>
+                                                                </t>
+                                                            </t>
+                                                            </t>
+
+                                                            <t t-if="not data['subjects']"
+                                                               t-call="hue_register.nodata"/>
+
+                                                        </form>
+                                                        <!--                                                    <label class="Courses-label">-->
+                                                        <!--                                                        <div class="iradio_flat-yellow checked" aria-checked="true"-->
+                                                        <!--                                                             aria-disabled="false" style="position: relative;">-->
+                                                        <!--                                                            <input type="radio" name="r3" id="subject-1"-->
+                                                        <!--                                                                   class="CoursesOptions"-->
+                                                        <!--                                                                   style="position: absolute; opacity: 0;"/>-->
+                                                        <!--                                                            <ins class="iCheck-helper"-->
+                                                        <!--                                                                 style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>-->
+                                                        <!--                                                        </div>-->
+                                                        <!--                                                        Oral and Maxillofacial Surgery III-->
+                                                        <!--                                                        <h5 class="extra-data">Level: 5 CH: 2</h5>-->
+                                                        <!--                                                    </label>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="box">
+                                                    <div class="box-header with-border">
+                                                        <i class="fa fa-window-restore"></i>
+                                                        <h3 class="box-title">Courses Details</h3>
+                                                    </div>
+
+                                                    <div class="box-body">
+                                                        <!-- CoursesDetailsTable div -->
+                                                        <div id="CoursesDetailsTable" class="CoursesDetailsTable">
+
+                                                            <div t-if="sessions" class="wrap">
+                                                                <t t-call="hue_register.session_select"/>
+                                                            </div>
+                                                            <!--      </tbody>-->
+                                                            <!--  &lt;!&ndash; /.CoursesDetailsTable tbody &ndash;&gt;-->
+                                                            <!--</table>-->
+                                                        </div>
+                                                        <!-- /.CoursesDetailsTable div -->
+                                                    </div>
+                                                    <!-- /.box-body -->
+                                                </div>
+                                            </div>
+                                            <!--                                                 <div class="card-body col-md-9">-->
+                                            <!--                                                    <div t-if="sessions" class="wrap">-->
+                                            <!--                                                        <div class="oe_structure"/>-->
+                                            <!--                                                        &lt;!&ndash;															<div class="container">&ndash;&gt;-->
+
+                                            <!--                                                        &lt;!&ndash;															</div>&ndash;&gt;-->
+                                            <!--                                                        <div class="oe_structure"/>-->
+                                            <!--                                                    </div>-->
+                                            <!--                                                </div>-->
+                                            <div class="card-body col-md-12">
+                                                <div class="wrap">
+                                                    <div class="oe_structure"/>
+                                                    <form role="form" method="post" class="js_surveyform"
+                                                          t-att-name="'%s_%s' % ('sf', post['subject'] if 'subject' in post else '')"
+                                                          t-att-action="'/registration/%s?subject=%s' % (student_id if student_id else '',post['subject'] if 'subject' in post else '')">
+                                                        <input type="hidden" name="csrf_token"
+                                                               t-att-value="request.csrf_token()"/>
+                                                        <div class="text-center mt16 mb16">
+                                <p id='textreject' style='display: none; color: red;font-size: 20px;'>Registration Request Rejection</p>   
+                                <p id='textapprove' style='display: none; color: red;font-size: 20px;'>Registration Request Approve</p>   
+
+                                      <a t-attf-href="/web#view_type=form&amp;model=op.student&amp;id=#{data['student_obj'].id}&amp;action=openeducat_core.act_open_op_student_view" class="btn btn-primary" name="button_submit" value="finish">Back
+                    </a>
+                                                <p id='textreject' style='display: none; color: red;font-size: 20px;'>Registration Request Rejection</p>   
+                                                            <button onclick="myFunctionapprove()" type="submit" class="btn btn-primary"
+                                                                   id="approve_id" name="button_finish" value="finish">Finish
+                                                                Registration
+                                                            </button>
+                                                            <button onclick="myFunctionreject()" type="object" class="btn btn-primary"
+                                                                    name="rejected_registration" id="reject_id" >Rejected
+                                                                Registration
+                                                            </button>
+                                                            
+                                                        </div>
+                                                    </form>
+                                                    <div class="oe_structure"/>
+                                                </div>
+                                            </div>
+                                        </t>
+                                    </t>
+                                    </div>
+                                    <div t-if="reg_sess" class="row">
+                                        <div class="card-body col-md-12">
+                                            <div class="oe_structure"/>
+                                            <!--															<div class="container">-->
+                                            <t t-call="hue_register.timetable_view"/>
+                                            <!--															</div>-->
+                                            <div class="oe_structure"/>
+                                        </div>
+                                    </div>
+     </t>
+                                </t>
+                                <t t-else="">
+                                    <t t-call="hue_register.notopen"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <!--<t t-call-assets="survey.assets_frontend" t-js="false"/>-->
+            <!--            <t t-call-assets="hue_questionnaire.assets_frontend" t-css="false"/>-->
+            <!-- Optional JavaScript -->
+            <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        </template>
+
+        <template id="session_select" name="Sessions">
+            <!--			<div class="page-header">-->
+            <!--            <h3>Please Select Sessions</h3>-->
+            <!--			</div>-->
+            <form role="form" method="post" class="js_surveyform" t-att-name="'%s_%s' % ('sf', post['subject'])"
+                  t-att-action="'/registration/%s?subject=%s' % (student_id if student_id  else '',post['subject'])">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <!--				<input type="hidden" name="token" t-att-value="token" />-->
+
+                <div t-if="err_msg" class="err_msg col-md-12 text-center">
+                    <span t-esc="err_msg"/>
+                </div>
+                <table class="table table-condensed text-center">
+                    <!-- CoursesDetailsTable thead -->
+                    <thead>
+                        <tr id="CoursesDetailsTr" style="display: table-row;">
+                            <th>
+                                <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                check
+                            </th>
+                            <th><i class="fa fa-pie-chart" aria-hidden="true"></i>Available
+                            </th>
+                            <th><i class="fa fa-calendar" aria-hidden="true"></i>Day
+                            </th>
+                            <th><i class="fa fa-clock-o" aria-hidden="true"></i>From Time
+                            </th>
+                            <th><i class="fa fa-clock-o" aria-hidden="true"></i>To Time
+                            </th>
+                            <th><i class="fa fa-tags" aria-hidden="true"></i>Type
+                            </th>
+                            <th><i class="fa fa-users" aria-hidden="true"></i>Group
+                            </th>
+                            <th><i class="fa fa-map-marker" aria-hidden="true"></i>Facility
+                            </th>
+                            <th><i class="fa fa-address-card" aria-hidden="true"></i>Instructor
+                            </th>
+                            <th><i class="fa fa-certificate" aria-hidden="true"></i>Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- /.CoursesDetailsTable thead -->
+
+                    <!-- CoursesDetailsTable tbody -->
+                    <tbody id="CoursesData">
+                        <tr t-foreach="sessions" t-as="session" t-att-class="'%s_' % (session.classroom_id.name)"
+                            t-att-name="'%s_%s' % (session.classroom_id.name,session.sub_classroom)">
+                            <t t-set="reg" t-value="_is_reg(data['batch'].id,data['student']['id'],session.id)"/>
+                            <th style="text-align: right;background-color:#031f4a;color:#fff;">
+                                <center>
+                                    <t t-if="post['subject']+'_'+str(session.id) in post and post[post['subject']+'_'+str(session.id)] == str(session.id) or reg">
+                                        <input t-if="reg and reg.status == 'Approved' and not data['admin_user'] and not data['adviser']"
+                                               type="checkbox" t-att-name="'%s_%s' % (post['subject'],session.id)"
+                                               t-att-value='session.id' class="option-input checkbox" checked="checked"
+                                               disabled="disabled"/>
+                                        <input t-else="" type="checkbox"
+                                               t-att-name="'%s_%s' % (post['subject'],session.id)"
+                                               t-att-value='session.id' class="option-input checkbox" checked="checked"
+                                               t-attf-onChange="check_same('{{session.classroom_id.name}}_','{{session.classroom_id.name}}_{{session.sub_classroom}}',this)"/>
+                                    </t>
+                                    <t t-else="">
+                                        <input t-if="session.student_count - session.reg_student_count &lt;= 0 and session.student_count &gt; 0"
+                                               type="checkbox" t-att-name="'%s_%s' % (post['subject'],session.id)"
+                                               t-att-value='session.id' class="option-input checkbox"
+                                               disabled="disabled"/>
+                                        <input t-else="" type="checkbox"
+                                               t-att-name="'%s_%s' % (post['subject'],session.id)"
+                                               t-att-value='session.id' class="option-input checkbox"
+                                               t-attf-onChange="check_same('{{session.classroom_id.name}}_','{{session.classroom_id.name}}_{{session.sub_classroom}}',this)"/>
+                                        <!--									check_same(session.classroom_id.name + '_' + session.sub_classroom , session.classroom_id.name)-->
+                                        <!--check_same('%s_%s' % (session.classroom_id.name,session.sub_classroom), '%s' % (session.classroom_id.name))-->
+                                    </t>
+                                </center>
+
+                            </th>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.student_count - session.reg_student_count"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.type"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.timing_id.name"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.to_timing_id.name"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.session_type"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.classroom_id.name"/>
+                                    <span t-if="session.sub_classroom != 0" t-esc="session.sub_classroom"/>
+                                </center>
+                            </td>
+                            <!--							<td style="background-color: #fffad9;">-->
+                            <!--								<center>-->
+                            <!--									<span t-if="session.sub_classroom != 0" t-esc="session.sub_classroom"/>-->
+                            <!--								</center>-->
+                            <!--							</td>-->
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-esc="session.facility_id.name"/>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <t t-foreach="session.faculty_ids" t-as="faculty">
+                                        *
+                                        <span t-esc="faculty.name"/>
+                                        <br/>
+                                    </t>
+                                </center>
+                            </td>
+                            <td style="background-color: #fffad9;">
+                                <center>
+                                    <span t-if="reg" t-esc="reg.status"/>
+                                </center>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="text-center mt16 mb16">
+                    <button type="submit" class="btn btn-primary" name="button_save" value="save">Save</button>
+                    <!--					<button type="submit" class="btn btn-primary" name="button_finish" value="finish">Finish</button>-->
+                </div>
+            </form>
+        </template>
+
+        <template id="timetable_view" name="Timetable">
+            <!--			<div class="page-header">-->
+            <h3>Timetable</h3>
+            <!--			</div>-->
+            <div class="oe_structure"/>
+            <style>
+                .tbl th,.tbl td{
+                font-size : 12px !important;
+                }
+            </style>
+            <!--							<div class="card">-->
+            <!--								<div class="card-body">-->
+            <!--									<div class="card-sub">-->
+            <!--Academic Year 2018/2019 - Fall-->
+
+            <div class="table-responsive">
+                <table class="table table-bordered tbl" style="font-size: 10px !important; ">
+
+                    <tbody>
+                        <t t-if="reg_sess">
+                            <tr style="color:#fff;background-color:#031f4a;">
+                                <!--<th style="padding:2px"><font size="3">Day</font></th>-->
+                                <th style="padding:2px">
+                                    <font size="3">From</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">To</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">Type</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">Name</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">Group</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">Place</font>
+                                </th>
+                                <th style="padding:2px">
+                                    <font size="3">Lecturer</font>
+                                </th>
+                                <!--                                                            <th style="padding:2px"><font size="3">Link</font></th>-->
+
+                                <!--<th>Section</th>-->
+                            </tr>
+                            <!--<t t-set="chkday" t-value="" />-->
+                            <t t-foreach="reg_sess" t-as="studytableday">
+                                <!--													   <t t-set="studytableday" t-value="register.session_id" />-->
+                                <t t-if="studytableday">
+
+                                    <t t-if="chkday != studytableday.type">
+                                        <tr style="color:#fffad9;background-color:#d1be41;" align="center">
+                                            <td colspan="8" align="center">
+                                                <b>
+                                                    <font size="3">
+                                                        <span t-esc="studytableday.type"/>
+                                                    </font>
+                                                </b>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <t t-if="studytableday">
+                                        <t t-foreach="studytableday" t-as="CrsStudyTable">
+                                            <tr style="color:black">
+
+                                                <td align="center"
+                                                    style="background-color:#031f4a;color:#fffad9;padding:2px;">
+                                                    <b>
+                                                        <font size="3">
+                                                            <span t-esc="CrsStudyTable.timing_id.name"/>
+                                                        </font>
+                                                    </b>
+                                                </td>
+                                                <td align="center"
+                                                    style="background-color:#031f4a;color:#fffad9;padding:2px;">
+                                                    <b>
+                                                        <font size="3">
+                                                            <span t-esc="CrsStudyTable.to_timing_id.name"/>
+                                                        </font>
+                                                    </b>
+                                                </td>
+
+                                                <t t-if="CrsStudyTable.session_type == 'Lecture' ">
+                                                    <td align="center" style="background-color:#ff9ed7;">
+                                                        <b>
+                                                            <span t-esc="CrsStudyTable.session_type"/>
+                                                        </b>
+                                                    </td>
+                                                </t>
+                                                <t t-elif="CrsStudyTable.session_type == 'Lab' ">
+                                                    <td align="center" style="background-color:#a7f57a;">
+                                                        <b>
+                                                            <span t-esc="CrsStudyTable.session_type"/>
+                                                        </b>
+                                                    </td>
+                                                </t>
+                                                <t t-else="">
+                                                    <td align="center" style="background-color:#6380eb;">
+                                                        <b>
+                                                            <span t-esc="CrsStudyTable.session_type"/>
+                                                        </b>
+                                                    </td>
+                                                </t>
+                                                <td style="background-color:#fffad9;white-space: nowrap;">
+                                                    <b>
+                                                        <span t-esc="CrsStudyTable.subject_id.name.split('|')[0]"/>
+                                                    </b>
+                                                </td>
+                                                <td align="center" style="background-color:#fffad9;">
+                                                    <b>
+                                                        <span t-esc="CrsStudyTable.classroom_id.name"/>
+                                                        <t t-if="CrsStudyTable.sub_classroom != 0 ">
+                                                            -
+                                                            <span t-esc="CrsStudyTable.sub_classroom"/>
+                                                        </t>
+                                                    </b>
+                                                </td>
+                                                <td style="background-color:#fffad9;">
+                                                    <b>
+                                                        <span t-esc="CrsStudyTable.facility_id.name"/>
+                                                    </b>
+                                                </td>
+                                                <td style="background-color:#fffad9;white-space: nowrap;">
+                                                    <t t-if="CrsStudyTable.faculty_ids">
+                                                        <strong>
+                                                            <t t-foreach="CrsStudyTable.faculty_ids" t-as="lect">
+                                                                *
+                                                                <span t-esc="lect.name"/>
+                                                                <br/>
+                                                            </t>
+                                                        </strong>
+                                                    </t>
+                                                </td>
+                                                <!--<td><b><a t-if="CrsStudyTable.link" t-att-href="CrsStudyTable.link" target="_blank"><img src="/hue_timetable/static/src/img/ms-one-note.png" alt="One Note"/></a></b></td>-->
+                                                <!--																  <td><b><a t-if="CrsStudyTable.microsoft_link" t-attf-href="https://teams.microsoft.com/l/team/19:969d43a7a08946d1b581695b252e712c%40thread.skype/conversations?groupId={{CrsStudyTable.microsoft_link.team_id}}&amp;tenantId=73e3e6a7-4745-4f61-aa48-1143f170b1ba" target="_blank"><img src="/hue_timetable/static/src/img/ms-one-note.png" alt="Microsoft Team"/></a></b></td>-->
+                                                <!--<td><span t-esc="CrsStudyTable.sectionno" /></td>-->
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                                <t t-set="chkday" t-value="studytableday.type"/>
+                            </t>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+            <!--									</div>-->
+
+            <!--								</div>-->
+            <!--							</div>-->
+
+            <!--			</div>-->
+
+        </template>
+
+
+        <!-- Instructor survey -->
+        <!--		<template id="instructor_survey" name="Instructor">-->
+        <!--			<div class="page-header">-->
+        <!--				<h1 t-field='faculty.name'/>-->
+        <!--				<div t-field='page.description' class="oe_no_empty"/>-->
+        <!--			</div>-->
+        <!--		</template>-->
+
+        <!-- Subject survey -->
+        <template id="subject_survey" name="Subject">
+            <!--			<t t-call="hue_questionnaire.assets_frontend"/>-->
+            <!--			<div class="page-header">-->
+            <!--				<p class="pull-right">Page <span t-raw='page_nr + 1'/> of <span t-raw="len(survey.page_ids)"/></p>-->
+            <!--				<h3 t-esc='subject_obj.name' />-->
+            <!--				<div t-field='page.description' class="oe_no_empty"/>-->
+            <!--			</div>-->
+
+            <form role="form" method="post" class="js_surveyform" t-att-name="'%s_%s' % (survey.id, page.id)"
+                  t-att-action="'/questionnaire?subject=%s' % (subject_obj.id)"
+                  t-att-data-prefill="'/questionnaire/prefill/%s/%s/%s' % (slug(survey), token, slug(page))"
+                  t-att-data-validate="'/questionnaire/validate/%s' % (slug(survey))"
+                  t-att-data-submit="'/questionnaire/submit/%s' % (slug(survey))">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="page_id" t-att-value="page.id"/>
+                <input type="hidden" name="survey_id" t-att-value="data['subject_survey'].id"/>
+                <input type="hidden" name="token" t-att-value="token"/>
+                <!--				<input type="hidden" name="subject" t-att-value="post['subject']" />-->
+                <t t-foreach='page.question_ids' t-as='question'>
+                    <t t-set="prefix" t-value="'%s_%s_%s' % (survey.id, page.id, question.id)"/>
+                    <div class="js_question-wrapper" t-att-id="prefix">
+                        <h4>
+                            <span t-field='question.question'/>
+                            <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                        </h4>
+                        <div t-field='question.description' class="text-muted oe_no_empty"/>
+                        <div class="js_errzone alert alert-danger" t-if="errors and prefix in errors">
+                            <t t-esc="errors[prefix]"/>
+                        </div>
+                        <t t-if="question.type == 'free_text'">
+                            <t t-call="hue_questionnaire.free_text"/>
+                        </t>
+                        <t t-if="question.type == 'textbox'">
+                            <t t-call="hue_questionnaire.textbox"/>
+                        </t>
+                        <t t-if="question.type == 'numerical_box'">
+                            <t t-call="hue_questionnaire.numerical_box"/>
+                        </t>
+                        <t t-if="question.type == 'date'">
+                            <t t-call="hue_questionnaire.date"/>
+                        </t>
+                        <t t-if="question.type == 'simple_choice'">
+                            <t t-call="hue_questionnaire.simple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'multiple_choice'">
+                            <t t-call="hue_questionnaire.multiple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'matrix'">
+                            <t t-call="hue_questionnaire.matrix"/>
+                        </t>
+                    </div>
+                </t>
+                <div class="text-center mt16 mb16">
+                    <!--					<button t-if="survey.users_can_go_back and page_nr > 0" type="submit" class="btn btn-default" name="button_submit" value="previous">Previous page</button>-->
+                    <!--					<button t-if="not last" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>-->
+                    <!--					<button t-if="last" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit</button>-->
+                    <button type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit</button>
+                </div>
+            </form>
+
+            <!-- Modal used to display error message, i.c.o. ajax error -->
+            <div class="modal fade" id="AJAXErrorModal" role="dialog" aria-labelledby="AJAXErrorModal"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;
+                            </button>
+                            <h4 class="modal-title">A problem has occured</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Something went wrong while contacting survey server. <strong class="text-danger">Your
+                                answers have probably not been recorded.
+                            </strong> Try refreshing.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+        <!-- Faculty survey -->
+        <template id="faculty_survey" name="Faculty">
+            <!--			<t t-call="hue_questionnaire.assets_frontend"/>-->
+            <hr/>
+            <div class="page-header">
+                <!--				<p class="pull-right">Page <span t-raw='fpage_nr + 1'/> of <span t-raw="len(survey.fpage_ids)"/></p>-->
+                <!--				<h3 t-esc='faculty_obj.name' />-->
+                <!--				<div t-field='fpage.description' class="oe_no_empty"/>-->
+            </div>
+
+            <form role="form" method="post" class="js_surveyform"
+                  t-att-name="'%s_%s' % (faculty_user_input.survey_id.id, fpage.id)"
+                  t-att-action="'/questionnaire?subject=%s&amp;faculty=%s' % (subject_obj.id, faculty_obj.id)"
+                  t-att-data-prefill="'/questionnaire/prefill/%s/%s/%s' % (slug(faculty_user_input.survey_id), faculty_user_input.token, slug(fpage))"
+                  t-att-data-validate="'/questionnaire/validate/%s' % (slug(faculty_user_input.survey_id))"
+                  t-att-data-submit="'/questionnaire/submit/%s' % (slug(faculty_user_input.survey_id))">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="page_id" t-att-value="fpage.id"/>
+                <input type="hidden" name="survey_id" t-att-value="faculty_user_input.survey_id.id"/>
+                <input type="hidden" name="token" t-att-value="faculty_user_input.token"/>
+                <!--				<input type="hidden" name="subject" t-att-value="post['subject']" />-->
+                <t t-foreach='fpage.question_ids' t-as='question'>
+                    <t t-set="prefix" t-value="'%s_%s_%s' % (faculty_user_input.survey_id.id, fpage.id, question.id)"/>
+                    <div class="js_question-wrapper" t-att-id="prefix">
+                        <h2>
+                            <span t-field='question.question'/>
+                            <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                        </h2>
+                        <div t-field='question.description' class="text-muted oe_no_empty"/>
+                        <div class="js_errzone alert alert-danger" t-if="errors and prefix in errors">
+                            <t t-esc="errors[prefix]"/>
+                        </div>
+                        <t t-if="question.type == 'free_text'">
+                            <t t-call="hue_questionnaire.free_text"/>
+                        </t>
+                        <t t-if="question.type == 'textbox'">
+                            <t t-call="hue_questionnaire.textbox"/>
+                        </t>
+                        <t t-if="question.type == 'numerical_box'">
+                            <t t-call="hue_questionnaire.numerical_box"/>
+                        </t>
+                        <t t-if="question.type == 'date'">
+                            <t t-call="hue_questionnaire.date"/>
+                        </t>
+                        <t t-if="question.type == 'simple_choice'">
+                            <t t-call="hue_questionnaire.simple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'multiple_choice'">
+                            <t t-call="hue_questionnaire.multiple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'matrix'">
+                            <t t-call="hue_questionnaire.matrix"/>
+                        </t>
+                    </div>
+                </t>
+                <div class="text-center mt16 mb16">
+                    <!--					<button t-if="faculty_user_input.survey_id.users_can_go_back and fpage_nr > 0" type="submit" class="btn btn-default" name="button_submit" value="previous">Previous page</button>-->
+                    <!--					<button t-if="not flast" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>-->
+                    <!--					<button t-if="flast" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit</button>-->
+                    <button type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit</button>
+                </div>
+            </form>
+
+            <!-- Modal used to display error message, i.c.o. ajax error -->
+            <div class="modal fade" id="AJAXErrorModal" role="dialog" aria-labelledby="AJAXErrorModal"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;
+                            </button>
+                            <h4 class="modal-title">A problem has occured</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Something went wrong while contacting survey server. <strong class="text-danger">Your
+                                answers have probably not been recorded.
+                            </strong> Try refreshing.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+        <!-- Service survey -->
+        <template id="service_survey" name="Service">
+            <!--			<t t-call="hue_questionnaire.assets_frontend"/>-->
+            <div class="page-header">
+                <!--				<p class="pull-right">Page <span t-raw='spage_nr + 1'/> of <span t-raw="len(survey.spage_ids)"/></p>-->
+                <h3 t-field="data['student'].faculty.name"/>
+                <!--				<div t-field='spage.description' class="oe_no_empty"/>-->
+            </div>
+            <t t-if="service_user_input.state != 'done'">
+                <form role="form" method="post" class="js_surveyform"
+                      t-att-name="'%s_%s' % (data['service_survey'].id, spage.id)" t-att-action="'/questionnaire'"
+                      t-att-data-prefill="'/questionnaire/prefill/%s/%s/%s' % (slug(data['service_survey']), service_user_input.token, slug(spage))"
+                      t-att-data-validate="'/questionnaire/validate/%s' % (slug(data['service_survey']))"
+                      t-att-data-submit="'/questionnaire/submit/%s' % (slug(data['service_survey']))">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="page_id" t-att-value="spage.id"/>
+                    <input type="hidden" name="survey_id" t-att-value="data['service_survey'].id"/>
+                    <input type="hidden" name="token" t-att-value="service_user_input.token"/>
+                    <input type="hidden" name="service" t-att-value="service"/>
+                    <t t-foreach='spage.question_ids' t-as='question'>
+                        <t t-set="prefix" t-value="'%s_%s_%s' % (data['service_survey'].id, spage.id, question.id)"/>
+                        <div class="js_question-wrapper" t-att-id="prefix">
+                            <h2>
+                                <span t-field='question.question'/>
+                                <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                            </h2>
+                            <div t-field='question.description' class="text-muted oe_no_empty"/>
+                            <div class="js_errzone alert alert-danger" t-if="errors and prefix in errors">
+                                <t t-esc="errors[prefix]"/>
+                            </div>
+                            <t t-if="question.type == 'free_text'">
+                                <t t-call="hue_questionnaire.free_text"/>
+                            </t>
+                            <t t-if="question.type == 'textbox'">
+                                <t t-call="hue_questionnaire.textbox"/>
+                            </t>
+                            <t t-if="question.type == 'numerical_box'">
+                                <t t-call="hue_questionnaire.numerical_box"/>
+                            </t>
+                            <t t-if="question.type == 'date'">
+                                <t t-call="hue_questionnaire.date"/>
+                            </t>
+                            <t t-if="question.type == 'simple_choice'">
+                                <t t-call="hue_questionnaire.simple_choice"/>
+                            </t>
+                            <t t-if="question.type == 'multiple_choice'">
+                                <t t-call="hue_questionnaire.multiple_choice"/>
+                            </t>
+                            <t t-if="question.type == 'matrix'">
+                                <t t-call="hue_questionnaire.matrix"/>
+                            </t>
+                        </div>
+                    </t>
+                    <div class="text-center mt16 mb16">
+                        <!--					<button t-if="data['service_survey'].users_can_go_back and spage_nr > 0" type="submit" class="btn btn-default" name="button_submit" value="previous">Previous page</button>-->
+                        <!--					<button t-if="not slast" type="submit" class="btn btn-primary" name="button_submit" value="next">Next page</button>-->
+                        <!--					<button t-if="slast" type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit</button>-->
+                        <button type="submit" class="btn btn-primary" name="button_submit" value="finish">Submit
+                        </button>
+                    </div>
+                </form>
+            </t>
+
+            <t t-else="">
+                <t t-foreach='spage.question_ids' t-as='question'>
+                    <t t-set="prefix" t-value="'%s_%s_%s' % (data['service_survey'].id, spage.id, question.id)"/>
+                    <div class="js_question-wrapper" t-att-id="prefix">
+                        <h2>
+                            <span t-field='question.question'/>
+                            <span t-if="question.constr_mandatory" class="text-danger">*</span>
+                        </h2>
+                        <div t-field='question.description' class="text-muted oe_no_empty"/>
+                        <div class="js_errzone alert alert-danger" t-if="errors and prefix in errors">
+                            <t t-esc="errors[prefix]"/>
+                        </div>
+                        <t t-if="question.type == 'free_text'">
+                            <t t-call="hue_questionnaire.free_text"/>
+                        </t>
+                        <t t-if="question.type == 'textbox'">
+                            <t t-call="hue_questionnaire.textbox"/>
+                        </t>
+                        <t t-if="question.type == 'numerical_box'">
+                            <t t-call="hue_questionnaire.numerical_box"/>
+                        </t>
+                        <t t-if="question.type == 'date'">
+                            <t t-call="hue_questionnaire.date"/>
+                        </t>
+                        <t t-if="question.type == 'simple_choice'">
+                            <t t-call="hue_questionnaire.simple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'multiple_choice'">
+                            <t t-call="hue_questionnaire.multiple_choice"/>
+                        </t>
+                        <t t-if="question.type == 'matrix'">
+                            <t t-call="hue_questionnaire.matrix"/>
+                        </t>
+                    </div>
+                </t>
+            </t>
+            <!-- Modal used to display error message, i.c.o. ajax error -->
+            <div class="modal fade" id="AJAXErrorModal" role="dialog" aria-labelledby="AJAXErrorModal"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&amp;times;
+                            </button>
+                            <h4 class="modal-title">A problem has occured</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Something went wrong while contacting survey server. <strong class="text-danger">Your
+                                answers have probably not been recorded.
+                            </strong> Try refreshing.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </template>
+
+        <!-- "Thank you" message when the survey is completed -->
+        <template id="sfinished" name="Survey Finished">
+            <!--			<t t-call="hue_student_portal.student_frontend_layout">-->
+            <div/>
+            <div class="page-header">
+                <!--				<p class="pull-right">Page <span t-raw='spage_nr + 1'/> of <span t-raw="len(survey.spage_ids)"/></p>-->
+                <!--				<h3 t-field="data['student'].faculty.name" />-->
+                <!--				<div t-field='spage.description' class="oe_no_empty"/>-->
+            </div>
+            <!--<div class="wrap">-->
+            <!--	<div class="container">-->
+            <t t-call="hue_questionnaire.back"/>
+            <div class="jumbotron mt32">
+                <h3>Thank you for submitting Registration!</h3>
+                <div t-field="survey.thank_you_message" class="oe_no_empty"/>
+                <!--							<div t-if='survey.quizz_mode'>You scored <t t-esc="user_input.quizz_score" /> points.</div>-->
+                <!--							<div>If you wish, you can <a t-att-href="'/questionnaire/print/%s/%s' % (slug(survey), token)">review your answers</a>.</div>-->
+            </div>
+            <!--	</div>-->
+            <!--</div>-->
+            <!--			</t>-->
+        </template>
+
+        <!-- Message when the survey is not open  -->
+        <template id="notopen" name="Registration is not opened">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="jumbotron mt32">
+                            <h1>Closed Now</h1>
+                            <p>Registration is closed now. Thank you for your interest!</p>
+                        </div>
+                    </div>
+                </div>
+        </template>
+
+        <template id="closed_invoice" name="Registration is not opened invoice still open ">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="jumbotron mt32">
+                            <h1>Closed Now</h1>
+                            <p>Please check your invoices !</p>
+                        </div>
+                    </div>
+                </div>
+        </template>
+
+
+
+        <!-- Message when the survey is not open  -->
+        <template id="nodata" name="Registration">
+            <t t-call="hue_student_portal.student_portal_main_layout">
+                <div class="wrap">
+                    <div class="container">
+                        <div class="jumbotron mt32">
+                            <h2>No subjects</h2>
+                            <p>No subjects for registration now. Thank you for your interest!</p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Back Button to redirect in form view of survey -->
+        <template id="back" name="Back">
+            <div groups="base.group_user" t-ignore="true" class="pull-right">
+                <a t-attf-href="/web#view_type=form&amp;model=op.student&amp;id=#{data['student']['id']}&amp;action=openeducat_core.act_open_op_student_view"
+                   class="btn btn-default">Back
+                </a>
+            </div>
+        </template>
+    </data>
+</odoo>

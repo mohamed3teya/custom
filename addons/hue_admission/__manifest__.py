@@ -1,0 +1,35 @@
+{
+    'name': 'HUE Admission',
+    'version': '17.0.1.0',
+    'license': 'LGPL-3',
+    'category': 'Education',
+    "sequence": 2,
+    'summary': 'Horus Admissions',
+    'complexity': "easy",
+    'author': 'HUE',
+    
+    'depends': ['base', 'account', 'HUE_openeducat_core','sale', 'board'], #'openeducat_core',
+    'data': [
+        'security/ir.model.access.csv',
+        'views/admission_invoice.xml',
+        'views/admission_credit_note.xml',
+        'views/hue_admission.xml',
+        'views/admission_register.xml',
+        'views/admission_application.xml',
+        'views/custom_application.xml',
+        # 'views/admission_dashboard.xml',
+        # 'views/apply.xml',
+        'report/admission_report_payment_receipt_templates.xml',
+        'menus/ad_menu.xml',
+    ],
+    # 'assets': {
+    #     'web.assets_backend': [
+    #         'hue_admission/static/src/components/**/*.js',
+    #         'hue_admission/static/src/components/**/*.xml',
+    #         # 'hue_admission/static/src/components/**/*.scss',
+    #     ],
+    # },
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

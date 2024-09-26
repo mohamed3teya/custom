@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--global_leaves_menu-->
+        <menuitem id="global_leaves_menu" name="Global Leaves"
+				  action="global_leaves_action" sequence="50"
+				  parent="openeducat_attendance.menu_op_attendance"/>
+		<!--student_leaves_menu-->
+		<menuitem id="student_leaves_menu" name="Student Leaves"
+				  action="student_leaves_action" sequence="60"
+				  parent="openeducat_attendance.menu_op_attendance"/>
+		<!--student_disciplinary_menu-->
+		<menuitem id="student_disciplinary_menu" name="Student disciplinary"
+				  action="student_disciplinary_action" sequence="90"
+                  parent="openeducat_attendance.menu_op_attendance"/>
+		<!--attendance_reports_root_menu-->
+		<menuitem id="attendance_reports_root_menu" name="Attendance Reports"
+                parent="openeducat_attendance.menu_op_attendance_root"/>
+		<!--student_disciplinary_menu-->
+		<menuitem id="menu_op_attendance_line_sub_pivot" name="Attendance Analysis Report"
+				  action="act_open_op_attendance_view_pivot" sequence="1"
+                  parent="attendance_reports_root_menu"/>
+	</data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--global_leaves_form-->
+        <record id="global_leaves_form_view" model="ir.ui.view">
+         <field name="name">Global Leaves</field>
+         <field name="model">op.global.leaves</field>
+         <field name="arch" type="xml">
+            <form string="Global Leaves">
+               <group col="4">
+                  <field name="name" />
+                  <field name="year" />
+               </group>
+               <group col="4">
+                  <field name="date_from" autocomplete="off" />
+                  <field name="date_to" autocomplete="off" />
+               </group>
+            </form>
+         </field>
+        </record>
+        <!--global_leaves_tree-->
+        <record id="global_leaves_tree_view" model="ir.ui.view">
+         <field name="name">Global Leaves</field>
+         <field name="model">op.global.leaves</field>
+         <field name="arch" type="xml">
+            <tree string="Global Leaves">
+               <field name="name" />
+               <field name="date_from" />
+               <field name="date_to" />
+               <field name="year" />
+            </tree>
+         </field>
+        </record>
+        <!--Global leaves action-->
+        <record model="ir.actions.act_window" id="global_leaves_action">
+			<field name="name">Global Leaves</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.global.leaves</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+        <!--<field name="view_id" ref="global_leaves_tree" />-->
+	</data>
+</odoo>

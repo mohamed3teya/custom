@@ -1,0 +1,47 @@
+{
+    'name': 'HUE Registration',
+    'version': '17.0.1.0',
+    'license': 'LGPL-3',
+    'category': 'Education',
+    "sequence": 2,
+    'summary': 'Horus Registration',
+    'complexity': "easy",
+    'author': 'HUE',
+    
+    'depends': ['base','HUE_openeducat_core','openeducat_timetable'],
+    
+    'data': [
+        'security/ir.model.access.csv',
+        'views/student_registration_log.xml',
+        'views/student_registration.xml',
+        'views/registration_missing.xml',
+        'views/registration_missing_subject.xml',
+        'views/event_calendar.xml',
+        'views/military_student.xml',
+        'views/training_registration.xml',
+        'views/course_department.xml',
+        'views/transferred_student.xml',
+        'views/university_transfer.xml',
+        'views/hue_service.xml',
+        'views/student_service.xml',
+        'views/alumni_service.xml',
+        'views/student_transport_lines.xml',
+        'views/res_company_ext.xml',
+        'views/registration_web_view.xml',
+        'views/transport_lines.xml',
+        'wizard/military_student_wizard.xml',
+        'report/military_student_report.xml',
+        'menus/registration_menu.xml',
+    ],
+    'assets': {
+        'web.assets_backend': [
+        ],
+        'web.assets_frontend': [
+            '/hue_register/static/front/js/jquery.min.js',
+        ],
+    },
+
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}

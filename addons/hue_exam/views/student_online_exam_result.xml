@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <record id="online_exam_student_search_view" model="ir.ui.view">
+            <field name="name">search.stu.online.exam.student</field>
+            <field name="model">stu.online.exam.student</field>
+            <field name="arch" type="xml">
+                <search string="Search Invoice">
+                  <field name="student_id" string="Student"/>
+                </search>
+             </field>
+        </record>
+        <!--stu_online_exam_student_tree_view-->
+        <record id="stu_online_exam_student_tree_view" model="ir.ui.view">
+            <field name="name">Online exam results</field>
+            <field name="model">stu.online.exam.student</field>
+            <field name="arch" type="xml">
+                <tree string="exam results" editable="top">
+                    <field name="student_id"  />
+                    <field name="course_id" />
+                    <field name="subject_id"  />
+                    <field name="subject_code"  />
+                    <field name="acadyear"  />
+                    <field name="semester" />
+                    <field name="exam_type"  />
+                    <field name="exam_date"  />
+                    <field name="mark"  />
+                    <field name="final"  />
+                    <field name="fail"  />
+                    <field name="absent"  />
+                </tree>
+            </field>
+        </record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="student_online_exam_result_student">
+			<field name="name">Student Online Exam Result</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">stu.online.exam.student</field>
+			<field name="view_mode">tree,form</field>
+			<!--<field name="domain">[('tree_clo_acl_ids','=',1)]</field>-->
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,160 @@
+<odoo>
+    <data>
+        <template id="military_recruitment_data">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="font">
+                        <div class="page">
+                            <style>
+                            body {
+                                    -webkit-print-color-adjust: exact !important!important ;
+                                }
+                            .container{
+                                    width:100% !important;
+                                    }     
+                                    @media print {
+                                    .btn-print {
+                                    display:none;
+
+                                    }
+                                    }
+                                    .military th {
+                                    color:#fff;
+                                    text-align:center;
+                                background-color:#00438b;
+                                }
+                                    .military td {
+                                    padding: 3px !important;
+                                
+                                    }
+                                table.table-bordered {
+                                        table-layout:auto !important;
+                                    }
+                                    
+                            </style>
+                            <br/>
+                            <table class="table table-bordered"
+                               style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                <tr style="position:relative">
+                                    <td style="direction:rtl;">
+                                        <div class="text-center">
+                                            <h3 style="font-weight: bold; color:#00438b;">
+                                              استمارة حصر ومتابعة المؤهلات
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        <table class="table table-bordered military " style="background: #f2ffff; border-collapse: collapse;" dir="rtl">
+                            <thead>
+                                <tr style="color:#fff;background-color:#00438b">
+                                    <th width="3%" rowspan="2">م</th>
+                                    <th  width="10%" rowspan="2">اسم الطالب</th>
+                                    <th width="4%" rowspan="2">كود الطالب </th>
+                                    <th width="3%" rowspan="2">الديانه</th>
+                                    <th width="19%" rowspan="2">العنوان</th>
+                                    <th width="5%" rowspan="2">تاريخ الميلاد</th>
+                                    <th width="8%" rowspan="2">محل الميلاد</th>
+                                    <th width="5%" rowspan="2">عام الالتحاق</th>
+                                    <th width="7%" colspan="2">بطاقة رقم قومي</th>
+                                    <th width="10%" colspan="3">البطاقة العسكرية</th>
+                                    <th width=" 5%" rowspan="2">المعاملة</th>
+                                    <th width=" 5%" rowspan="2">رقم القرار</th>
+                                    <th width=" 5%" rowspan="2">تاريخ القرار</th>
+                                    <th width=" 5%" rowspan="2">رقم قرار التأجيل</th>
+                                    <th width=" 5%" colspan="2">النتيجة</th>
+                                    <th width=" 5%" rowspan="2"> ملاحظات</th>
+                                </tr>  
+                                <tr>
+                                    <th >رقم</th>
+                                    <th>جهة الأصدار</th>
+                                        <th >سنة</th>
+                                    <th>مركز</th>
+                                    <th >مسلسل</th>
+                                    <th>دور أول</th>
+                                    <th>دور ثان</th>
+                                </tr>                   
+                            </thead>
+                            <tbody>
+                                <t t-set="count" t-value="1"/>
+                                <t t-foreach="students" t-as="std">
+                                    <tr>
+                                    <td>
+                                      <span t-esc="count"/>
+                                    </td>
+                                    <td style="white-space:nowrap;">
+                                        <span t-esc="std.name" />                          
+                                    </td>
+                                      <td>
+                                        <span t-esc="std.student_code" />                              
+                                     </td>
+                                      <td style="text-align: center;">
+                                        <span t-esc="std.religion" />                              
+                                     </td>
+                                       <td>
+                                        <span t-esc="std.visa_info" />                              
+                                     </td>                           
+                                      <td style="white-space:nowrap;">
+                                        <span t-esc="std.birth_date" />                              
+                                     </td>
+                                      <td>
+                                         <t t-if="std.student_birth_place.name">                                   
+                                        <span t-esc="std.student_birth_place.name.split('|')[0]" />                                   
+                                         </t>
+                                     </td>
+                                      <td style="white-space:nowrap;">
+                                        <span t-esc="std.join_year.name" />                              
+                                     </td>
+                                      <td style="white-space:nowrap;">
+                                        <span t-esc="std.national_id" />                              
+                                     </td>
+                                       <td style="text-align: center;">
+                                        <span> مصر   </span>                          
+                                     </td>                             
+                                     <td style="text-align:center;">
+                                       <t  t-if="std.militaryno">
+                                          <span t-esc="std.militaryno.split('/')[2]" />  
+                                       </t>                                                           
+                                     </td> 
+                                      <td style="text-align:center;">
+                                       <t  t-if="std.militaryno">
+                                          <span t-esc="std.militaryno.split('/')[1]" />  
+                                       </t>                                                           
+                                     </td>
+                                      <td style="text-align:center;">
+                                       <t  t-if="std.militaryno">
+                                          <span t-esc="std.militaryno.split('/')[0]" />  
+                                       </t>                                                           
+                                     </td>
+                                      <td style="white-space:nowrap;">
+                                        <span t-esc="std.military_status" />                              
+                                     </td>
+                                      <td style="text-align:center;">
+                                        <span t-esc="std.decisionno" />                              
+                                     </td>
+                                      <td style="white-space:nowrap;">
+                                        <span t-esc="std.military_date" />                              
+                                     </td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                      <td></td>
+                                  <t t-set="count" t-value="count+1"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+         <record id="action_report_military_recruitment" model="ir.actions.report">
+            <field name="name">military recruitment</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports_yasmin.military_recruitment_data</field>
+            <field name="report_file">hue_student_reports_yasmin.military_recruitment_data</field>
+        </record>
+    </data>
+</odoo>

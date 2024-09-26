@@ -1,0 +1,71 @@
+<odoo>
+	<data>
+		<!--Academic direction form-->
+		<record id="hue_academic_direction_form" model="ir.ui.view">
+            <field name="name">AcademicDirectionForm</field>
+            <field name="model">hue.academic.direction</field>
+            <field name="arch" type="xml">
+                <form string="Session Links">
+                    <header>
+                        <button type="object" name="importXls"
+                            string="import Xls"
+                            class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group col="4" name="main">
+                            <field name="college_id" />
+                            <field name="faculty_id"  />
+                            <field name="attachment_ids"  />
+                        </group>
+                        <field name="student_ids" >
+                            <tree string="Students" editable="top">
+                                <field name="student_id"  />
+                                <field name="from_date"  />
+                                <field name="to_date"  />
+                            </tree>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Academic direction tree-->
+		<record model="ir.ui.view" id="hue_academic_direction_tree">
+            <field name="name">AcademicDirectionTree</field>
+            <field name="model">hue.academic.direction</field>
+            <field name="arch" type="xml">
+                <tree string="Academic Direction">
+                    <field name="college_id"/>
+                    <field name="faculty_id"/>
+                </tree>
+            </field>
+        </record>
+		<!--Academic direction line tree-->
+		<record id="hue_academic_direction_line_tree" model="ir.ui.view">
+            <field name="name">AcademicDirectionLineTree</field>
+            <field name="model">hue.academic.direction.line</field>
+            <field name="arch" type="xml">
+                <tree string="Academic Direction Line">
+                    <field name="college_id" />
+                    <field name="faculty_id" />
+                    <field name="student_code" />
+                    <field name="student_id" options="{'no_quick_create': True, 'no_create_edit' : True}"/>
+                    <field name="from_date" />
+                    <field name="to_date" />
+                </tree>
+            </field>
+        </record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="hue_academic_direction_action">
+			<field name="name">AcademicDirectionAction</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.academic.direction</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<record id="hue_academic_direction_line_action" model="ir.actions.act_window">
+			<field name="name">AcademicDirectionActionLine</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.academic.direction.line</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

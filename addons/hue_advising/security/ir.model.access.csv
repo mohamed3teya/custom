@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hue_academic_direction_line,access.hue.academic.direction.line,model_hue_academic_direction_line,base.group_erp_manager,1,1,1,1
+access_hue_academic_direction,access.hue.academic.direction,model_hue_academic_direction,base.group_erp_manager,1,1,1,1
+access_hue_gpa_calculator,access.hue.gpa.calculator,model_hue_gpa_calculator,base.group_erp_manager,1,1,1,1
+access_hue_suggested_plan,access.hue.suggested.plan,model_hue_suggested_plan,base.group_erp_manager,1,1,1,1
+access_student_without_advisor,access.student.without.advisor,model_student_without_advisor,base.group_erp_manager,1,1,1,1
+access_student_advisor_done,access.student.advisor.done,model_student_advisor_done,base.group_erp_manager,1,1,1,1
+access_transferred_advisor,access.transferred.advisor,model_transferred_advisor,base.group_erp_manager,1,1,1,1

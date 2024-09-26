@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!-- Form View -->
+<record id="view_op_student_accumulative_form" model="ir.ui.view">
+    <field name="name">op.student.accumulative.form</field>
+    <field name="model">op.student.accumulative</field>
+    <field name="arch" type="xml">
+        <form string="Student Accumulative">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="student_id"/>
+                        <field name="course_id"/>
+                        <field name="academicyear_id"/>    
+                    </group>
+                    <group>
+                        <field name="acumhr"/>
+                        <field name="acumgpa"/>
+                    </group>
+                    <field name="accum_semesters_ids" widget="one2many_list"/>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+    <!-- act_student_accumulative_data_report -->
+	<record model="ir.actions.act_window" id="act_student_accumulative_data_report">
+		<field name="name">HUE Student Accumulative Data</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">op.student.accumulative</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+</odoo>

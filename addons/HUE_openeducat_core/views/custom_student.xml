@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_hue_student_form" model="ir.ui.view">
+            <field name="name">Students</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+                <!--Add button box-->
+                <xpath expr="//div[@name='button_box']" position="replace">
+					<button_box class="oe_button_box oe_right stu_btn_box" name="student_button_box" width='40'>
+						
+					</button_box>
+                </xpath>
+                <!--customize student name and qr image-->
+                <xpath expr="//field[@name='title']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='first_name']" position="replace">
+                    <field name="name"/>
+                </xpath>
+                <xpath expr="//field[@name='middle_name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='last_name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='gr_no']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook" position="attributes">
+                    <attribute name="class">stu_notebook</attribute>
+                </xpath>
+                <!--qr image-->
+                <xpath expr="//field[@name='image_1920']" position="replace">
+                    <field name="qr_image" widget='image'/>
+                </xpath>
+                <!--end-->
+                <!--personal details-->
+                <xpath expr="//page[1]" position="replace">
+                    <page name="personal" string="Personal Information">
+                        <group string="Basic Information" col="4">
+                            <group col="2" colspan="2">
+                                <field name="en_name"/>
+                                <field name="gender"/>
+                                <field name="nationality"/>
+                                <field name="visa_info"/>
+                                <field name="lang"/>
+                                <field name="category_id"/>
+                                <field name="m_graph_id"/>
+                                <field name="stumobile"/>
+                                <field name="student_birth_place"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="d_name"/>
+                                <field name="birth_date"/>
+                                <field name="national_id"/>
+                                <field name="national_id_issue_date"/>
+                                <field name="blood_group"/>
+                                <field name="email"/>
+                                <field name="religion"/>
+                                <field name="stutele"/>
+                                <field name="photo_hide"/>
+                            </group>
+                        </group>
+                        <group>
+                            <separator string="Address Details" colspan="4"/>
+                            <field name="type"/>
+                            <field name="street"/>
+                        </group>
+                    </page>
+                </xpath>
+                <!--end-->
+                <!--Eductional data-->
+                <xpath expr="//page[1]" position="after">
+                    <page name="educational" string="Educational">
+                        <group string="Eductional Data" col="4" colspan="4">
+                            <group col="2" colspan="2">
+                                <field name="student_code" String="Student Code" readonly="specialized_faculty==False"/>
+                                <field name="student_status"/>
+                                <field name="faculty"/>
+                                <field name="join_year" String="Join Year"/>
+                                <field name="year"/>
+                                <field name="cgpa"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="crh"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="core_crh"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="project_crh"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="scholarship" String="Scholarship"/>
+                                <field name="result_block_reason" options="{'no_quick_create':True,'no_create_edit':True}" invisible="1"/>
+                                <field name="advisor"/>
+                                <field name="transfer_type" readonly="1"/>
+                                <field name="allow_registration"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="mc" String="MC"/>
+                                <field name="brother_discount"/>
+                                <field name="martyrs_discount"/>
+                            </group>
+                            <group col="2" colspan="2">
+                                <field name="course_id"/>
+                                <field name="student_nationality"/>
+                                <field name="level"/>
+                                <field name="join_term" String="Join Term"/>
+                                <field name="timestamp"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="new_gpa"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="new_crh"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="elective_crh"/> <!-- groups="hr_extention.group_service_manager" -->
+                                <field name="password" String="Password" groups="hr_extention.group_service_manager"/>
+                                <field name="registration_block_reason" options="{'no_quick_create':True,'no_create_edit':True}"/>
+                                <field name="user_id"/>
+                                <field name="previous_course_id" readonly="1"/>
+                                <field name="specialized_faculty"/><!-- groups="hr_extention.group_service_manager" -->
+                                <field name="sds_tobedeleted"/>
+                                <field name="father_discount"/>
+                                <field name="syndicate_discount"/>
+                            </group>   
+                        </group>
+                        <separator string="Student Semesters Status" colspan="4"/>
+                            <!--<field name="course_detail_ids" nolabel="1">
+                                <tree string="Course Details">
+                                    <field name="course_id"/>
+                                    <field name="batch_id"/>
+                                    <field name="roll_number"/>
+                                    <field name="subject_ids" widget="many2many_tags"/>
+                                </tree>
+                            </field>-->
+                    </page>
+                </xpath>
+                <!--end-->
+                <!--student family-->
+                <xpath expr="//page[2]" position="after">
+                    <page name="family" string="Family Information">
+                         <group col="4" colspan="4" string="Father Information">
+                                <group col="2" colspan="2">
+                                    <field name="father_name"/>
+                                    <field name="father_mobile"/>
+                                    <field name="father_nationality"/>
+                                </group>
+                                <group col="2" colspan="2">
+                                    <field name="father_job"/>
+                                    <field name="father_mail"/>
+                                </group>
+                           </group>
+                           <group col="4" colspan="4" string="Mother Information">
+                                <group col="2" colspan="2">
+                                    <field name="mother_name"/>
+                                    <field name="mother_mobile"/>
+                                    <field name="mother_nationality"/> 
+                                </group>
+                                <group col="2" colspan="2">
+                                    <field name="mother_job"/>
+                                    <field name="mother_mail" placeholder="Email"/>
+                                </group>
+                           </group>
+                           <group col="4" colspan="4" string="Sibling Information">
+                                <group col="2" colspan="2">
+                                    <field name="sibling_name"/>
+                                </group>
+                                <group col="2" colspan="2">
+                                    <field name="sibling_id"/>
+                                </group>
+                           </group>
+                           <group col="4" colspan="4" string="Sibling Student Data">
+                               <field name="sibling_student_id"/>
+                           </group>
+                    </page>
+                </xpath>
+                <!--end-->
+                <!--Assignments-->
+                <notebook position="inside">
+                    <page name="assignments" string="Assignments">
+                        <field name="allocation_ids" colspan="4" nolabel="1">
+                            <tree string="Assignment">
+                                <field name="name"/>
+                                <field name="course_id"/>
+                                <field name="batch_id"/>
+                                <field name="subject_id"/>
+                                <field name="faculty_id"/>
+                                <field name="reviewer"/>
+                                <field name="marks"/>
+                                <field name="assignment_type"/>
+                                <field name="state"/>
+                                <field name="issued_date"/>
+                                <field name="submission_date"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                <!--library-->
+                <!-- <notebook position="inside">
+                     <br/>
+                    <page name="library" string="Library">
+                        <field name="media_movement_lines" nolabel="1"/>
+                    </page>
+                </notebook> -->
+                <!--activity_log-->
+                <!-- <xpath expr="//page[4]" position="after">
+                    <page name="activity_log" string="Activity Log">
+                        <field name="activity_log" colspan="4" >
+                            <tree string="Activity Log">
+                                <field name="type_id"/>
+                                <field name="date"/>
+                                <field name="faculty_id"/>
+                                <field name="description"/>
+                                <field name="student_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath> -->
+                <!--custom student data-->
+                <!--<xpath expr="/form/*" position="before">
+                    <header>
+                        <button name="" type="object" class="oe_highlight" string="Create User" groups="base.group_user" help="Click to create User for this student" attrs="{'invisible': [('user_id', '!=',False)]}"/>
+                    </header>
+                 </xpath>-->
+                <!--<xpath expr="//form/sheet/group/group/field[@name='partner_id']" position="before">-->
+                <xpath expr="//page[4]" position="after">
+                    <!--<xpath expr="//form/sheet/notebook" position="a" > -->
+                    <page name="military" string="Military Data">
+                        <group string="Military Info">
+                            <field name="military_status"/>
+                            <field name="militaryno"/>
+                            <field name="decisionno"/>
+                            <field name="military_date"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//page[4]" position="after">
+                    <page name="gardian" string="Gardian Data">
+                        <group string="Family Info">
+                            <field name="gardian_name"/>
+                            <field name="gardian_type"/>
+                            <field name="gardian_tele"/>
+                            <field name="gardian_mobile"/>
+                            <field name="gardian_job"/>
+                        </group>
+                    </page>
+                </xpath>
+                <xpath expr="//page[4]" position="after">
+                    <page name="prequalification" string="PreQualification Data">
+                        <group string="Academic Info">
+                            <field name="student_school"/>
+                            <field name="student_certificates"/>
+                            <field name="student_city"/>
+                            <field name="percentage"/>
+                            <field name="certificate_degree"/>
+                            <field name="qualyear"/>
+                            <!--<field name="university_name"/>-->
+                            <field name="university_country"/>
+                            <field name="special_case"/>
+                            <field name="seatno"/>
+                            <field name="approval_num"/>
+                            <field name="approval_date"/>
+                            <field name="approval_type"/>
+                        </group>
+                        <group  string="* In case of transfer from another college or institute"><!-- col="4" colspan="4" -->
+                               <field name="transferred_from"/>
+                               <field name="pre_transfer_type"/>
+                               <field name="Pre_join_year"/>
+                        </group>
+                    </page>
+                </xpath>
+                <!--parents-->
+                <xpath expr="//notebook/page[@name='family']" position="after">
+                    <page name="parents" string="Parents">
+                        <field name="parent_ids" colspan="4" nolabel="1"/>
+                    </page>
+                </xpath>
+                <!--health details-->
+                <!--<xpath expr="//notebook/page[4]" position="after">
+                    <page name="health_detail" string="Health Detail">
+                        <field name="health_lines" colspan="4" nolabel="1">
+                            <tree>
+                                <field name="blood_group"/>
+                                <field name="height"/>
+                                <field name="weight"/>
+                                <field name="eyeglasses"/>
+                                <field name="physical_challenges"/>
+                                <field name="major_diseases"/>
+                                <field name="regular_checkup"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>-->
+                <!--timetable view-->
+                <!--<xpath expr="/form/*" position="before">
+                <header>
+                    <button name="get_study_timetable" type="object" class="oe_highlight" string="Get Registrations" groups="base.group_no_one"/>
+                </header>
+                </xpath>-->
+            </field>
+        </record>
+        <!--get_hue_basic_student_action-->
+        <record id="get_hue_basic_student_action" model="ir.actions.server">
+			<field name="name">Get Hue Basic student menu</field>
+			<field name="model_id" ref="model_op_student"/>
+			<field name="state">code</field>
+			<field name="code">model.modify_student_data_fun()</field>
+		</record>
+        <!-- Inherit the op.student search view -->
+        <record id="inherit_op_student_search" model="ir.ui.view">
+            <field name="name">op.student.search.inherit</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <field name="student_code"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

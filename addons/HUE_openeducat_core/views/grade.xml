@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_grade_form" model="ir.ui.view">
+			<field name="name">Grades</field>
+			<field name="model">op.grades</field>
+			<field name="arch" type="xml">
+				<form string="Grades">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="sequence"/>
+							<field name="theoretical_fail"/>
+						</group>
+						<group>
+							<field name="add_to_gpa"/>
+							<field name="absent_grade"/>
+							<field name="pass_grade"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_grade">
+			<field name="name">Grades</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.grades</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

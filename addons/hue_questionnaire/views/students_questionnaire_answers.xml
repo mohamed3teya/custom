@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--students_questionnaire_answers_tree_view-->
+        <record id="students_questionnaire_answers_tree_view" model="ir.ui.view">
+            <field name="name">students questionnaire answers</field>
+            <field name="model">students.questionnaire.answers</field>
+            <field name="arch" type="xml">
+                <tree string="students questionnaire answers">
+                    <field name="subject_id" />
+                    <field name="course_id" />
+                    <field name="academic_year_id" />
+                    <field name="semester_id" />
+                    <field name="question_id" />
+                    <field name="score_5" />
+                    <field name="score_4" />
+                    <field name="score_3" />
+                    <field name="score_2" />
+                    <field name="score_1" />
+                </tree>
+            </field>
+        </record>
+        <!--students_questionnaire_answers_form_view-->
+        <record id="students_questionnaire_answers_form_view" model="ir.ui.view">
+            <field name="name">students questionnaire answers</field>
+            <field name="model">students.questionnaire.answers</field>
+            <field name="arch" type="xml">
+                <form string="students questionnaire answers">
+                    <sheet>
+                        <group col="4">
+                        <field name="subject_id" />
+                        <field name="course_id" />
+                        <field name="academic_year_id" />
+                        <field name="semester_id" />
+                        <field name="question_id" />
+                        <field name="score_5" />
+                        <field name="score_4" />
+                        <field name="score_3" />
+                        <field name="score_2" />
+                        <field name="score_1" />
+                        </group>  
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--students_questionnaire_answers_action-->
+		<record model="ir.actions.act_window" id="students_questionnaire_answers_action">
+			<field name="name">students questionnaire answers</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">students.questionnaire.answers</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

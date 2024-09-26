@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--view_op_exam_ext_form-->
+		<record id="view_op_exam_ext_form" model="ir.ui.view">
+			<field name="name">op.exam.form</field>
+			<field name="model">op.exam</field>
+			<field name="inherit_id" ref="openeducat_exam.view_op_exam_form"/>
+			<field name="type">form</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+                <!--override to cancel group restriction-->
+				<xpath expr="//header" position="attributes">
+					<attribute name="groups"></attribute>
+				</xpath>
+				<xpath expr="//field[@name='session_id']" position="before">
+					<field name="course_id" readonly="state=='schedule'"/>
+					<field name="suitable_session_ids" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='subject_id']" position="after">
+					<field name="similarity" />
+					<field name="course_only" />
+				</xpath>
+			</field>
+		</record>
+		<!--view_op_exam_ext_form_readonly-->
+		<record id="view_op_exam_ext_form_readonly" model="ir.ui.view"> 
+			<field name="name">op.exam.form.rights</field>
+			<field name="model">op.exam</field>
+			<field name="inherit_id" ref="openeducat_exam.view_op_exam_form"/>
+			<field name="type">form</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='session_id']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<!-- {'readonly':[('state','=','schedule')]} -->
+				<xpath expr="//field[@name='subject_id']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='start_time']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='end_time']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='total_marks']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='min_marks']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='course_only']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+				<xpath expr="//field[@name='similarity']" position="attributes">
+					<attribute name="readonly">"state=='schedule'"</attribute>
+				</xpath>
+			</field>
+		</record>
+		<!--view_op_exam_ext_form_manager-->
+		<record id="view_op_exam_ext_form_manager" model="ir.ui.view"> 
+			<field name="name">op.exam.form.manager</field>
+			<field name="model">op.exam</field>
+			<field name="inherit_id" ref="openeducat_exam.view_op_exam_form"/>
+			<field name="type">form</field>
+			<field name="priority" eval="8" />
+			<!-- <field name="groups_id" eval="[(4, ref('HUE_openeducat_core.group_service_manager'))]"/> -->
+			<field name="arch" type="xml">
+				<field name="session_id" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+			<field name="subject_id" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="start_time" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="end_time" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="total_marks" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="min_marks" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="course_only" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+				<field name="similarity" position="attributes">
+					<attribute name="readonly">0</attribute>
+					<attribute name="groups">HUE_openeducat_core.group_service_manager</attribute>
+				</field>
+			</field>
+		</record>
+		<!--exam_type_data-->
+		<record id="exam_type_data" model="ir.ui.view">
+			<field name="name">exam.form.view</field>
+			<field name="model">op.exam</field>
+			<field name="inherit_id" ref="openeducat_exam.view_op_exam_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='min_marks']" position="after">
+					<field name="exam_type" readonly="state=='schedule'"/>
+				</xpath>
+			</field>
+		</record>
+		<!--view_op_exam_tree_ext-->
+		<record id="view_op_exam_tree_ext" model="ir.ui.view">
+			<field name="name">hue.exam.tree.ext</field>
+			<field name="model">op.exam</field>
+			<field name="inherit_id" ref="openeducat_exam.view_op_exam_tree"/>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='subject_id']" position="after">
+					<field name="subject_code" />
+					<field name="suitable_session_ids" column_invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

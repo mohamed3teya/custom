@@ -1,0 +1,154 @@
+/* Ion.RangeSlider, Simple Skin
+// css version 2.0.3
+// © Denis Ineshin, 2014    https://github.com/IonDen
+// © guybowden, 2014        https://github.com/guybowden
+// ===================================================================================================================*/
+/* =====================================================================================================================
+// Skin details */
+.border-radius-100 {
+  -webkit-border-radius: 100%;
+     -moz-border-radius: 100%;
+          border-radius: 100%;
+}
+.irs {
+  height: 55px;
+}
+.irs-with-grid {
+  height: 75px;
+}
+.irs-line {
+  height: 10px;
+  top: 14px;
+  background: #EEE;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(-50%, #dddddd), color-stop(150%, #ffffff));
+  background: -webkit-linear-gradient(top, #dddddd -50%, #ffffff 150%);
+  background: -moz-linear-gradient(top, #dddddd -50%, #ffffff 150%);
+  background: -o-linear-gradient(top, #dddddd -50%, #ffffff 150%);
+  background: linear-gradient(to bottom, #dddddd -50%, #ffffff 150%);
+  /* W3C */
+  border: 1px solid #CCC;
+  -webkit-border-radius: 16px;
+          border-radius: 16px;
+  -moz-border-radius: 16px;
+}
+.irs-line-left {
+  height: 8px;
+}
+.irs-line-mid {
+  height: 8px;
+}
+.irs-line-right {
+  height: 8px;
+}
+.irs-bar {
+  height: 10px;
+  top: 14px;
+  border-top: 1px solid #cccccc;
+  border-bottom: 1px solid #cccccc;
+  background: #f1f2f7;
+}
+.irs-bar-edge {
+  height: 10px;
+  top: 33px;
+  width: 14px;
+  border: 1px solid #428bca;
+  border-right: 0;
+  background: #428bca;
+  background: -webkit-gradient(linear, left bottom, left top, from(#428bca), to(#7fc3e8));
+  background: -webkit-linear-gradient(bottom, #428bca 0%, #7fc3e8 100%);
+  background: -moz-linear-gradient(bottom, #428bca 0%, #7fc3e8 100%);
+  background: -o-linear-gradient(bottom, #428bca 0%, #7fc3e8 100%);
+  background: linear-gradient(to top, #428bca 0%, #7fc3e8 100%);
+  /* W3C */
+  -webkit-border-radius: 16px 0 0 16px;
+          border-radius: 16px 0 0 16px;
+  -moz-border-radius: 16px 0 0 16px;
+}
+.irs-shadow {
+  height: 2px;
+  top: 38px;
+  background: #000;
+  opacity: 0.3;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+.lt-ie9 .irs-shadow {
+  filter: alpha(opacity=30);
+}
+.irs-slider {
+  top: 5px;
+  width: 27px;
+  height: 27px;
+  border: 1px solid #AAA;
+  background: #DDD;
+  background: -webkit-gradient(linear, left top, left bottom, from(#ffffff), color-stop(20%, #dcdcdc), to(#ffffff));
+  background: -webkit-linear-gradient(top, #ffffff 0%, #dcdcdc 20%, #ffffff 100%);
+  background: -moz-linear-gradient(top, #ffffff 0%, #dcdcdc 20%, #ffffff 100%);
+  background: -o-linear-gradient(top, #ffffff 0%, #dcdcdc 20%, #ffffff 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #dcdcdc 20%, #ffffff 100%);
+  /* W3C */
+  -webkit-border-radius: 27px;
+          border-radius: 27px;
+  -moz-border-radius: 27px;
+  -webkit-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+     -moz-box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+.irs-slider.state_hover,
+.irs-slider:hover {
+  background: #FFF;
+}
+.irs-min,
+.irs-max {
+  color: #333;
+  font-size: 12px;
+  line-height: 1.333;
+  text-shadow: none;
+  top: 0;
+  padding: 1px 5px;
+  background: rgba(0, 0, 0, 0.1);
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
+  -moz-border-radius: 3px;
+  display: none !important;
+  /* override */
+}
+.lt-ie9 .irs-min,
+.lt-ie9 .irs-max {
+  background: #ccc;
+}
+.irs-from,
+.irs-to,
+.irs-single {
+  color: #fff;
+  font-size: 11px;
+  line-height: 1.333;
+  text-shadow: none;
+  padding: 1px 5px;
+  background: #06b2a2;
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
+  -moz-border-radius: 3px;
+  top: 36px;
+}
+.lt-ie9 .irs-from,
+.lt-ie9 .irs-to,
+.lt-ie9 .irs-single {
+  background: #999;
+}
+.irs-grid {
+  height: 27px;
+}
+.irs-grid-pol {
+  opacity: 0.5;
+  background: #428bca;
+}
+.irs-grid-pol.small {
+  background: #999;
+}
+.irs-grid-text {
+  bottom: 5px;
+  color: #99a4ac;
+}

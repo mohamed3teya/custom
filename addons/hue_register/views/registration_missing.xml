@@ -1,0 +1,26 @@
+<odoo>
+	<data>
+		<!--Registration Missing Tree-->
+		<record model="ir.ui.view" id="hue_student_registration_missing_tree">
+			<field name="name">Registration Missing Tree</field>
+			<field name="model">hue.registration.missing</field>
+			<field name="arch" type="xml">
+				<tree string="Registration Missing">
+					<field name="student_code" />
+					<field name="advisor" />
+					<field name="course" />
+					<field name="student_id" />
+					<field name="missing_ids"  widget="many2many_tags" />
+					<field name="create_date" string="Missing Date" />
+				</tree>
+			</field>
+		</record>
+		<!--Actions-->
+		<record id="hue_student_registration_missing_action" model="ir.actions.act_window">
+			<field name="name">Registration Missing</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.registration.missing</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

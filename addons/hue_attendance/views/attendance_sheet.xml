@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="action_kiosk_mode" model="ir.actions.client">
+            <field name="name">Attendances</field>
+            <field name="tag">barcode_attendance_component</field>
+            <field name="target">new</field>
+			<field name="context">{'attendance_sheet_id': active_id, 'session_id':session_id}</field>
+        </record>
+		<!-- attendance sheet inherite -->
+		<record id="view_attendance_shhet_form_inherit" model="ir.ui.view">
+			<field name="name">op attendance sheet form inherit</field>
+			<field name="model">op.attendance.sheet</field>
+			<field name="inherit_id" ref="openeducat_attendance.view_op_attendance_sheet_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='attendance_done']" position="before">
+                    <button type="action" name="%(action_kiosk_mode)d" string="Barcode Attendance" class="oe_highlight" state="draft,start" context="{'active_id': id, 'session_id':session_id}" />
+                </xpath>
+				<xpath expr="//button[@name='attendance_done']" position="before">
+                    <button type="object" name="action_open_kiosk_url" string="Barcode Attendance Test" class="oe_highlight" state="draft,start" context="{'active_id': id}" />
+                </xpath>
+				<xpath expr="//button[@name='attendance_done']" position="replace">
+					<button type="object" name="attendance_done" state="draft,start" string="Close Attendance" class="oe_highlight" confirm="Are you sure? All rest students will be absence!!"/>
+					<button type="object" name="clear_sessions" string="Clear"  class="oe_highlight" confirm="Are you sure? Clear Sheets!!"/>
+				</xpath>
+				<xpath expr="//field[@name='present']" position="replace">
+					<field name="state" position="attributes">
+						<attribute name="invisible">1</attribute>
+					</field>
+					<field name="present" position="attributes">
+						<attribute name="readonly">[('state', '=', 'done')]</attribute>
+						<attribute name="options">{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+					</field>
+					<field name="permitted" position="attributes">
+						<attribute name="invisible">[('present', '=', True)]</attribute>
+					</field>
+				</xpath>
+				<xpath expr="//field[@name='student_id']" position="attributes">
+					<attribute name="domain"></attribute>
+				</xpath>
+				<xpath expr="//field[@name='attendance_date']" position="replace"/>
+				<xpath expr="//field[@name='session_id']" position="before">
+					<field name="attendance_date" options="{'no_quick_create':True,'no_create_edit':True}"/>
+				</xpath>
+				<xpath expr="//field[@name='student_id']" position="after">
+					<field name="student_code" readonly="1"/>
+					<field name="leave" readonly="1"/>
+					<field name="suitable_student_ids" column_invisible="1"/>
+				</xpath>
+			</field>
+		</record>
+		<!--<record id="view_op_attendance_sheet_search" model="ir.ui.view"><field name="name">op.attendance.sheet.search</field><field name="model">op.attendance.sheet</field><field name="priority" eval="8" /><field name="arch" type="xml"><search string="Attendance Sheet"><field name="register_id" /><field name="attendance_date" /><field name="total_present" /><field name="total_absent" /><group expand="0" string="Group By..."><filter string="Register" domain="[]"
+                            context="{'group_by':'register_id'}" /><filter string="Date" domain="[]" context="{'group_by':'attendance_date'}" /></group></search></field></record>-->
+		<record id="view_op_attendance_sheet_search" model="ir.ui.view">
+			<field name="name">op.attendance.sheet.search</field>
+			<field name="model">op.attendance.sheet</field>
+			<field name="priority" eval="8" />
+			<field name="arch" type="xml">
+				<search string="Attendance Sheet">
+					<!-- Fields to be displayed in the search view -->
+					<field name="register_id" />
+					<field name="attendance_date" />
+					<field name="total_present" />
+					<field name="total_absent" />
+					<!-- Group section for filtering -->
+					<group expand="0" string="Group By...">
+						<filter string="Register" name="register_id" domain="[]" context="{'group_by':'register_id'}" />
+						<filter string="Date" name="attendance_date" domain="[]" context="{'group_by':'attendance_date'}" />
+					</group>
+				</search>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="openeducat_attendance.act_open_op_attendance_sheet_view">
+			<field name="name">Attendance Sheets</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.attendance.sheet</field>
+			<field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="hue_attendance.view_op_attendance_sheet_search"/>
+			<field name="context">{}</field>
+			<!--<field name="domain">[('tree_clo_acl_ids','=',1)]</field>-->
+		</record>
+	</data>
+</odoo>

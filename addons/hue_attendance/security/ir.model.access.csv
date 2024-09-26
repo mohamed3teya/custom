@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_all_student,access.op.all.student,model_op_all_student,base.group_erp_manager,1,1,1,1
+access_op_attendance_line,access.op.attendance.line,model_op_attendance_line,base.group_erp_manager,1,1,1,1
+access_op_attendance_register,access.op.attendance.register,model_op_attendance_register,base.group_erp_manager,1,1,1,1
+access_op_attendance_sheet,access.op.attendance.sheet,model_op_attendance_sheet,base.group_erp_manager,1,1,1,1
+access_op_global_leaves,access.op.global.leaves,model_op_global_leaves,base.group_erp_manager,1,1,1,1
+access_op_student_leaves,access.op.student.leaves,model_op_student_leaves,base.group_erp_manager,1,1,1,1
+access_student_disciplinary,access.student.disciplinary,model_student_disciplinary,base.group_erp_manager,1,1,1,1

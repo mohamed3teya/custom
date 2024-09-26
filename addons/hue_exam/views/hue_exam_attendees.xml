@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--view_op_exam_attendees_tree_ext-->
+		<record id="view_op_exam_attendees_tree_ext" model="ir.ui.view">
+            <field name="name">hue.exam.attendees.tree.ext</field>
+            <field name="model">op.exam.attendees</field>
+            <field name="inherit_id" ref="openeducat_exam.view_op_exam_attendees_tree"/>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='student_id']" position="before">
+                    <field name="student_code" />
+                    <field name="seat_no" />
+                </xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

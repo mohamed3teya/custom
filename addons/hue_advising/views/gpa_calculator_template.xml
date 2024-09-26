@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Main survey layout -->
+        <template id="hue_advising.layout" name="Advising Layout" inherit_id="website.layout" primary="True">
+            <xpath expr="." position="inside">
+                <link href="/hue_advising/static/src/gpa_page.css" rel="stylesheet" type="text/css"/>
+                <script type="text/javascript" src="/hue_advising/static/src/gpa_page.js"/>
+            </xpath>
+            <xpath expr="//header" position="replace">
+                <div id="wrap" class="oe_structure oe_empty"/>
+            </xpath>
+            <xpath expr="//footer" position="replace"/>
+        </template>
+        <template id="back" name="Back">
+            <div groups="website.group_website_publisher" t-ignore="true" class="pull-right">
+                <a t-attf-href="/web#view_type=form&amp;model=op.student&amp;id=#{advising.student_id.id}&amp;action=openeducat_core.act_open_op_student_view"
+                   class="btn btn-default">Back to GPA Calculator
+                </a>
+            </div>
+        </template>
+        <template id="gpa_calculator" name="Gpa Calculator">
+            <t t-call="hue_advising.layout">
+                <div class="wrap">
+                    <div class="oe_structure"/>
+                    <div class="container">
+                        <t t-call="hue_advising.back"/>
+                        <t t-call="hue_advising.gpa_calculator_page"/>
+                    </div>
+                    <div class="oe_structure"/>
+                </div>
+            </t>
+        </template>
+        <!-- A page -->
+        <template id="gpa_calculator_page" name="gpa_calculator_page">
+        <!-- Include Bootstrap CSS via CDN -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+        
+        <!-- Include Bootstrap JS via CDN -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <div class="page-header">
+                <!--<p class="pull-right">Page <span t-raw='page_nr + 1'/> of <span t-raw="len(survey.page_ids)"/></p>-->
+                <!--<h1 t-field='page.title' />-->
+                <!--<div t-field='page.description' class="oe_no_empty"/>-->
+            </div>
+            <form role="form" method="post" t-att-action="'/gpa/fill/%s' % (advising.id)" class="">
+                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                <input type="hidden" name="all_subjects_list" t-att-value="all_subjects_list"/>
+
+                <div class="row">
+                    <div class="col-lg-4">
+                        Student :
+                        <strong t-esc="advising.student_id.name"/>
+
+                    </div>
+                    <div class="col-lg-4">
+                        Student Code :
+                        <strong t-esc="advising.student_id.student_code"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Level :
+                        <strong t-esc="advising.student_id.level.name"/>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        Current CGPA :
+                        <t t-if="not advising.student_id.checkblock()">
+                        <strong t-esc="advising.student_id.new_gpa"/>
+                         </t>
+                        <t t-else ="">
+                            <strong t-esc="advising.student_id.cgpa"/>
+                        </t>
+                        <input type="hidden" name="cgpa" t-att-value="advising.student_id.new_gpa"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Ex.CGPA :
+                        <strong id="ex_gpa"/>
+                        <input type="hidden" name="ex_gpa"/>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        Earned Hours :
+                        <strong id="curr_crh"/>
+                        <input type="hidden" name="curr_crh"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Ex.CrH :
+                        <strong id="ex_crh"/>
+                        <input type="hidden" name="ex_crh"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Modified CrH :
+                        <strong id="modified_crh"/>
+                        <input type="hidden" name="modified_crh"/>
+                        /
+                        <strong t-esc="gpa_limit_hours"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Edited Subject :
+                        <strong id="edited_subject"/>
+                        <input type="hidden" name="edited_subject"/>
+                    </div>
+                    <div class="col-lg-4">
+                        Advisor Name :
+                        <strong t-esc="advisor"/>
+                    </div>
+                </div>
+
+                <!--                <div class="row">-->
+                <!--                    <div class="col-lg-4">-->
+                <!--                        بسط :-->
+                <!--                        <strong id="bst"/>-->
+                <!--                    </div>-->
+                <!--                    <div class="col-lg-4">-->
+                <!--                        مقام :-->
+                <!--                        <strong id="mqam"/>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <br/>
+                <div class="row">
+                    <div class="col-lg-12  bhoechie-tab-container">
+                    <!-- <div class="row clearfix"> -->
+                        <div class="col-lg-1 bhoechie-tab-menu">
+                            <div class="list-group">
+                                <!--<t t-set="levels" t-value="advising._get_selection()" />-->
+                                <t t-foreach="levels" t-as="level">
+                                    <a href="#"
+                                       t-att-class="'list-group-item  text-center active' if level_index == 0 else 'list-group-item  text-center'">
+                                        <h4>
+                                            <span t-esc="level[0]"/>
+                                        </h4>
+                                    </a>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-lg-11 bhoechie-tab">
+                            <t t-foreach="levels" t-as="level">
+                                <div t-att-class="'bhoechie-tab-content active' if level_index == 0 else 'bhoechie-tab-content'">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">Subject</th>
+                                                <th scope="col">Code</th>
+                                                <th scope="col">CrH</th>
+                                                <th scope="col">Semster</th>
+                                                <th scope="col">Subject Type</th>
+                                                <th scope="col">Grade</th>
+                                                <th scope="col">Ex.Grade</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-set="row_num" t-value="1"/>
+
+                                            <t t-foreach="level[1]" t-as="subject">
+                                                <t t-set="all_subject_taken"
+                                                   t-value="get_subject_taken(advising.student_id,subject.id,subject)"/>
+                                                <t t-if="all_subject_taken">
+                                                    <t t-foreach="all_subject_taken[0]" t-as="subject_taken">
+                                                        <t t-set="fail_grade" t-value="5"/>
+                                                        <t t-if="subject_taken and subject.id not in suggested_plan.mapped('subject_id').ids and (subject_taken.final_grade.name == 'FC|FC' or subject_taken.final_grade.add_to_gpa == True) and subject_taken.final_grade.pass_grade == False ">
+                                                            <t t-set="style" t-value="'success gpa_class fail'"/>
+                                                        </t>
+                                                        <t t-elif="subject_taken and subject.id not in suggested_plan.mapped('subject_id').ids">
+                                                            <t t-set="style" t-value="'success gpa_class'"/>
+                                                        </t>
+                                                        <t t-elif="subject_taken and subject.id  in suggested_plan.mapped('subject_id').ids and subject_taken.final_grade.add_to_gpa == True and subject_taken.final_grade.pass_grade == False ">
+                                                            <t t-set="style" t-value="'suggested_plan gpa_class fail'"/>
+                                                        </t>
+                                                        <t t-elif="subject_taken and subject.id  in suggested_plan.mapped('subject_id').ids">
+                                                            <t t-set="style" t-value="'suggested_plan gpa_class'"/>
+                                                        </t>
+
+                                                        <tr t-att-class="style">
+                                                            <th scope="row">
+                                                                <span t-esc="row_num"/>
+                                                            </th>
+                                                            <td class="subject_namee">
+                                                                <span t-esc="subject.name.split(&quot;|&quot;)[0]"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="subject.code.split(&quot;|&quot;)[0]"/>
+                                                            </td>
+                                                            <td class="subject_ch">
+                                                                <t t-esc="subject.subject_credithours"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-if="subject_taken"
+                                                                      t-esc="subject_taken.student_semester_id.academicyear_id.name"/>
+                                                            </td>
+                                                            <td>
+                                                                <span t-esc="subject.subject_type"/>
+                                                            </td>
+                                                            <td class="subject_grade"
+                                                                t-attf-id="{{subject_taken.final_grade.id if subject_taken and subject_taken.final_grade.name  else None}}"
+                                                                t-attf-pass="{{subject_taken.final_grade.id  if subject_taken and subject_taken.final_grade.pass_grade == True and subject_taken.final_grade.name  else None}}"
+                                                            >
+                                                                <t t-set="itr" t-value="0"/>
+                                                                <t t-foreach="all_subject_taken[2]"
+                                                                   t-as="taken_subject">
+                                                                    <t t-set="itr" t-value="itr+1"/>
+                                                                    <span t-if="taken_subject"
+                                                                          t-esc="taken_subject.split(&quot;|&quot;)[1]"/>
+                                                                    <span t-if="len(all_subject_taken[2]) > itr">|
+                                                                    </span>
+                                                                </t>
+                                                                <!--                                                                <span t-if="subject_taken and subject_taken.subject_grade.name"-->
+                                                                <!--                                                                      t-esc="subject_taken.subject_grade.name.split(&quot;|&quot;)[1]"/>-->
+                                                            </td>
+                                                            <td>
+                                                                <select class="form-control">
+                                                                    <!--  <option class="ex_grade"/>-->
+                                                                    <t t-foreach="grades" t-as="grade">
+                                                                        <t t-if="all_subject_taken[1] == 1 or all_subject_taken[1] > 1">
+                                                                            <t t-if="all_subject_taken[1] == 1"
+                                                                               t-set="fail_grade"
+                                                                               t-value="deduction_grade_first"/>
+                                                                            <t t-if="all_subject_taken[1] > 1"
+                                                                               t-set="fail_grade"
+                                                                               t-value="deduction_grade_second"/>
+                                                                            <t t-if="subject.id not in suggested_plan.mapped('subject_id').ids and fail_grade >= grade.points_from">
+                                                                            <t t-if="not subject.subject_addtogpa">
+                                                                            <t t-if="not grade.grade_id.add_to_gpa and subject.subject_passorfail"> 
+                                                                                <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True   else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == subject_taken.final_grade.id and subject.id not in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False  else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                                </option>
+                                                                                </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True   else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == subject_taken.final_grade.id and subject.id not in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False  else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                            </option>
+                                                                            </t>
+                                                                            </t>
+                                                                            <t t-elif="fail_grade >= grade.points_from">
+                                                                            <t t-if="not subject.subject_addtogpa">
+                                                                            <t t-if="not grade.grade_id.add_to_gpa and subject.subject_passorfail">
+                                                                                <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True  else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == suggested_plan.sudo().search([('gpa_calculator_id','=',advising.id),('subject_id','=',subject.id)]).ex_grades.grade_id.id and subject.id  in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--                                                                                        t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                                </option>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                             <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True  else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == suggested_plan.sudo().search([('gpa_calculator_id','=',advising.id),('subject_id','=',subject.id)]).ex_grades.grade_id.id and subject.id  in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--                                                                                        t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                                </option>
+                                                                        </t>
+                                                                        
+                                                                            </t>
+                                                                        </t>
+
+                                                                        <t t-else="">
+                                                                             <t t-if="not subject.subject_addtogpa">
+                                                                            <t t-if="not grade.grade_id.add_to_gpa and subject.subject_passorfail">
+                                                                            <t>
+                                                                                <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True   else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == subject_taken.final_grade.id and subject.id not in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--                                                                                        t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False    else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                                </option>
+                                                                            </t>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                             <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+
+                                                                                        t-attf-value="{{grade.points_from if  grade.grade_id.add_to_gpa and subject.subject_addtogpa == True   else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == subject_taken.final_grade.id and subject.id not in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <!--                                                                                        t-att-disabled="'disabled' if subject.subject_addtogpa == False or grade.grade_id.add_to_gpa == False    else None"-->
+
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                        </option>
+                                                                        </t>
+                                                                        </t>
+
+
+                                                                    </t>
+                                                                </select>
+                                                                <input class="reg_subject_class" type="hidden"
+                                                                       t-attf-name="reg_subject[{{subject.id}}]"
+                                                                       t-att-value="0"/>
+                                                            </td>
+                                                        </tr>
+                                                        <t t-set="row_num" t-value="row_num+1"/>
+                                                    </t>
+                                                </t>
+                                                <t t-if="not all_subject_taken[0]">
+                                                    <tr t-att-class="'gpa_class' if subject.id not in suggested_plan.mapped('subject_id').ids  else 'suggested_plan gpa_class'">
+                                                        <th scope="row">
+                                                            <span t-esc="row_num"/>
+                                                        </th>
+                                                        <td>
+                                                            <span t-esc="subject.name.split(&quot;|&quot;)[0]"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="subject.code.split(&quot;|&quot;)[0]"/>
+                                                        </td>
+                                                        <td class="subject_ch">
+                                                            <t t-esc="subject.subject_credithours"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-if="subject_taken"
+                                                                  t-esc="subject_taken.student_semester_id.academicyear_id.name"/>
+                                                        </td>
+                                                        <td>
+                                                            <span t-esc="subject.subject_type"/>
+                                                        </td>
+                                                        <td class="subject_grade"
+                                                            t-attf-id="{{subject_taken.final_grade.id  if subject_taken and subject_taken.final_grade.name  else None}}"
+                                                            t-attf-pass="{{subject_taken.final_grade.id  if subject_taken and subject_taken.final_grade.pass_grade == True and subject_taken.final_grade.name  else None}}"
+
+                                                        >
+                                                            <span t-if="subject_taken and subject_taken.final_grade.name"
+                                                                  t-esc="subject_taken.final_grade.name.split(&quot;|&quot;)[1]"/>
+                                                        </td>
+                                                        <td>
+                                                            <select class="form-control">
+                                                                <option class="ex_grade"/>
+                                                                <t t-foreach="grades" t-as="grade">
+                                                                    <t t-if="subject.id not in suggested_plan.mapped('subject_id').ids">
+                                                                        <t t-if="not subject.subject_addtogpa">
+                                                                            <t t-if="not grade.grade_id.add_to_gpa and subject.subject_passorfail">
+                                                                            <option class="ex_grade"
+                                                                                    t-att-id="grade.grade_id.id"
+                                                                                    t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+                                                                                    t-att-grade="grade.id"
+                                                                                    t-att-disabled="'disabled' if  grade.grade_id.pass_grade == False    else None"
+                                                                                    t-attf-value="{{grade.points_from if grade.grade_id.add_to_gpa    else None}}">
+                                                                                <t t-if="grade.grade_id.name"
+                                                                                   t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                            </option>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <option class="ex_grade"
+                                                                                    t-att-id="grade.grade_id.id"
+                                                                                    t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+                                                                                    t-att-grade="grade.id"
+                                                                                    t-att-disabled="'disabled' if  grade.grade_id.pass_grade == False    else None"
+                                                                                    t-attf-value="{{grade.points_from if grade.grade_id.add_to_gpa    else None}}">
+                                                                                <t t-if="grade.grade_id.name"
+                                                                                   t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                            </option>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <!-- t-att-disabled="'disabled' if subject.subject_addtogpa == False  else None"  -->
+                                                                         <t t-if="not subject.subject_addtogpa">
+                                                                            <t t-if="not grade.grade_id.add_to_gpa and subject.subject_passorfail">
+                                                                                <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+                                                                                        t-att-disabled="'disabled' if   grade.grade_id.pass_grade == False    else None"
+                                                                                        t-attf-value="{{grade.points_from if grade.grade_id.add_to_gpa  else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == suggested_plan.sudo().search([('gpa_calculator_id','=',advising.id),('subject_id','=',subject.id)]).ex_grades.grade_id.id and subject.id  in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                                </option>
+                                                                                </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <option class="ex_grade"
+                                                                                        t-att-id="grade.grade_id.id"
+                                                                                        t-att-grade="grade.id"
+                                                                                        t-att-pass="'1' if   grade.grade_id.add_to_gpa == False and grade.grade_id.pass_grade == True    else None"
+                                                                                        t-att-disabled="'disabled' if   grade.grade_id.pass_grade == False    else None"
+                                                                                        t-attf-value="{{grade.points_from if grade.grade_id.add_to_gpa  else None}}"
+                                                                                        t-att-selected="'selected' if grade.grade_id.id == suggested_plan.sudo().search([('gpa_calculator_id','=',advising.id),('subject_id','=',subject.id)]).ex_grades.grade_id.id and subject.id  in suggested_plan.mapped('subject_id').ids  else None">
+                                                                                    <t t-if="grade.grade_id.name"
+                                                                                       t-esc="grade.grade_id.name.split(&quot;|&quot;)[1]"/>
+                                                                            </option>
+                                                                            </t>
+                                                                    </t>
+
+                                                                </t>
+                                                            </select>
+                                                            <input class="reg_subject_class" type="hidden"
+                                                                   t-attf-name="reg_subject[{{subject.id}}]"
+                                                                   t-att-value="0"/>
+                                                        </td>
+                                                    </tr>
+                                                    <t t-set="row_num" t-value="row_num+1"/>
+                                                </t>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </t>
+                        </div>
+                    <!-- </div> -->
+                    </div>
+                </div>
+                <div class="text-center mt16 mb16">
+                    <a t-attf-href="/web#view_type=form&amp;model=op.student&amp;id=#{advising.student_id.id}&amp;action=openeducat_core.act_open_op_student_view"
+                       class="btn btn-primary" name="button_submit" value="finish">Back
+                    </a>
+                    <button type="submit" class="btn btn-primary" name="button_submit" value="finish">Save</button>
+                </div>
+            </form>
+            <!--             //if ((ex_grade  || (subject_grade  &amp;&amp;  !subject_grade_pass ) || parseFloat(new_ex_grade_pass) == 1) ) {-->
+            <!--                                //ex_crh = ex_crh + parseFloat(subject_ch)-->
+            <!--                           // }-->
+            <!-- Include jQuery from CDN -->
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script><![CDATA[
+            $(document).ready(function () {
+                $('select').on('change', function () {
+                    calc_gpa()
+                });
+
+                function calc_gpa() {
+                    var gpa = 0
+                    var all_top = 0
+                    var all_bottom = 0
+                    var curr_crh = 0
+                    var ex_crh = 0
+                    var edited_subject = 0
+                    var modified_crh = 0
+                    $('tr.gpa_class').each(function () {
+                        var subject_ch = $(this).find('td.subject_ch').text()
+                        var subject_grade = $(this).find('td.subject_grade').attr('id')
+                        var subject_grade_pass = $(this).find('td.subject_grade').attr('pass')
+                        var ex_grade = $(this).find("td select option:selected").val()
+                        var ex_grade_txt = $(this).find("td select option:selected").attr('id')
+                        var new_ex_grade_txt = $(this).find("td select option:selected").attr('grade')
+                        var new_ex_grade_pass = $(this).find("td select option:selected").attr('pass')
+                        console.log($(this).find('td.subject_namee').text())
+                        if (subject_grade && subject_grade_pass) {
+                            curr_crh = curr_crh + parseFloat(subject_ch)
+                            ex_crh = ex_crh + parseFloat(subject_ch)
+                        }
+                        console.log((new_ex_grade_pass))
+
+
+                        if (!ex_grade && !subject_grade || !new_ex_grade_pass) {
+
+                            $(this).removeClass('suggested_plan')
+                            $(this).removeClass('success')
+                            $(this).find("td input.reg_subject_class").removeAttr("value")
+                        }
+                        if (!subject_grade && parseFloat(new_ex_grade_pass) == 1 || !subject_grade_pass && parseFloat(new_ex_grade_pass) == 1) {
+
+                            $(this).removeClass('success')
+                            $(this).addClass('suggested_plan')
+                            $(this).find("td input.reg_subject_class").val(new_ex_grade_txt)
+                            edited_subject = edited_subject + 1
+                            modified_crh = modified_crh + parseFloat(subject_ch)
+                            ex_crh = ex_crh + parseFloat(subject_ch)
+                        }
+                        if (ex_grade) {
+                            console.log("dddddddddddddddddd")
+                            console.log(ex_grade)
+                            console.log(parseFloat(subject_grade))
+                            console.log(parseFloat(new_ex_grade_pass))
+                            console.log("dddddddddddddddddd")
+                            if (parseFloat(subject_grade) !== parseFloat(ex_grade_txt) && !new_ex_grade_pass) {
+
+                                console.log("subject_grade")
+                                console.log(subject_grade)
+                                console.log(ex_grade_txt)
+                                $(this).removeClass('success')
+                                $(this).addClass('suggested_plan')
+                                $(this).find("td input.reg_subject_class").val(new_ex_grade_txt)
+                                edited_subject = edited_subject + 1
+                                modified_crh = modified_crh + parseFloat(subject_ch)
+                                ex_crh = ex_crh + parseFloat(subject_ch)
+                            } else {
+                                $(this).removeClass('suggested_plan')
+                                $(this).addClass('success')
+                                $(this).find("td input.reg_subject_class").removeAttr("value")
+
+                            }
+                            all_top = all_top + (parseFloat(ex_grade) * parseFloat(subject_ch))
+                            all_bottom = all_bottom + parseFloat(subject_ch)
+                        }
+                    })
+                    gpa = (all_top / all_bottom).toFixed(2)
+                    $('#ex_gpa').html(gpa)
+                    $('#bst').html(all_top)
+                    $('#mqam').html(all_bottom)
+                    $("input[name='ex_gpa']").val(gpa);
+                    $('#curr_crh').html(curr_crh)
+                    $("input[name='curr_crh']").val(curr_crh);
+                    $('#ex_crh').html(ex_crh)
+                    $("input[name='ex_crh']").val(ex_crh);
+                    $('#modified_crh').html(modified_crh)
+                    $('#edited_subject').html(edited_subject + ' Subject')
+                    $("input[name='edited_subject']").val(edited_subject);
+                    $("input[name='modified_crh']").val(modified_crh);
+                }
+
+                calc_gpa()
+
+            });
+            ]]></script>
+        </template>
+    </data>
+</odoo>

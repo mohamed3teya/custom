@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- root menu hue_student_Reports -->
+		<menuitem id="hue_student_grades" name="Student Grades"/>
+		<menuitem id="hue_student_grades_sub_menu" name="Student Grades" parent="hue_student_grades"/>
+		<!-- hue_student_accumlative_semesters_menu -->
+		<menuitem id="hue_student_accumlative_semesters_menu" name="Student Accumlative Semesters"
+				  parent="hue_student_grades_sub_menu"
+				  action="act_student_accumlative_semesters_report"/>
+		<!-- hue_student_semesters_subjects_menu -->
+		<menuitem id="hue_student_semesters_subjects_menu" name="Student Semesters Subjects"
+				  parent="hue_student_grades_sub_menu"
+				  action="act_student_semesters_subjects_report"/>
+		<!-- hue_student_accumulative_data_menu -->
+		<menuitem id="hue_student_accumulative_data_menu" name="Student Accumulative Data"
+				  parent="hue_student_grades_sub_menu"
+				  action="act_student_accumulative_data_report"/>
+		<!-- act_missed_migrayion_data -->
+		<record model="ir.actions.act_window" id="act_missed_migrayion_data">
+			<field name="name">HUE Missed Migrated Data</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">missed.migrated.data</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<menuitem id="hue_missed_migration_data_menu" name="Missed Migration Data"
+				  parent="hue_student_grades_sub_menu"
+				  action="act_missed_migrayion_data"/>
+        <!--Course assessments degrees-->
+		<menuitem id="hue_course_assessments_degrees_menu" name="Assessments Degrees"
+				  parent="openeducat_core.menu_op_school_config_subject"
+				  action="act_open_op_course_assessment_degrees"
+                  sequence="3"/>
+		<!--Course subject department-->
+		<menuitem id="hue_course_subject_dapartment_menu" name="Subject Department"
+				  parent="openeducat_core.menu_op_school_config_subject"
+				  action="op_subject_department_action"
+                  sequence="5"/>
+		<!-- get_hue_joining_years_action -->
+		<record id="get_hue_student_accumulative_action" model="ir.actions.server">
+			<field name="name">Get Hue student accumulative</field>
+			<field name="model_id" ref="model_op_student_accumulative"/>
+			<field name="state">code</field>
+			<field name="code">model.get_hue_student_accumulative_fun()</field>
+		</record>
+		<!--menu_get_hue_student_accumulative_grades-->
+		<menuitem id="menu_get_hue_student_accumulative_grades" name="Get Hue Student Accumulative Grades"
+        action="get_hue_student_accumulative_action" parent="HUE_openeducat_core.sub_menu_migration" sequence="8"/>
+	</data>
+</odoo>

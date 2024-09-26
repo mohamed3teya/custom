@@ -1,0 +1,77 @@
+<odoo>
+    <data>
+        <template id="military_education_student">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <div class="font">
+                        <div class="page">
+                            <style>
+                                thead{
+                                background-color:#eeeeee;
+                                }
+                            </style>
+                            <br/>
+                            <table class="table table-bordered"
+                               style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                <tr style="position:relative">
+                                    <td style="direction:rtl;">
+                                        <div class="text-center">
+                                            <h3 style="font-weight: bold; color:#00438b;">
+                                                تقرير طلاب التربية العسكرية
+                                            </h3>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        <table class="table table-bordered military" style="background: #f2ffff; border-collapse: collapse;" dir="rtl">
+                            <thead>
+                                <tr style="color:#fff;background-color:#00438b">
+                                    <th>م</th>
+                                    <th>كود الطالب</th>
+                                    <th>اسم الطالب</th>
+                                    <th>رقم البطاقه</th>
+                                    <th>العام الأكاديمي</th>
+                                    <th>التاريخ </th>
+                                </tr>                     
+                            </thead>
+                            <tbody>
+                                <t t-set="count" t-value="1"/>
+                                <t t-foreach="students" t-as="std">
+                                    <tr>
+                                        <td>    
+                                            <span t-esc="count"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="std.student_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="std.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="std.national_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="std.done_military_id.academic_year_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="std.done_military_id.semester_id.name"/>
+                                        </td>
+                                        <t t-set="count" t-value="count+1"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+         <record id="action_report_military_education" model="ir.actions.report">
+            <field name="name">military education</field>
+            <field name="model">op.student</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_student_reports_yasmin.military_education_student</field>
+            <field name="report_file">hue_student_reports_yasmin.military_education_student</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_transcript_wizard_view" model="ir.ui.view">
+        <field name="name">Student 12D Report</field>
+        <field name="model">student.transcript.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group col="4">
+                    <field name="student_status" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                    <field name="suitable_student_ids" invisible="1"/>
+                    <field name="student_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+                    <field name="report_type"/>
+                </group>
+                        		<group>
+					<group>
+						<field name="student_code_show"/>
+						<field name="language"/>
+						<field name="title"/>
+        				<field name="student_pic"/>
+						<field name="course"/>
+						<field name="level"/>
+						<field name="national_id"/>
+						<field name="nationality"/>
+                        <field name="no_subjects"/>
+					</group>
+					<group>	
+						<field name="birthday"/>
+						<field name="birth_place"/>
+						<field name="address"/>
+						<field name="prev_cert"/>
+						<field name="military"/>
+						<field name="results"/>
+						<field name="transferred"/>
+						<field name="to"/>
+						<field name="notes"/>
+					</group>
+				</group>
+                <footer>
+                    <button name="generate_report" string="Search" type="object" class="btn-primary" default_focus="1"/>
+                    <button name="check_progress" string="Progress" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_student_transcript_wizard" model="ir.actions.act_window">
+        <field name="name">Student Transcript Report</field>
+        <field name="res_model">student.transcript.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="student_transcript_wizard_view"/>
+        <field name="target">new</field>
+    </record>
+</odoo>

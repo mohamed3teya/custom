@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_hue_op_batch_form" model="ir.ui.view">
+			<field name="name">Batches</field>
+			<field name="model">op.batch</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_batch_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//group/group[1]/*" position="after">
+					<field name="default_week_end"/>
+					<field name="semester"/>
+				</xpath>
+				<xpath expr="//group/group[2]/*" position="after">
+					<field name="default_week_start"/>
+					<field name="academic_year"/>
+					<field name="product_id"/>
+					<field name="control_allowed"/>
+					<field name="allow_registration_invoicing"/>
+					<field name="intern_batch"/>
+				</xpath>
+				<xpath expr="//field[@name='default_week_end']" position="before">
+                    <field name="course_id" position='move'/>
+					<field name="default_week_start" position='move'/>
+                </xpath>
+				<xpath expr="//field[@name='semester']" position="after">
+                    <field name="start_date" position='move'/>
+					<field name="end_date" position='move'/>
+                </xpath>
+				<xpath expr="//sheet[1]" position="inside">
+                    <notebook>
+                        <page string="Subject Registration">
+                            <field name="subject_registration_ids">
+                                <tree string="Subject Registration" editable="bottom">
+                                    <field name="subject_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+									<field name="suitable_subject_ids" column_invisible="1"/>
+                                    <field name="subject_level" readonly="1"/>
+                                    <field name="lecture_hours" widget="float_time"/>
+                                    <field name="section_hours" widget="float_time"/>
+                                    <field name="practical_hours" widget="float_time"/>
+                                    <field name="groups_count"/>
+                                    <field name="sections_count"/>
+                                    <field name="practical_count"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

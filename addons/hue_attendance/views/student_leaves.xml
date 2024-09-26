@@ -1,0 +1,54 @@
+<odoo>
+	<data>
+		<!--student_leaves_form_view-->
+		<record id="student_leaves_form_view" model="ir.ui.view">
+			<field name="name">Student Leaves</field>
+			<field name="model">op.student.leaves</field>
+			<field name="arch" type="xml">
+				<form string="Student Leaves">
+					<group>
+						<group col="4">
+							<field name="student_id" />
+							<field name="leave_type" />
+							<field name="student_code" />
+							<field name="course_id" />
+						</group>
+						<group col="4">
+							<field name="date_from" autocomplete="off" />
+							<field name="days" />
+							<field name="date_to" autocomplete="off" />
+							<field name="name" />
+						</group>
+					</group>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--student_leaves_tree_view-->
+		<record id="student_leaves_tree_view" model="ir.ui.view">
+			<field name="name">Student Leaves</field>
+			<field name="model">op.student.leaves</field>
+			<field name="arch" type="xml">
+				<tree string="Student Leaves">
+					<field name="student_id"/>
+					<field name="student_code"/>
+					<field name="course_id"/>
+					<field name="leave_type"/>
+					<field name="date_from"/>
+					<field name="date_to"/>
+				</tree>
+			</field>
+		</record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="student_leaves_action">
+			<field name="name">Student Leaves</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.student.leaves</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!--<field name="view_id" ref="student_leaves_tree" />-->
+	</data>
+</odoo>

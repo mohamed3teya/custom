@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--stu_online_exam_form_view-->
+		<record id="stu_online_exam_form_view" model="ir.ui.view">
+			<field name="name">Online exam results</field>
+			<field name="model">stu.online.exam</field>
+			<field name="arch" type="xml">
+				<form string="exam results">
+					<header>
+						<button type="object" name="importXls"
+                            string="import Xls"
+                            class="oe_highlight"/>
+						<button type="object" name="print_report"
+							string="Print Report"
+							class="oe_highlight"/>
+						<button type="object" name="print_students_report"
+							string="Print Students Report"
+							class="oe_highlight"/>
+					</header>
+					<sheet>
+						<group col="4" name="main">
+							<field name="course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+							<field name="subject_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"  />
+							<field name="acadyear"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+							<field name="semester" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+							<field name="exam_type"  />
+							<field name="exam_date"  />
+							<field name="exam_sheet" />
+						</group>
+						<field name="student_ids" >
+							<tree string="Students" editable="top">
+								<field name="student_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"  />
+								<field name="exam_type"  />
+								<field name="exam_date"  />
+								<field name="mark"  />
+								<field name="final"  />
+								<field name="absent"  />
+							</tree>
+						</field>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--stu_online_exam_tree_view-->
+		<record id="stu_online_exam_tree_view" model="ir.ui.view">
+			<field name="name">Online exam results</field>
+			<field name="model">stu.online.exam</field>
+			<field name="arch" type="xml">
+				<tree string="exam results">
+					<field name="course_id"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+					<field name="subject_id"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+					<field name="acadyear"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+					<field name="semester" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+					<field name="exam_type"  />
+					<field name="exam_date"  />
+					<field name="fails" />
+					<field name="absence" string="Absents"/>
+					<field name="exam_sheet" />
+				</tree>
+			</field>
+		</record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="student_online_exam_result">
+			<field name="name">Online Exam Result</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">stu.online.exam</field>
+			<field name="view_mode">tree,form</field>
+			<!--<field name="domain">[('tree_clo_acl_ids','=',1)]</field>-->
+		</record>
+	</data>
+</odoo>

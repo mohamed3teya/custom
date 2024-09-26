@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- menu_military_education_recruitment_report -->
+		<menuitem id="menu_military_education_recruitment_report"  name="military recruitment Report"
+			sequence="4"
+			parent="hue_student_reports.menu_hue_student_report"
+			action="action_military_recruitment_wizard"/>
+		<!-- menu_military_education_wizard -->
+		<menuitem id="menu_military_education_wizard"  name="military education Report"
+			sequence="5"
+			parent="hue_student_reports.menu_hue_student_report"
+			action="action_military_education_wizard"/>
+		<!-- menu_student_password_wizard -->
+		<menuitem id="menu_student_password_wizard"
+                  name="student password Report"
+                  sequence="6"
+                  parent="hue_student_reports.menu_hue_student_report"
+                  action="action_student_password_wizard"/>
+	</data>
+</odoo>

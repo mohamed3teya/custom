@@ -1,0 +1,15 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_elective_groups,access.op.elective.groups,model_op_elective_groups,base.group_erp_manager,1,1,1,1
+access_op_committees,access.op.committees,model_op_committees,base.group_erp_manager,1,1,1,1
+access_op_exam_committees,access.op.exam.committees,model_op_exam_committees,base.group_erp_manager,1,1,1,1
+access_op_resultspublishtypes,access.op.resultspublishtypes,model_op_resultspublishtypes,base.group_erp_manager,1,1,1,1
+access_op_blockresult,access.op.blockresult,model_op_blockresult,base.group_erp_manager,1,1,1,1
+access_op_student_accumlative_semesters,access.op.student.accumlative.semesters,model_op_student_accumlative_semesters,base.group_erp_manager,1,1,1,1
+access_op_student_semesters_subjects_1,access.op.student.semesters.subjects.1,model_op_student_semesters_subjects,base.group_erp_manager,1,1,1,1
+access_op_student_semesters_subjects_2,access.op.student.semesters.subjects.2,model_op_student_semesters_subjects,base.group_erp_manager,1,1,1,1
+access_op_studytypes,access.op.studytypes,model_op_studytypes,base.group_erp_manager,1,1,1,1
+access_op_studytimetable,access.op.studytimetable,model_op_studytimetable,base.group_erp_manager,1,1,1,1
+access_op_attendance,access.op.attendance,model_op_attendance,base.group_erp_manager,1,1,1,1
+access_op_subject_department,access.op.subject.department,model_op_subject_department,base.group_erp_manager,1,1,1,1
+access_op_subjectrequiredfrom,access.op.subjectrequiredfrom,model_op_subjectrequiredfrom,base.group_erp_manager,1,1,1,1
+access_op_subjecttypes,access.op.subjecttypes,model_op_subjecttypes,base.group_erp_manager,1,1,1,1

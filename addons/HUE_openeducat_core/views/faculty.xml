@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_op_faculty_form" model="ir.ui.view">
+			<field name="name">Faculties</field>
+			<field name="model">hue.faculties</field>
+			<field name="arch" type="xml">
+				<form string="Faculty">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="name_ar"/>
+							<field name="identifier"/>
+							<field name="farouk_id"/>
+						</group>
+						<group>
+							<field name="faculty_create_ou"/>
+							<field name="ldap_dn"/>
+							<field name="check_questionnaire"/>
+							<field name="intern_year"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record id="view_op_Faculty_tree" model="ir.ui.view">
+			<field name="name">Faculties</field>
+			<field name="model">hue.faculties</field>
+			<field name="arch" type="xml">
+				<tree string="Faculties">
+					<field name="name"/>
+					<field name="faculty_create_ou"/>
+					<field name="farouk_id"/>
+					<field name="check_questionnaire"/>
+					<field name="name_ar"/>
+					<field name="identifier"/>
+					<field name="ldap_dn"/>
+					<field name="intern_year"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_faculy">
+			<field name="name">HUE Faculities</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.faculties</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

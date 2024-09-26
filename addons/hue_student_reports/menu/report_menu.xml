@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- hue student report root -->
+		<menuitem id="menu_hue_student_report_root" name="Student reports" sequence="60"
+			      action="act_advisor_students_domain"/>
+		
+		<!-- hue student report sub menu - Advisor Students-->
+		<menuitem id="menu_hue_advisor_students" name="Advisor Students" sequence="1"
+		          parent="menu_hue_student_report_root"/>
+		<menuitem id="menu_student_reports" name="Advisor Students"
+		          sequence="1"
+		          parent="menu_hue_advisor_students"
+		          action="act_advisor_students_domain"/>
+		
+		<!-- hue student report sub menu - Student Reports -->
+		<menuitem id="menu_hue_student_report" name="Student Reports" sequence="2"
+		          parent="menu_hue_student_report_root"/>  
+		<menuitem id="menu_student_level_statistics" name="Student Level Statistics"
+		          sequence="2"
+		          parent="menu_hue_student_report"
+		          action="action_report_student_level_statistics"/>
+		<menuitem id="menu_regular_students_report" name="Regular Students"
+		          sequence="3"
+		          parent="menu_hue_student_report"
+		          action="action_report_regular_students"/>  
+		<menuitem id="menu_transcript_wizard" name="Student Transcript"
+		          sequence="4"
+		          parent="menu_hue_student_report"
+		          action="action_student_transcript_wizard"/>
+	</data>
+</odoo>

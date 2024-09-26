@@ -1,0 +1,70 @@
+<odoo>
+	<data>
+		<record id="view_hue_op_subject_custom" model="ir.ui.view">
+			<field name="name">Subjects</field>
+			<field name="model">op.subject</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_subject_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='grade_weightage']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<!--<xpath expr="//field[@name='subject_type']" position="after">-->
+				<xpath expr="//group[1]/group[1]/*" position="after">
+						<field name="course_id"/>
+						<field name="parent_course_id"/>
+						<field name="subject_level"/>
+						<field name="subject_core_type"/>
+						<field name="subject_semester"/>
+						<field name="required_hours"/>
+						<field name="subject_credithours"/>
+						<field name="subject_lecturehours"/>
+				</xpath>
+				<xpath expr="//group[1]/group[2]/*" position="after">
+						<field name="subject_total"/>
+						<field name="subject_oralhours"/>
+						<field name="subject_passpercentage"/>
+						<field name="subject_practhours"/>
+						<field name="subject_sectionhours"/>
+						<field name="prerequisites_count"/>
+						<field name="subject_satisfied"/>
+						<field name="summer_training"/>
+						<field name="ethics"/>
+						<field name="intern_subject"/>
+						<field name="subject_passorfail"/>
+						<field name="subject_addtogpa"/>
+						<field name="subject_addtohours"/>
+						<field name="subject_credithours_invoice"/>
+				</xpath>
+				<xpath expr="//group[1]" position="after">
+					<br/>
+					<br/>
+					<group>
+						<field name="subject_assessmentsdegree" String="Assessments">
+							<tree>
+								<field name="assessment_id"/>
+								<field name="degree"/>
+							</tree>
+						</field>
+						<field name="subject_prerequisites"  String="Prerequisites">
+							<tree>
+								<field name="code"/>
+								<field name="name"/>
+								<field name="subject_prerequisites"/>
+							</tree>
+						</field>
+					</group>	
+				</xpath>
+				<xpath expr="//form//div[@class='oe_chatter']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+			</field>
+		</record>
+		<!-- get_hue_subject_data_action -->
+		<record id="get_hue_subject_data_action" model="ir.actions.server">
+			<field name="name">Get Hue Subject Data menu</field>
+			<field name="model_id" ref="model_op_subject"/>
+			<field name="state">code</field>
+			<field name="code">model.get_hue_subject_fun()</field>
+		</record>
+	</data>
+</odoo>

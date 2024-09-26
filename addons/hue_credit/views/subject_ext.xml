@@ -1,0 +1,16 @@
+<odoo>
+	<data>
+		<record id="view_hue_subject_required_inherit" model="ir.ui.view">
+			<field name="name">Subjects</field>
+			<field name="model">op.subject</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_subject_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='course_id']" position="before">
+						<field name="subject_types"/>
+						<field name="subject_requiredfrom"/>
+                        <field name="subject_elective"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

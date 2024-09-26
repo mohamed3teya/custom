@@ -1,0 +1,153 @@
+.border-radius-100 {
+  -webkit-border-radius: 100%;
+     -moz-border-radius: 100%;
+          border-radius: 100%;
+}
+/* buttons */
+.solid-form .social-button {
+  position: relative;
+  margin-bottom: 5px;
+}
+.solid-form .btn {
+  position: relative;
+  padding: 12px;
+  font-size: 0.8em;
+  margin: 0 6px 10px 0;
+  color: rgba(255, 255, 255, 0.86);
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  display: inline-block;
+  text-align: center;
+  letter-spacing: 1px;
+  font-family: "Arial";
+  -webkit-border-radius: 18px;
+     -moz-border-radius: 18px;
+          border-radius: 18px;
+  min-width: 130px;
+}
+.solid-form .btn:focus {
+  outline: none;
+}
+.solid-form .btn.label-btn {
+  padding: 10px 15px 10px 15px !important;
+  min-width: 90px;
+  color: white;
+  margin-right: 0;
+}
+.solid-form .btn.label-btn:hover {
+  cursor: pointer;
+}
+.solid-form .btn-flat {
+  -webkit-box-shadow: none !important;
+     -moz-box-shadow: none !important;
+          box-shadow: none !important;
+}
+.solid-form .btn-circular {
+  width: 40px;
+  height: 40px;
+  -webkit-border-radius: 100%;
+     -moz-border-radius: 100%;
+          border-radius: 100%;
+  min-width: 0;
+}
+.solid-form .btn-circular .fa {
+  margin: 0 !important;
+  text-align: center;
+  font-size: 1em;
+  font-size: 18px;
+  line-height: 18px;
+}
+.solid-form .btn .fa {
+  margin-right: 0.5em;
+}
+.solid-form .btn-big {
+  font-size: 1em;
+}
+.solid-form .btn-small {
+  font-size: 0.6em;
+}
+.solid-form .btn-x-small {
+  font-size: 0.5em;
+}
+.solid-form .btn-default {
+  background: #03a9f4;
+  -webkit-box-shadow: 0 3px 0 #028ac7;
+     -moz-box-shadow: 0 3px 0 #028ac7;
+          box-shadow: 0 3px 0 #028ac7;
+}
+.solid-form .btn-default:hover {
+  background: #0398db;
+}
+.solid-form .btn-success {
+  background: #14bb46;
+  -webkit-box-shadow: 0 3px 0 #109236;
+     -moz-box-shadow: 0 3px 0 #109236;
+          box-shadow: 0 3px 0 #109236;
+}
+.solid-form .btn-success:hover {
+  background: #12a43d;
+}
+.solid-form .btn-caution {
+  background: #e48609;
+  -webkit-box-shadow: 0 3px 0 #b86c07;
+     -moz-box-shadow: 0 3px 0 #b86c07;
+          box-shadow: 0 3px 0 #b86c07;
+}
+.solid-form .btn-caution:hover {
+  background: #cb7808;
+}
+.solid-form .btn-muted {
+  background: #868686;
+  -webkit-box-shadow: 0 3px 0 #6f6f6f;
+     -moz-box-shadow: 0 3px 0 #6f6f6f;
+          box-shadow: 0 3px 0 #6f6f6f;
+}
+.solid-form .btn-muted:hover {
+  background: #797979;
+}
+.solid-form .btn-facebook {
+  background: #4266b4;
+  color: white !important;
+}
+.solid-form .btn-facebook:hover {
+  background: #3b5ba1;
+}
+.solid-form .btn-facebook .icon-box {
+  background: #34518f;
+}
+.solid-form .btn-twitter {
+  background: #00BDFF;
+  color: white !important;
+}
+.solid-form .btn-twitter:hover {
+  background: #00aae6;
+}
+.solid-form .btn-twitter .icon-box {
+  background: #0097cc;
+}
+.solid-form .btn-google-plus {
+  background: #DF4B32;
+  color: white !important;
+}
+.solid-form .btn-google-plus:hover {
+  background: #d63c21;
+}
+.solid-form .btn-google-plus .icon-box {
+  background: #c0351e;
+}
+.solid-form .icon-box {
+  width: 40px;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  line-height: 39px;
+  text-align: center;
+  -webkit-border-top-left-radius: 18px;
+     -moz-border-radius-topleft: 18px;
+          border-top-left-radius: 18px;
+  -webkit-border-bottom-left-radius: 18px;
+     -moz-border-radius-bottomleft: 18px;
+          border-bottom-left-radius: 18px;
+}

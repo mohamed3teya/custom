@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--admission invoice menu-->
+		<menuitem id="menu_admission_invoice" name="Admission Invoices"
+                  sequence="1"
+                  parent="openeducat_admission.menu_op_admission_submenu"
+                  action="act_open_op_admission_invoice"/>
+		<!--admission credit note menu-->
+        <menuitem id="menu_admission_credit_note" name="Admission Credit Notes"
+                  sequence="2"
+                  parent="openeducat_admission.menu_op_admission_submenu"
+                  action="act_hue_open_op_admission_credit_notes"/>
+		<!--horus admission menu-->
+		<menuitem id="menu_horus_admission" name="Horus Admissions"
+                  sequence="3"
+                  parent="openeducat_admission.menu_op_admission_submenu"
+                  action="act_hue_open_op_horus_admission"/>
+		<!--admission application menu-->
+		<menuitem id="menu_admission_application" name="Admissions applications"
+                  sequence="20"
+                  parent="openeducat_admission.menu_op_admission_submenu"
+                  action="act_hue_open_op_admission_applications"/>
+		<!--Admission Analysis report-->
+		<menuitem id="menu_admission_analysis_report" name="Admission Analysis Report"
+            sequence="40"
+            parent="openeducat_admission.menu_admission_report_root" action="act_open_op_admission_view_pivot" /><!--groups="openeducat_core.group_op_back_office_admin"-->
+	</data>
+</odoo>

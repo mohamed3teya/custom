@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--hue_control_root-->
+		<menuitem id="hue_alumni_root" name="Alumni" sequence="40"/>
+		<menuitem id="hue_alumni_sub_menu" name="Alumni" parent="hue_alumni_root"/>
+		<!--Sub Menus-->
+		<menuitem id="hue_alumni_menu" name="Alumni Students" sequence="1"
+		          parent="hue_alumni_sub_menu" action="alumni_students_action"/>
+		<menuitem id="intern_menu" name="Intern Student" sequence="2"
+		          parent="hue_alumni_sub_menu" action="intern_action"/>
+		<menuitem id="training_places_menu" name="Intern Places" sequence="3"
+		          parent="hue_alumni_sub_menu" action="training_places_action"/>
+		<menuitem id="graduation_project_menu" name="Graduation Project" sequence="4"
+		          parent="hue_alumni_sub_menu" action="graduation_project_action"/>
+		<menuitem id="intern_department_menu" name="Intern Department" sequence="5"
+		          parent="hue_alumni_sub_menu" action="intern_department_action"/>
+	</data>
+</odoo>

@@ -1,0 +1,67 @@
+<odoo>
+	<data>
+        <!--summer subject registration tree-->
+        <record id="summer_subject_reg_tree" model="ir.ui.view">
+            <field name="name">Summrer Subject Registration</field>
+            <field name="model">training.field.registration</field>
+            <field name="arch" type="xml" >
+                <tree string="Summrer Subject Registration">
+                    <field name="course_id" />
+                    <field name="academic_year_id" />
+                    <field name="semester_id" />
+                    <field name="subject_id"/>
+                </tree>
+            </field>
+        </record>
+        <!--summer subject registration form-->
+        <record id="summer_subject_reg_form" model="ir.ui.view">
+            <field name="name">Summrer Subject Registration</field>
+            <field name="model">training.field.registration</field>
+            <field name="arch" type="xml">
+                <form string="Summrer Subject Registration">
+                    <header>
+                        <button name="get_draft" string="set draft" class="oe_highlight" type="object"
+                                invisible="state=='draft'"/><!--groups="hr_extention.group_service_manager"-->
+                        <button name="button_done" string="Finish" class="oe_highlight" type="object"
+                                invisible="state=='done'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                             <field name="course_id"/>
+                            <field name="academic_year_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"  />
+                            <field name="semester_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+                          <field name="subject_id"/>
+                        </group>
+                        <notebook>
+                            <page string=" Student ">
+                                <field name="student_ids"
+                                       options="{'no_open': True}">
+                                    <tree limit="20" string=" Student " editable="bottom" 
+                                          options="{'no_open': True}" class="student_ids">
+                                          <field name="course_id" invisible="1"/>
+                                           <field name="sub_id" invisible="1"/>
+                                        <field name="student_id" string="Student" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"/>
+                                        <field name="student_code" string="Code" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"/>
+                                    </tree>
+                                </field>     
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+		<!--Actions-->
+		<record id="summer_subject_reg_action" model="ir.actions.act_window">
+			<field name="name">Summrer Subject Registration</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">training.field.registration</field>
+			<field name="view_mode">tree,form</field>
+            <!--<field name="domain">[('tree_clo_acl_ids','=',1)]</field>-->
+		</record>
+	</data>
+</odoo>

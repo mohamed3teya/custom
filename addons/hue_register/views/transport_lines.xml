@@ -1,0 +1,52 @@
+<odoo>
+	<data>
+		<!--transport_students_tree_view-->
+		<record id="transport_students_tree_view" model="ir.ui.view">
+            <field name="name">Transport Student</field>
+            <field name="model">hue.transport</field>
+            <field name="arch" type="xml">
+                <tree string="Transport Student">
+                    <field name="line_name"/>
+                    <field name="line_ar_name"/>
+                    <field name="line_code"/>
+                    <field name="product_id"/>
+                    <field name="academic_years"/>
+                    <field name="semester_id"/>
+                </tree>
+            </field>
+        </record>
+		<!--transport_students_form_view-->
+        <record id="transport_students_form_view" model="ir.ui.view">
+            <field name="name">Transport Student</field>
+            <field name="model">hue.transport</field>
+            <field name="arch" type="xml">
+                <form string="Transport Student">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="line_name"/>
+                            <field name="line_ar_name"/>
+                            <field name="line_code"/>
+                            <field name="product_id"/>
+                            <field name="academic_years"/>
+                            <field name="semester_id"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--Actions-->
+		<record id="transport_lines_action" model="ir.actions.act_window">
+			<field name="name">Transport Student</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.transport</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

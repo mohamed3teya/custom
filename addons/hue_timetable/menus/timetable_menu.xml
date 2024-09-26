@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--hue classroom root-->
+		<!-- <menuitem id="hue_tiemtable_classroom_root" name="Classroom" sequence="4" parent="openeducat_timetable.menu_op_timetable_root"/> -->
+		<!--class room submenus-->
+		<!-- <menuitem id="op_session_classroom_admin_menu" name="Classroom Admin" sequence="1"
+		          parent="hue_tiemtable_classroom_root" action="openeducat_classroom.act_open_op_classroom_view"/> -->
+		<!--hue_session_root-->
+		<!-- <menuitem id="hue_tiemtable_session_root" name="Session" sequence="3" parent="openeducat_timetable.menu_op_timetable_root"/> -->
+		<!--Session submenus-->
+		<!-- <menuitem id="op_session_registration_menu" name="Session Registration" sequence="1"
+		          parent="hue_tiemtable_session_root" action="op_session_registration_action"/>
+        <menuitem id="op_session_registration_enrollment_menu" name="Session Registration Enrollment" sequence="2"
+		          parent="hue_tiemtable_session_root" action="op_session_registration_enrollment_action"/> -->
+		<!-- timetable root action -->
+		<record model="ir.ui.menu" id="openeducat_timetable.menu_op_timetable_root">
+        	<field name="action" ref="act_open_op_session_view_inherit"/>
+    	</record>
+		<!-- timetable session -->
+		<record model="ir.ui.menu" id="openeducat_timetable.menu_op_timetable">
+        	<field name="name">Sessions</field>
+    	</record>
+		<!--HUE session batches-->
+		<menuitem id="menu_op_batch_sub_timetable" name="Batches" sequence="5"
+				  parent="openeducat_timetable.menu_op_timetable_root" action="openeducat_core.act_open_op_batch_view"/>
+	
+		<!--Timing --> 
+		<menuitem id="menu_op_period"  name="Timing"
+			sequence="10"
+			parent="openeducat_timetable.menu_op_timetable_config"
+			action="openeducat_timetable.act_open_op_timing_view"/>
+		<!-- Timetable reports -->
+		<menuitem id="menu_timetable_reports_root" name="Reports"
+                  sequence="50"
+                  parent="openeducat_timetable.menu_op_timetable_root"/>
+	</data>
+</odoo>

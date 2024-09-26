@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--inherit from student from-->
+		<record id="view_op_student_timetable_buttons_form_view" model="ir.ui.view">
+			<field name="name">op.student.gpa</field>
+			<field name="model">op.student</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button_box [@name='student_button_box']" position="inside">
+					<field name="id" invisible="1"/>
+					<button string="Transcript" type="object" class="oe_highlight stu_btn" icon="fa-archive"
+								 name="student_transcript"/>
+					<button string="Progress" type="object" class="oe_highlight stu_btn" icon="fa-tachometer"
+								 name="student_progress"/>
+					<button string="Attendance" type="object" class="oe_highlight stu_btn" icon="fa-users"
+                              name="student_attendance"/>
+					<button string="GPA Debug" type="object" class="oe_highlight stu_btn" icon="fa-bug"
+								 name="student_gpa_debug"/>
+					<button string="Reg Form" type="object" class="oe_highlight stu_btn" icon="fa-clipboard"
+								 name="student_registration_form"/>
+					<button string="Timetable" type="object" class="oe_highlight stu_btn" icon="fa-table"
+								 name="student_timetable"/>
+					<button string="Exam" type="object" class="oe_highlight stu_btn" icon="fa-edit"
+								 name="student_exam"/>
+					<button string="Subject result" type="object" class="oe_highlight stu_btn" icon="fa-bar-chart-o"
+                              name="student_subject_result"/>
+				</xpath>
+				<xpath expr="//page[4]" position="after">
+					<page name="registration" string="Registration">
+						<field name="session_ids">
+							<tree string="Registration" editable="bottom">
+								<field name="type"/>
+								<field name="timing_id"/>
+								<field name="to_timing_id"/>
+<!--								<field name="suitable_subject_ids" invisible='1'/>
+-->								<field name="subject_id"/>
+								<field name="session_type"/>
+								<field name="classroom_id"/>
+								<field name="sub_classroom"/>
+								<field name="suitable_faculty_ids" invisible="1"/>
+                    			<field name="suitable_facility_ids" invisible="1"/>
+								<field name="suitable_to_timing_ids" invisible="1"/>
+								<field name="facility_id"/>
+								<field name="faculty_ids" widget="many2many_tags"/>
+							</tree>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

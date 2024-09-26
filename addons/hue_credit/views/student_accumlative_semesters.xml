@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_op_student_accumlative_semesters_form" model="ir.ui.view">
+        <field name="name">op.student.accumlative.semesters.form</field>
+        <field name="model">op.student.accumlative.semesters</field>
+        <field name="arch" type="xml">
+            <form string="Student Semesters">
+                <sheet>
+                <group>
+                    <group>
+                        <field name="student_accum_id"/>
+                        <field name="student_id"/>
+                        <field name="course_id"/>
+                        <field name="academicyear_id"/>
+                        <field name="semester_id"/>
+                        <field name="semester_status"/>
+                        <field name="semester_gpa"/>
+                        <field name="semester_hr"/>
+                        <field name="current_gpa"/>
+                        <field name="transferred"/>
+                        <field name="block_result"/>
+                        <field name="earned_hours"/>
+                        <field name="registered_hours"/>
+                        <field name="actual_hours"/>
+                    </group>
+                    <group>
+                        <field name="accumulated_hours"/>
+                        <field name="accumulated_degree"/>
+                        <field name="semester_points"/>
+                        <field name="semester_current_gpa"/>
+                        <field name="total_degree"/>
+                        <field name="total_max"/>
+                        <field name="percentage"/>
+                        <field name="grade"/>
+                        <field name="control_grade"/>
+                        <field name="control_degree"/>
+                        <field name="final_degree"/>
+                        <field name="final_grade"/>
+                        <field name="timestamp"/>
+                    </group>
+                        <field name="accum_semesters_subjects_ids" widget="one2many_list"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- act_student_semesters_subjects_report action -->
+	<record model="ir.actions.act_window" id="act_student_semesters_subjects_report">
+		<field name="name">HUE Student Semesters Subjects</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">op.student.semesters.subjects</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+    <!-- act_student_accumlative_semesters_Reports action -->
+	<record model="ir.actions.act_window" id="act_student_accumlative_semesters_report">
+		<field name="name">HUE Student Accumlative Semesters</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">op.student.accumlative.semesters</field>
+		<field name="view_mode">tree,form</field>
+	</record>
+</odoo>

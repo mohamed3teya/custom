@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<data>
+		<record id="view_hue_op_classroom_form" model="ir.ui.view">
+			<field name="name">Classrooms</field>
+			<field name="model">op.classroom</field>
+			<field name="inherit_id" ref="openeducat_classroom.view_op_classroom_form"/>
+			<field name="arch" type="xml">
+				<!--<xpath expr="//form//sheet" position="before"><header><button name="get_student_list" type="object" string="Get Students" groups="base.group_user" help="Click to get student list"/><button name="get_retake_student_list" type="object" string="Get Retake Students" groups="base.group_user" help="Click to get retake student list"/><button name="save_student_subjects" type="object" string="Register Subjects" groups="base.group_user" help="Click to get register students"/><button name="sync_session" type="object" string="sync session" groups="base.group_user"/></header></xpath>-->
+				<xpath expr="//field[@name='course_id']" position="attributes">
+					<!--<attribute name="required" >1</attribute>-->
+				</xpath>
+				<xpath expr="//field[@name='batch_id']" position="attributes">
+					<attribute name="domain">[('course_id','=',course_id),('semester','=',semester_id),('academic_year','=',academic_year_id)]</attribute>
+					<!--<attribute name="required" >1</attribute>-->
+				</xpath>
+				<!--<xpath expr="//field[@name='course_id']" position="after">-->
+				<xpath expr="//group[1]/group[1]/*" position="after">
+					<field name="sequence"/>
+					<field name="academic_year_id" readonly="capacity > 0" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+					<field name="semester_id"  readonly="capacity > 0" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+					<field name="status_ids" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" required="0"/>
+					<field name="join_year" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+				</xpath>
+				<xpath expr="//group[1]/group[2]/*" position="after">
+					<field name="join_term" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+					<field name="subjects" widget="many2many_tags" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" required="0"/>
+					<field name="lecture"/>
+					<field name="no_capacity"/>
+					<field name="t_level"/>
+				</xpath>
+				<xpath expr="//page[@name='facilities']" position="before">
+					<page string="student Groups / Teams">
+						<field name="student_study_ids">
+							<tree string="student Groups / Teams" editable="bottom">
+								<field name="course_id" invisible="1"/>
+								<field name="study_group_id" invisible="1"/>
+								<field name="student_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+								<field name="student_code"/><field name="index"/>
+								<!--<field name="sub_classroom" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>-->
+								<!--<field name="student_level" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>-->
+							</tree>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_hue_op_classroom_tree" model="ir.ui.view">
+			<field name="name">Classrooms</field>
+			<field name="model">op.classroom</field>
+			<field name="inherit_id" ref="openeducat_classroom.view_op_classroom_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='code']" position="after">
+					<field name="sequence"/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

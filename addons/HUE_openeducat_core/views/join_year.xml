@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--view_hue_certificates_form_view-->
+		<record id="hue_join_year_form_view" model="ir.ui.view">
+			<field name="name">hue.join.year.form.view</field>
+			<field name="model">hue.joining.years</field>
+			<field name="arch" type="xml">
+				<form string="Joining Years">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+								<field name="active"/>
+							</group>
+							<group>
+								<field name="d_id"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--view_hue_certificates_form_view-->
+		<record id="hue_join_year_tree_view" model="ir.ui.view">
+			<field name="name">hue.join.year.tree.view</field>
+			<field name="model">hue.joining.years</field>
+			<field name="arch" type="xml">
+				<tree string="Joining Years">
+					<field name="name"/>
+					<field name="active"/>
+					<field name="d_id"/>
+				</tree>
+			</field>
+		</record>
+		<!--act_open_op_join_year-->
+		<record model="ir.actions.act_window" id="act_open_op_join_year">
+			<field name="name">HUE Joining Years</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.joining.years</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!-- get_hue_joining_years_action -->
+		<record id="get_hue_joining_years_action" model="ir.actions.server">
+			<field name="name">Get Hue Joining year menu</field>
+			<field name="model_id" ref="model_hue_joining_years"/>
+			<field name="state">code</field>
+			<field name="code">model.get_hue_Join_year_fun()</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="op_session_registration_enrollment_tree" model="ir.ui.view">
+			<field name="name">Session Registration enrollment</field>
+			<field name="model">op.session.registration.enrollment</field>
+			<field name="arch" type="xml">
+				<tree string="Session Registration Enrollment">
+					<field name="name"/>
+					<field name="student_id"/>
+					<field name="course_id"/>
+					<field name="role"/>
+					<field name="endDate"/>
+					<field name="beginDate"/>
+					<field name="registration_enrollment_id"/>
+					<field name="status"/>
+					<field name="create_date"/>
+				</tree>
+			</field>
+		</record>
+		<!--	search student	-->
+		<record id="student_session_registration_enrollment_search_view" model="ir.ui.view">
+			<field name="name">Student Code</field>
+			<field name="model">op.session.registration.enrollment</field>
+			<field name="arch" type="xml">
+				<search>
+					<field name="student_id"/>
+				</search>
+			</field>
+		</record>
+		<!--op_session_registration_action-->
+		<record model="ir.actions.act_window" id="op_session_registration_enrollment_action">
+			<field name="name">Session Registration enrollment</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.session.registration.enrollment</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

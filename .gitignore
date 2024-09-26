@@ -1,0 +1,8 @@
+*.pyc
+*.pyo
+*.swp
+.DS_Store
+__pycache__/
+.idea/
+.vscode/
+.odoo_server.pid

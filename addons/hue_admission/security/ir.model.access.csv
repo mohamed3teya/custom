@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_admission_application,access.op.admission.application,model_op_admission_application,base.group_erp_manager,1,1,1,1
+access_op_hue_admission,access.op.hue.admission,model_op_hue_admission,base.group_erp_manager,1,1,1,1
+access_online_application,access.online.application,model_online_application,base.group_erp_manager,1,1,1,1
+access_online_application_faculties,access.online.application.faculties,model_online_application_faculties,base.group_erp_manager,1,1,1,1

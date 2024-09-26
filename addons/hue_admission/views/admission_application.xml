@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_op_admission_applications" model="ir.ui.view">
+            <field name="name">Admission Applications</field>
+            <field name="model">op.admission.application</field>
+            <field name="arch" type="xml">
+                <tree string="Admission applications">
+                            <field name='register_id'/>
+                </tree>
+            </field>
+        </record>    
+        <record model="ir.actions.act_window" id="act_hue_open_op_admission_applications">
+            <field name="name">Admission Applications</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.admission.application</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record> 
+    </data>
+</odoo>

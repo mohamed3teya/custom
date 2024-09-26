@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- form -->
+        <record id="military_recruitment_data_wizard_form" model="ir.ui.view">
+            <field name="name">military recruitment data form</field>
+            <field name="model">military.recruitment.data.wizard</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="military recruitment data Report">
+                    <sheet>
+                        <div>
+                            <group colspan="8" cols="8">
+                                <group>
+                                <field name="faculty"  />
+                                <field name="level"  />
+                                <field name="student_status"  widget="many2many_tags"  />
+                                <field name="join_year"  />
+                                <field name="student_certificate"  />        
+                                <field name="student_city"  />
+                                <field name="age_date"  />
+                                </group>
+                                <group>
+                                    <field name="age"  />
+                                    <field name="military_status"/>
+                                    <field name="std_per_page"  />
+                                    <field name="all_military_status"/>
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <span groups="base.group_user">
+                            <button string="Print" type="object" name="print_report" class="oe_highlight"/>
+                            <button special="cancel" string="Close" type="object"/>
+                        </span>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- action  -->
+        <record model="ir.actions.act_window" id="action_military_recruitment_wizard">
+            <field name="name">Military recruitment data Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">military.recruitment.data.wizard</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- menu -->
+         <!-- <menuitem id="menu_military_recruitment_wizard"
+                  name="military_recruitment Report"
+                  sequence="2"
+                  parent="hue_student_reports_yasmin.submenu_student_data_report"
+                  action="action_military_recruitment_wizard"/> -->
+    </data>
+</odoo>

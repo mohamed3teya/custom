@@ -1,0 +1,17 @@
+<odoo>
+	<data>
+		<record id="view_op_faculty_ext" model="ir.ui.view">
+			<field name="name">Op Faculty Ext</field>
+			<field name="model">op.faculty</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_faculty_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='email']" position="after">
+                    <field name="id_number"/>
+                </xpath>
+				<xpath expr="//field[@name='email']" position="attributes">
+					<attribute name="required">True</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

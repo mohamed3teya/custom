@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<data>
+		<record id="view_hue_op_terms" model="ir.ui.view">
+			<field name="name">Terms</field>
+			<field name="model">op.academic.term</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_academic_term_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='parent_term']" position="replace">
+					<field name="semester_id"/>
+					<field name="global_term_id"/>
+					<field name="active_validate"/>
+					<field name="active_run"/>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_hue_op_terms_tree" model="ir.ui.view">
+			<field name="name">Terms</field>
+			<field name="model">op.academic.term</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_academic_term_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='parent_term']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>

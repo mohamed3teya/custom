@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="admission_payment_receipt_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.external_layout">
+                    <br/>
+                    <br/>                        
+                        <div class="page mt64">
+                            <br/>
+                            <div class="row  mt20" >
+                                <div t-if="o.payment_type=='inbound'">
+                                    <h4 class="text-center"><strong>إيصال تحصيل :
+                                    <span t-field="o.name"/></strong></h4>
+                                </div>
+                                <div t-if="o.payment_type=='outbound'">
+                                    <h4 class="text-center"><strong>إيصال استرداد
+                                    :  <span t-field="o.name"/></strong></h4>
+                                </div>                        
+                            </div>                             
+                           <!-- <h3><strong>Payment Receipt: <span t-field="o.name"/></strong></h3>-->
+<!--                            <div class="row mt64">
+                                <div class="col-xs-6" t-if="o.payment_date">
+                                    <strong>Payment Date: </strong> <span t-field="o.payment_date"/>
+                                </div>
+                            </div>-->
+                            <div class="row mt20">
+                                <div class="col-xs-8" t-if="o.partner_type">
+                                    <t t-if="o.partner_type == 'customer'">
+                                        <strong t-if="o.payment_type=='inbound'">وصل من  : </strong>
+                                        <strong  t-if="o.payment_type=='outbound'"> استلمت انا   : </strong>
+                                    </t>
+                                    <span t-field="o.partner_id"/>                                
+                                </div>
+                                <div class="col-xs-4"  t-if="o.payment_type=='inbound'" >
+                                    <strong>رقم التسجيل : </strong>
+                                    <span t-field="o.invoice_ids.origin"/>
+                                </div>                            
+                                <div class="col-xs-8" t-if="o.journal_id">
+                                    <strong>طريقة السداد: </strong><span t-field="o.journal_id.name"/>
+                                </div>
+                                <div class="col-xs-4" t-if="o.amount">
+                                    <strong>المبلغ: </strong><span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                </div>                                  
+                            </div>
+<!--                            <div class="row mb64">
+                                <div class="col-xs-6" t-if="o.amount">
+                                    <strong>الرقم القومى: </strong><span t-field="o.amount"/>
+                                 </div>
+                                <div class="col-xs-6" t-if="o.communication">
+                                    <strong>Memo: </strong><span t-field="o.communication"/>
+                                 </div>
+                            </div>-->
+                            <br/>
+                            <br/>
+                            <t t-foreach="o.invoice_ids.sorted(key=lambda b: b.invoice_type , reverse=True)" t-as="inv">
+                                <table class="table table-condensed" name="invoice_line_table">
+                                    <thead>
+                                        <tr>
+                                            <div >
+                                                <div t-if="o.payment_type=='inbound'">
+                                                    <th > رسوم  رقم : <span t-field="inv.number"/></th>
+                                                </div>
+                                                <div t-if="o.payment_type=='outbound'">
+                                                    <th > رسوم  رقم : <span t-field="inv.number"/></th>
+                                                </div>                        
+                                            </div>                                
+                                            <th class="text-right">اجمالى</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="invoice_tbody">
+                                        <tr t-foreach="inv.invoice_line_ids" t-as="l">
+                                            <td><span t-field="l.name"/></td>
+                                            <td class="text-right" id="subtotal">
+                                                <span t-field="l.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: inv.currency_id}"/>
+                                            </td>
+                            
+                                        </tr> 
+                                    </tbody>
+                                    <tfooter>
+                                        <td>  </td>
+                                        <td class="text-right">
+                                            <span t-field="inv.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: inv.currency_id}"/>
+                                        </td>
+                                    </tfooter>
+                                </table>
+                            </t>
+                            <br/>
+                            <div class="row ">
+                                <div class="col-xs-12" t-if="o.user_id">
+                                    <strong>المبلغ /  : </strong>
+                                    <span t-field="o.amount_arr"/>
+                                </div>
+                            </div>
+                            <div class="row mb64">
+                                <div class="col-xs-12" t-if="o.user_id">
+                                    <strong>محاسب /  : </strong>
+                                    <span t-field="o.user_id"/>
+                                </div>
+                                <div class="col-xs-12" t-if="o.user_id">
+                                   <strong>التوقيع / </strong>
+                                </div>
+                            </div>   
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    
+        <record id="admission_report_payment_receipt" model="ir.actions.report">
+            <field name="name">Payment Recipt</field>
+            <field name="model">account.payment</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">openeducat_admission.admission_payment_receipt_report</field>
+        </record>
+
+        <!--<template id="admission_report_assets_backend" name="Admission Payment Report" inherit_id="openeducat_admission.admission_payment_receipt_report">
+            <xpath expr="." position="inside">
+		         All links to CSS and JS files should be added in here.
+                <link   href="/web_rtl/static/src/css/bootstrap-rtl.min.css" rel="stylesheet"/>
+                <link  href="/web_rtl/static/src/css/rtl.css" rel="stylesheet"/>
+                <script type="text/javascript" src="/hue_customization/static/src/js/main.js"></script>
+            </xpath>
+        </template>-->
+<!--        <template id="applicatoin_assets_backend" name="Admission Applications" inherit_id="openeducat_admission.view_op_admission_form">
+            <xpath expr="." position="inside">
+                <link   href="/openeducat_admission/static/src/css/main.css" rel="stylesheet"/>
+            </xpath>
+        </template>    -->    
+    </data>
+</odoo>

@@ -1,0 +1,113 @@
+<odoo>
+	<data>
+		<!--op_student_transportation_from_ext-->
+		<record id="op_student_transportation_from_ext" model="ir.ui.view">
+            <field name="name">op.student.transportation</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+				<!--transport-->
+				<xpath expr="//page[4]" position="after">
+					<page name="transport" string="Transportation">
+						  <field name="transport_ids" nolabel="1">
+							<tree editable="bottom" class="tree_no_open">
+								<field name="acadyears"/>
+								<field name="semesters"/>
+								<field name="line"/>
+							</tree>
+						  </field>
+					</page>
+				</xpath>
+            </field>
+        </record>
+        <!--student_transport_Lines_form_view-->
+        <record id="student_transport_Lines_form_view" model="ir.ui.view">
+            <field name="name">Student Transportation Lines</field>
+            <field name="model">hue.student.transport</field>
+            <field name="arch" type="xml">
+                <form string="Student Transport Lines">
+                  <header>
+                        <button name="button_done" string="Done" class="oe_highlight" type="object" invisible="state=='done'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                  </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="student_id"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                            <field name="student_code"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                            <field name="faculty"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                            <field name="line"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                                <field name="printed" readonly="state=='done'"/>
+                            <field name="acadyears"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                            <field name="semesters"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"
+                                   readonly="state=='done'"/>
+                             
+                            <field name="printed_date" readonly="state=='done'"/>
+                            <field name="printed_count" readonly="state=='done'"/>
+                            <field name="inv_data" readonly="1" groups="base.group_no_one"/> <!-- readonly="state=='done'" can't redfine readonly twice -->
+                            <field name="inv_state" readonly="1"></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--student_transport_Lines_tree_view-->
+        <record id="student_transport_Lines_tree_view" model="ir.ui.view">
+            <field name="name">Student Transportation Lines</field>
+            <field name="model">hue.student.transport</field>
+            <field name="arch" type="xml">
+                <tree string="Student Transport Lines">
+                    <field name="student_id"
+                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="student_code"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="printed" />
+                     <field name="printed_count" />
+                    <field name="printed_date" />
+                    <field name="level"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="faculty"
+                                   options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="acadyears"
+                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="semesters"
+                           options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="line" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="inv_state" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                
+                </tree>
+            </field>
+        </record>
+        <!--Student Transportation Lines Search View-->
+        <record id="view_transport_search" model="ir.ui.view">
+            <field name="name">hue.student.transport.search</field>
+            <field name="model">hue.student.transport</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <search string="student Image">
+                    <field name="student_id" />
+                    <newline />
+                    <filter name="Image" string="Image" domain="[('student_id.image','!=',False)]" />
+                    <filter name="not_Image" string="Not Image" domain="[('student_id.image','=',False)]" />
+                </search>
+            </field>
+        </record>
+        <!--Actions-->
+		<record id="student_transport_Lines_action" model="ir.actions.act_window">
+			<field name="name">Student Transportation Lines</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.student.transport</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

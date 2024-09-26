@@ -1,0 +1,20 @@
+<odoo>
+	<data>
+		<record id="subjects_department_tree" model="ir.ui.view">
+            <field name="name">Subjects department Tree</field>
+            <field name="model">op.subject.department</field>
+            <field name="arch" type="xml">
+                <tree string="subject_department">
+                    <field name="faculty_id"/>
+                    <field name="division_name"/>
+                    <field name="head_of_division"/>
+                </tree>
+            </field>
+        </record>
+        <record id="op_subject_department_action" model="ir.actions.act_window">
+            <field name="name">subject department</field>
+            <field name="res_model">op.subject.department</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+	</data>
+</odoo>

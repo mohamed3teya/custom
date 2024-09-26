@@ -1,0 +1,7 @@
+<odoo>
+    <record id="action_op_section" model="ir.actions.act_window">
+        <field name="name">Sections</field>
+        <field name="res_model">op.section</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

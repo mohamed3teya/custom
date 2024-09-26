@@ -1,0 +1,309 @@
+<odoo>
+	<data>
+		<!--form view-->
+		<record id="view_op_admission_custom_application_form" model="ir.ui.view">
+			<field name="name">op application</field>
+			<field name="model">op.admission</field>
+			<field name="inherit_id" ref="openeducat_admission.view_op_admission_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='enroll_student']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<!--<xpath expr="//header" position="inside">
+					<button name="change_college" states="done" string="change college" type="object"/>
+				</xpath>-->
+				<!--<button string="create_invoice" class="oe_highlight" states="confirm" type="object" name="create_invoice"/>-->
+				<xpath expr="//field[@name='state']" position="replace">
+					<field name="state" widget="statusbar"/>
+				</xpath>
+				<xpath expr="//field[@name='image']" position="after">
+					<div>
+						<br/>
+						<field  name="name"  style="padding-right:10px" placeholder="Student Name"/>
+					</div>
+					<br/>
+					<br/>
+					<br/>
+					<div class="oe_title">
+						<group>
+							<field name="national_id" readonly = "state in ['submit','confirm','admission','done']"/>
+							<field name="horus_admission_id" readonly="1" options="{'no_create': True, 'no_open' : True}" invisible="1"/>
+							<field name="application_number_sequence" string="Sequence" readonly="1"/>
+							<field name="ref_number" readonly="1"/>
+							<field name="journal_id"/>
+						</group>
+					</div>
+				</xpath>
+				<field name='national_id' position='after'>
+					<field name='admission_date' position='move'/></field>
+				<field name='horus_admission_id' position='after'>
+					<field name='partner_id' position='move'/></field>
+				<xpath expr="//field[@name='partner_id']" position="attributes">
+					<attribute name="readonly">True</attribute>
+					<attribute name="force_save">True</attribute>
+				</xpath>
+				<field name='partner_id' position='after'>
+					<field name='application_number' position='move'/></field>
+				<!--change inherited fields attributes-->
+				<xpath expr="//field[@name='title']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='first_name']" position="attributes">
+					<attribute name="invisible">True</attribute>
+					<attribute name="required">False</attribute>
+				</xpath>
+				<xpath expr="//field[@name='middle_name']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='last_name']" position="attributes">
+					<attribute name="invisible">True</attribute>
+					<attribute name="required">False</attribute>
+				</xpath>
+				<xpath expr="//field[@name='register_id']" position="attributes">
+					<attribute name="required">False</attribute>
+				</xpath>
+				<!--<xpath expr="//field[@name='course_id']" position="attributes">-->
+				<!--    <attribute name="required">False</attribute>-->
+				<!--</xpath>-->
+				<xpath expr="//field[@name='fees_term_id']" position="attributes">
+					<attribute name="required">False</attribute>
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='gender']" position="attributes">
+					<attribute name="required">False</attribute>
+				</xpath>
+				<xpath expr="//field[@name='email']" position="attributes">
+					<attribute name="required">False</attribute>
+				</xpath>
+				<xpath expr="//field[@name='birth_date']" position="attributes">
+					<attribute name="required">False</attribute>
+				</xpath>
+				<!--End of change inherited fields attributes-->
+				<!--admission details page-->
+				<xpath expr="//field[@name='course_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='batch_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='fees_start_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='discount']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='due_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='is_student']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='student_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='register_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='application_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<field name='register_id' position='after'>
+					<field name='fees' position='move'/>
+				</field>
+				<!--<xpath expr="//field[@name='national_id']" position="after">
+					<field name='store_id'/>
+				</xpath>-->
+				
+				<!--<xpath expr="//field[@name='fees']" position="replace"><field name="admission_application_ids" attrs="{'readonly': ['|',('state','=', 'admission'),('state','=', 'done')]}"><tree editable="bottom"><field name="register_id" domain="[('name', 'ilike', '24')]" options="{'no_create': True, 'no_open' : True}"/><field name="course_id" invisible="1"/><field name="fees" force_save="1"/><field name="fees_term_id" invisible="1"/><field name="application_date"/><field name="invoice_id"/><field name="refund_id"/><field name="application_status" force_save="1"/><button type="object" attrs="{'invisible':[]}" class="btn btn-sm btn-primary oe_highlight" string="Change Application" name="change_application" style="    background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+							comment<button type="object"  attrs="{'invisible':['|',('parent.state','in', ['done']),('application_status','in',['draft','refund','enroll'])]}" groups="account.group_account_invoice" class="btn btn-sm btn-primary oe_highlight" string="Cancel Application" name="delete_application" style="    background-color: #E26A6A!important; border-color:#a93f3f!important"/><button type="object" attrs="{'invisible': ['|',('parent.state','not in', ['admission']),('application_status','not in',['paid'])]}" class="btn btn-sm btn-primary oe_highlight" string="Enroll Now" name="enroll_student" style="    background-color: #E26A6A!important; border-color:#a93f3f!important"/><button type="object" attrs="{'invisible':['|',('parent.state','not in', ['done']),('application_status','not in',['enroll'])]}" class="btn btn-sm btn-primary oe_highlight" string="Cancel Enrollment" name="cancel_enroll_student" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/><button type="object" attrs="{'invisible':['|',('parent.state','not in', ['done']),('application_status','not in',['enroll'])]}" class="btn btn-sm btn-primary oe_highlight" string="Print Enroll" name="print_enroll_application" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/><button type="object" attrs="{'invisible':['|',('parent.state','in', ['done']),('application_status','in',['draft','refund','enroll'])]}" class="btn btn-sm btn-primary oe_highlight" string="Print" name="print_application" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/><button type="object" attrs="{'invisible':['|',('parent.state','in', ['done']),('application_status','in',['draft','paid','enroll'])]}" class="btn btn-sm btn-primary oe_highlight" string="Print Refund" name="print_refund" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/></tree></field></xpath>-->
+				<!--<xpath expr="//page[1]" position="attributes">-->
+				<!--	<attribute name="invisible">True</attribute>-->
+				<!--</xpath>-->
+				<xpath expr="//page[1]" position="replace">
+					<page string="Admission Details">
+						<field name="admission_application_ids">
+							<tree string="Registered Sessions" editable="bottom">
+								<field name="register_id" domain="[('name', 'ilike', '24')]" options="{'no_create': True, 'no_open' : True}"/>
+								<field name="course_id" invisible="1"/>
+								<field name="fees" force_save="1"/>
+								<field name="fees_term_id" invisible="1"/>
+								<field name="application_date"/>
+								<field name="invoice_id"/>
+								<field name="refund_id"/>
+								<field name="application_status" force_save="1"/>
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" string="Change Application" name="change_application" style="    background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+								<!--commented-->
+								<!--<button type="object"  attrs="{'invisible':['|',('parent.state','in', ['done']),('application_status','in',['draft','refund','enroll'])]}" groups="account.group_account_invoice" class="btn btn-sm btn-primary oe_highlight" string="Cancel Application" name="delete_application" style="    background-color: #E26A6A!important; border-color:#a93f3f!important"/>-->
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" string="Enroll Now" name="enroll_student" invisible = "parent.state != 'admission' or application_status != 'paid'" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" invisible = "parent.state != 'done' or application_status != 'enroll'" string="Cancel Enrollment" name="cancel_enroll_student" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" invisible = "parent.state != 'done' or application_status != 'enroll'" string="Print Enroll" name="print_enroll_application" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" invisible = "parent.state == 'done' or application_status in ['draft','refund','enroll']" string="Print" name="print_application" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+								<button type="object"  class="btn btn-sm btn-primary oe_highlight" invisible = "parent.state == 'done' or application_status in ['draft','paid','enroll']" string="Print Refund" name="print_refund" style="background-color: #E26A6A!important; border-color:#a93f3f!important"/>
+							</tree>
+						</field>
+						<group class="oe_subtotal_footer oe_right">
+							<field name="amount_total" class="oe_subtotal_footer_separator"/>
+						</group>
+					</page>
+				</xpath>
+				<!--Educational details page-->
+				<xpath expr="//page[2]" position="replace">
+					<page name="educational" string="Educational">
+						<group col="2" colspan="3">
+							<group>
+								<field name="join_year_id" />
+								<field name="semster_id"/>
+								<field name="std_status_id"/>
+								<field name="required_field" invisible="1"/>
+								<field name="certificate_id" required ="required_field == True and state == 'admission'" readonly="state == 'done'"/>
+								<field name="mc"  />
+								<field name="staff_dis"  />
+								<field name="sibling_dis"  />
+								<field name="syndicate_dis"  />
+								<field name="martyrs_dis"  />
+							</group>
+							<group>
+								<field name="school_name" readonly = "state == 'done'  and required_field == True"/>
+								<field name="certificate_percentage" string="Certificate Percentage(%)" type="number" max="130"
+								       readonly = "state == 'done'  and required_field == True" 
+									   required = "required_field == True and state == 'admission'"/>
+								<field name="certificate_degree"
+									   required = "required_field == True and state == 'admission'"
+									   readonly = "state == 'done'  and required_field == True"/>
+								<field name="seat_no"  readonly = "state == 'done'  and required_field == True"/>
+								<field name="certificate_date"/>
+								<field name="certificate_country" readonly = "state == 'done'  and required_field == True"/>
+								<field name="transportation_state" readonly = "state == 'done'  and required_field == True"/>
+								<field name="housing_state" readonly = "state == 'done'  and required_field == True"/>
+								<field name="scholarship"/>
+								<field name="special_case"/>
+							</group>
+						</group>
+					</page>
+				</xpath>
+				<!--<xpath expr="//field[@name='prev_institute_id']" position="attributes"><attribute name="invisible">True</attribute></xpath><xpath expr="//field[@name='prev_course_id']" position="attributes"><attribute name="invisible">True</attribute></xpath><xpath expr="//field[@name='prev_result']" position="attributes"><attribute name="invisible">True</attribute></xpath><xpath expr="//field[@name='prev_result']" position="after"></xpath>-->
+				<!--End of educational details page-->
+				<!--personal details page-->
+				<xpath expr="//page[3]" position="replace">
+					<page name="personal_detail" string="Personal Details" groups="openeducat_core.group_op_back_office">
+						<group col="4" colspan="4" string="Personal information">
+							<field name="arabic_name" required = "required_field == True"/>
+							<field name="english_name" required = "required_field == True and state == 'admission'"/>
+							<field name="d_name" required = "required_field == True and state == 'admission'"/>
+							<field name="nationality_id"
+							       required = "required_field == True and state == 'admission'"
+								   readonly = "state == 'done' and required_field == True"/>
+							<field name="governorate" readonly = "state == 'done' and required_field == True"/>
+							<field name="city" readonly = "state == 'done' and required_field == True"/>
+							<field name="religion" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="city_id" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="gender" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="birth_date" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="birth_date_certificate" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="birth_certificate" readonly = "state == 'done' and required_field == True"/>
+						</group>
+						<group col="4" colspan="4" string="Contact Information">
+							<field name="address" placeholder="Email" readonly = "state == 'done' and required_field == True"/>
+							<field name="mobile_number" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="parent_mobile" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="email" readonly = "state == 'done' and required_field == True"/>
+							<field name="home_number" readonly = "state == 'done' and required_field == True"/>
+						</group>
+					</page>
+				</xpath>
+				<!-- end of personal details page-->
+				<!--family information details page-->
+				<xpath expr="//notebook" position="inside">
+					<page name="parent_detail" string="Family Information" groups="openeducat_core.group_op_back_office">
+						<group col="4" colspan="4" string="Father Information">
+							<field name="father_name" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="father_job" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="father_mobile" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="father_mail" readonly = "state == 'done'"/>
+							<field name="father_nationality" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+						</group>
+						<group col="4" colspan="4" string="Mother Information">
+							<field name="mother_name" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="mother_job" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="mother_mobile" required = "required_field == True and state == 'admission'"
+							       readonly = "state == 'done' and required_field == True"/>
+							<field name="mother_mail" placeholder="Email" readonly = "state == 'done'"/>
+							<field name="mother_nationality" readonly = "state == 'done' and required_field == True"/>
+						</group>
+						<group col="4" colspan="4" string="Sibling Information">
+							<field name="sibling_name" readonly = "state == 'done' and required_field == True"/>
+							<field name="sibling_id" readonly = "state == 'done' and required_field == True"/>
+						</group>
+						<group col="4" colspan="4" string="Sibling Student Data">
+							<field name="sibling_student_id"/>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+		<!--Tree view-->
+		<record id="view_op_admission_custom_application_tree" model="ir.ui.view">
+			<field name="name">op application</field>
+			<field name="model">op.admission</field>
+			<field name="inherit_id" ref="openeducat_admission.view_op_admission_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='application_date']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='application_number']" position="attributes">
+					<attribute name="string">Number</attribute>
+				</xpath>
+				<xpath expr="//field[@name='title']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='course_id']" position="attributes">
+					<attribute name="invisible">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="national_id"/>
+					<field name="certificate_id"/>
+					<field name="mobile_number"/>
+					<field name="certificate_percentage" string='Percentage(%)'/>
+					<field name="student_code"/>
+				</xpath>
+				<xpath expr="//field[@name='admission_date']" position="after">
+					<field name="faculty"/>
+					<field name="admission_application_ids" widget="many2many_tags"/>
+					<field name="enroll_date"/>
+				</xpath>
+			</field>
+		</record>
+		<record model="ir.ui.view" id="view_op_admission_pivot">
+            <field name="name">op.admission.pivot</field>
+            <field name="model">op.admission</field>
+            <field name="arch" type="xml">
+                <pivot string="Course By Admission">
+                    <field name="name" />
+                    <field name="application_number" />
+                    <field name="admission_date" />
+                    <field name="birth_date" />
+                    <field name="state" />
+                </pivot>
+            </field>
+        </record>
+		<record model="ir.actions.act_window" id="act_open_op_admission_view_pivot">
+            <field name="name">Admission Analysis</field>
+            <field name="res_model">op.admission</field>
+            <field name="view_mode">pivot</field>
+            <field name="view_id" ref="view_op_admission_pivot"/>
+        </record>
+	</data>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_installment_tree" model="ir.ui.view">
+			<field name="name">Installments</field>
+			<field name="model">hue.installments</field>
+			<field name="arch" type="xml">
+				<tree string="Installments">
+					<field name="name"/>
+					<field name="installments"/>
+					<field name="years_id"/>
+					<field name="term_id"/>
+					<field name="one_time"/>
+					<field name="extra_inv"/>
+					<field name="foreign_nationality"/>
+					<field name="currency"/>
+				</tree>
+			</field>
+		</record>
+		<record id="view_installment_form" model="ir.ui.view">
+			<field name="name">Installments</field>
+			<field name="model">hue.installments</field>
+			<field name="arch" type="xml">
+				<form string="Installments">
+					<sheet>
+						<group>
+							<field name="name"/>
+							<field name="years_id"/>
+							<field name="installments"/>
+							<field name="term_id"/>
+							<field name="currency"/>
+						</group>
+						<group>
+							<field name="extra_inv"/>
+							<field name="special_case"/>
+                            <field name="one_time"/>
+							<field name="foreign_nationality"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_installment">
+			<field name="name">HUE Installments</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.installments</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

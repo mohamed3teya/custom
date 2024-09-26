@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="military_student_report">
+		<t t-call="web.html_container">
+            <h1>Helloooooooooooooo</h1>
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.internal_layout">
+					<div class="page">
+						<style>
+                     body {
+                            -webkit-print-color-adjust: exact !important!important ;
+                        
+                          }
+                     .container{
+                            width:100% !important;
+                            }     
+                            @media print {
+                            .btn-print {
+                            display:none;
+
+                            }
+                            }
+                            .military th {
+                            color:#B68914;
+                            text-align:center;
+                         background-color:#00438b;
+                         }
+                            .military td {
+                            padding: 3px !important;
+                         
+                            }
+                           table.table-bordered {
+                                table-layout:auto !important;
+                            }
+                            table.table.table-bordered td  ,table.table.table-bordered th {
+                                border: 1px #000 solid !important;
+                            }
+                         
+                        </style>
+						<button style=" border-radius: 0.6em;border-color:#00438b;background-color:#00438b;color:#B68914;font-weight: bold;padding: 5px; margin-bottom: 10px;    padding-left: 15px;padding-right: 15px;"
+                                onclick="javascript:window.print()" class="btn-print">Print
+                        </button>
+						<t t-set="count" t-value="1"/>
+						<t t-foreach="students_data" t-as="students">
+							<table class="table "
+                                       style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+								<tr>
+									<td class="text-left" style="position:relative;direction:rtl;">
+										<div class="text-center">
+											<h3 style="font-weight: bold; color:#00438b;">
+                                                 سجل بيانات التجنيد
+                                                </h3>
+											<span style="font-size: 18px;color:#00438b;font-weight: bold;">للعام الأكاديمي</span>
+											<span style="font-size: 18px;" t-esc="curr_academic_year.name.split(':')[1]"/>
+											<t t-if="docs.faculty.name">
+                                               __
+                                          
+												<span style="font-size: 18px;font-weight: bold;" t-esc="docs.faculty.name_ar"/>
+											</t>
+											<t t-if="docs.level">
+												<span style="font-size: 18px;color:#00438b;font-weight: bold;">المستوي:</span>
+												<span style="font-size: 18px;font-weight: bold;" t-esc="docs.level.name.split(' ')[1]"/>
+											</t>
+										</div>
+										<br/>
+										<span>
+											<img style="position:absolute; top:5px; right:20px;"
+                                                     src="/hue_students_reports/static/src/images/horuslogo.png"
+                                                     alt="Horus University" height="60" width="200"/>
+											<span style=" margin-top: -43px;font-size: 18px;float: right;margin-right:50px;">
+                                                    جامعة حورس مصر
+                                                </span>
+										</span>
+									</td>
+								</tr>
+							</table>
+							<table class="table table-bordered military " style="background: #f2ffff; border-collapse: collapse;" dir="rtl">
+								<thead>
+									<tr>
+										<th width="3%" rowspan="2">م</th>
+										<th  width="10%" rowspan="2">اسم الطالب</th>
+										<th width="4%" rowspan="2">كود الطالب </th>
+										<th width="3%" rowspan="2">الديانه</th>
+										<th width="19%" rowspan="2">العنوان</th>
+										<th width="5%" rowspan="2">تاريخ الميلاد</th>
+										<th width="8%" rowspan="2">محل الميلاد</th>
+										<th width="7%" colspan="2">بطاقة رقم قومي</th>
+										<th width="10%" colspan="3">البطاقة العسكرية</th>
+										<th width=" 5%" rowspan="2">المعاملة</th>
+										<th width=" 5%" rowspan="2">رقم القرار</th>
+										<th width=" 5%" rowspan="2">تاريخ القرار</th>
+										<th width=" 5%" rowspan="2">رقم قرار التأجيل</th>
+										<th width=" 5%" colspan="2">النتيجة</th>
+										<th width=" 5%" rowspan="2"> ملاحظات</th>
+									</tr>
+									<tr>
+										<th >رقم</th>
+										<th>جهة الأصدار</th>
+										<th >سنة</th>
+										<th>مركز</th>
+										<th >مسلسل</th>
+										<th>دور أول</th>
+										<th>دور ثان</th>
+									</tr>
+								</thead>
+								<tbody>
+									<t t-foreach="students" t-as="std">
+										<tr>
+											<td>
+												<span t-esc="count"/>
+											</td>
+											<td style="white-space:nowrap;">
+												<span t-esc="std.name" />
+											</td>
+											<td>
+												<span t-esc="std.student_code" />
+											</td>
+											<td style="text-align: center;">
+												<span t-esc="std.religion" />
+											</td>
+											<td>
+												<span t-esc="std.visa_info" />
+											</td>
+											<td style="white-space:nowrap;">
+												<span t-esc="std.birth_date" />
+											</td>
+											<td>
+												<t t-if="std.student_birth_place.name">
+													<span t-esc="std.student_birth_place.name.split('|')[0]" />
+												</t>
+											</td>
+											<td style="white-space:nowrap;">
+												<span t-esc="std.national_id" />
+											</td>
+											<td style="text-align: center;">
+												<span> مصر   </span>
+											</td>
+											<td style="text-align:center;">
+												<t  t-if="std.militaryno">
+													<span t-esc="std.militaryno.split('/')[2]" />
+												</t>
+											</td>
+											<td style="text-align:center;">
+												<t  t-if="std.militaryno">
+													<span t-esc="std.militaryno.split('/')[1]" />
+												</t>
+											</td>
+											<td style="text-align:center;">
+												<t  t-if="std.militaryno">
+													<span t-esc="std.militaryno.split('/')[0]" />
+												</t>
+											</td>
+											<td style="white-space:nowrap;">
+												<span t-esc="std.military_status" />
+											</td>
+											<td style="text-align:center;">
+												<span t-esc="std.decisionno" />
+											</td>
+											<td style="white-space:nowrap;">
+												<span t-esc="std.military_date" />
+											</td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<t t-set="count" t-value="count+1"/>
+										</tr>
+									</t>
+								</tbody>
+							</table>
+							<table class="table signature" dir="rtl" style=" border-collapse: collapse;">
+								<tr>
+									<td style=" border:none !important;">
+										<span> إجمالي(  )-</span>
+										<span> ناجح دور أول (  )-</span>
+										<span> ناجح دور ثان(  ) -</span>
+										<span> راسب (  )</span>
+									</td>
+									<td style=" border:none !important;"></td>
+									<td style=" border:none !important;">
+										<span dir="ltr">................/التوقيع</span>
+									</td>
+								</tr>
+								<tr>
+									<td style=" border:none !important;"></td>
+									<td style=" border:none !important;"></td>
+									<td style=" border:none !important;">
+										<span dir="ltr">................/رتبة/اسم</span>
+									</td>
+								</tr>
+								<tr>
+									<td style=" border:none !important;"></td>
+									<td style=" border:none !important;"></td>
+									<td style=" border:none !important;">
+										<span dir="ltr"> ................/الوظيفة</span>
+									</td>
+								</tr>
+							</table>
+							<div style="page-break-after: always;"/>
+						</t>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+	<record id="action_military_student_report" model="ir.actions.report">
+		<field name="name">Military Student</field>
+		<field name="model">military.student.wizard</field>
+		<field name="report_type">qweb-html</field>
+		<field name="report_name">hue_register.military_student_report</field>
+		<field name="binding_model_id" ref="hue_register.model_military_student_wizard"/>
+	</record>
+	<!--<report
+        id="action_military_student_report"
+        model="military.student.wizard"
+        string="Military Student"
+        report_type="qweb-html"
+        file="hue_register.military_student_report"
+        name="hue_register.military_student_report"
+        
+    />-->
+</odoo>

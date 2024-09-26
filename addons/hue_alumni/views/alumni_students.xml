@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--op_student_alumni_form_ext-->
+		<record id="op_student_military_form_ext" model="ir.ui.view">
+			<field name="name">op.student.alumni</field>
+			<field name="model">op.student</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+			<field name="arch" type="xml">
+				<!--student alumni-->
+				<xpath expr="//page[4]" position="after">
+					<page name="Degree" string="Alumni Data">
+						<group string="Alumni Info">
+							<field name="final_degree" readonly="1"/>
+							<field name="total_degree" readonly="1"/>
+							<field name="subject_degree" readonly="1"/>
+							<field name="alumni_academicyear_id" readonly="1"/>
+							<field name="alumni_semester_id" readonly="1"/>
+							<field name="intern_month" readonly="1"/>
+							<field name="graduation_date" readonly="1"/>
+							<field name="project_title"/>
+							<field name="project_gpa" readonly="1"/>
+							<field name="project_grade" readonly="1"/>
+						</group>
+					</page>
+				</xpath>
+			</field>
+		</record>
+		<!--hue_alumni_students_tree_view-->
+		<record id="hue_alumni_students_tree_view" model="ir.ui.view">
+			<field name="name">Alumni Students</field>
+			<field name="model">alumni.students</field>
+			<field name="arch" type="xml">
+				<tree string="Alumni Students">
+					<field name="course_id"/>
+					<field name="academic_year_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+					<field name="semester_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+					<field name="university_date" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+					<field name="decision_date" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+					<field name="decision_number" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+				</tree>
+			</field>
+		</record>
+		<!--hue_alumni_students_form_view-->
+		<record id="hue_alumni_students_form_view" model="ir.ui.view">
+			<field name="name">Alumni Students</field>
+			<field name="model">alumni.students</field>
+			<field name="arch" type="xml">
+				<form string="Alumni Students" >
+					<header>
+						<button name="button_done" string="Graduate" class="oe_highlight" type="object"
+								invisible="state=='done'"/>
+						<button name="get_student_list" type="object"
+                                string="Get Students" groups="base.group_user"
+								invisible="state=='done'"
+                                help="Click to get student list"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="course_id"
+                                   readonly ="id != False"
+                                   options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="academic_year_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="semester_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="university_date" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="decision_date" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="decision_number" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+							<field name="intern_start_date" />
+						</group>
+						<notebook>
+							<page string="Student List">
+								<field name="student_list"
+									   invisible="state=='done'"
+                                       options="{'no_open': True}">
+									<tree limit="80" string="Student List" class="student_list" editable="bottom"
+                                          create="false" delete="false"
+                                          options="{'no_open': True}">
+										<field name="chkstudent" string="Check"/>
+										<field name="seq"/>
+										<field name="student_code" string="Code"/>
+										<field name="student_id" string="Name" options="{'no_open': True}"/>
+										<field name="acadyear" string="academic year" options="{'no_open': True}"/>
+										<field name="semester" string="semester" options="{'no_open': True}"/>
+										<field name="student_crh" string="Earned"/>
+										<field name="student_core" string="Core"/>
+										<field name="student_elective" string="Elective"/>
+										<field name="student_project" string="Project"/>
+										<field name="student_gpa" string="GPA"/>
+										<field name="semester_count" string="count"/>
+										<field name="national"/>
+										<field name="nationality"/>
+										<field name="total_degree"/>
+										<field name="total_degree_max"/>
+										<field name="percent"/>
+										<field name="grade"/>
+									</tree>
+								</field>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--alumni_students_action-->
+		<record model="ir.actions.act_window" id="alumni_students_action">
+			<field name="name">Alumni Students</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">alumni.students</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

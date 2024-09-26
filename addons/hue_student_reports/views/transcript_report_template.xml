@@ -1,0 +1,1767 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="report_transcript">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="o">
+				<t t-call="web.basic_layout">
+					<style>
+                        @media print {
+                            .btn-print {
+                                display:none;
+                            }
+                            .marg_print {
+                                margin-top: 80px;
+                            }
+                            .hearder_print{
+                                position: absolute;
+                                margin: 30px 40px 10px ;
+                            }
+                        }
+                        h3 span , table tr{
+                            line-height: 50px;
+                        }
+                        .reg td, th {
+                            border:none !important;
+                            line-height: 25px !important;
+                        }
+                        .transcript td, th {
+                            border:none !important;
+                        }
+                        .transcript td {
+                            padding: 1px !important;
+                        }
+                        .total td{
+                            border-color: #afafb7 !important;
+                            padding: 1px !important;
+                        }
+                        .gpatable td {
+                            padding: 3px !important;
+                        }
+                        .datasub span {
+                            font-size : 12px ;
+                        }
+                        .sign td , .caption td{
+                            padding:10px !important;
+                        }
+                        .sign td, th {
+                            border:none !important;
+                        }
+                        .caption td, th {
+                            border:none !important;
+                        }
+                        .en_signature td {
+                            font-size:10px !important;
+                            text-align:center !important;
+                            padding-right: 0px !important;
+                            padding-left: 0px !important;
+                        }
+                        .grade_data tr {
+                            line-height:20px;
+                        }
+						<!--  .en_signature td, th  {
+                        border:none !important;
+                        }-->
+					</style>
+					<button style=" border-radius: 0.6em;border-color:#00438b;background-color:#00438b;color:#B68914;font-weight: bold;padding: 5px; margin-bottom: 10px;    padding-left: 15px;padding-right: 15px;"
+                            onclick="javascript:window.print()" class="btn-print">Print
+                    </button>
+					<br/>
+					<table class="table reg">
+						<tr>
+							<td width="33.33%">
+								<!-- <span t-if="docs.logo and not docs.report_type == 'registration certificate'"><img src="/web/binary/company_logo?company=1"/></span>-->
+							</td>
+							<td width="33.33%" class="text-center"
+                                style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+								<h2 class ="hearder_print" t-if="docs.title and docs.report_type == 'transcript' and docs.language == 'en'">Transcript</h2>
+								<h2 class ="hearder_print" t-if="docs.title and docs.report_type == 'transcript' and docs.language != 'en'">بيان حالة</h2>
+								<h2 t-elif="docs.title and docs.report_type == 'status'">افادة</h2>
+							</td>
+							<td width="33.33%" class="text-right">
+								<!-- <img t-if="docs.student_pic" height="100" alt="Pic" class="kt-radius-100"
+                                     t-att-src="'data:image/png;base64,%s' % to_text(docs.student_id.image)"/> -->
+							</td>
+						</tr>
+					</table>
+					<!-- Transcript Template -->
+					<div t-if="docs.report_type == 'transcript'">
+						<!-- No subjects template -->
+						<t t-if="docs.no_subjects == True">
+							<!-- Student data table -->
+							<t t-if="docs.language == 'en'">
+								<table class="table transcript marg_print" style=" margin-bottom:0px;">
+									<tr t-if="docs.to" rowspan="2">
+										<td>
+											<span style="font-size: 15px;">Submitted to</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.to"/>
+										</td>
+									</tr>
+									<tr >
+										<td>
+											<span style="font-size: 15px;font-weight: bold;">Name</span>
+                                                    :
+											<t t-if="docs.language == 'en'">
+												<span style="font-size: 15px;" t-esc="docs.student_id.en_name"/>
+											</t>
+											<t t-else="">
+												<span style="font-size: 15px;" t-esc="docs.student_id.name"/>
+											</t>
+										</td>
+										<td t-if="docs.student_code_show">
+											<span  style="font-size: 15px;font-weight: bold;">Code</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_code"/>
+										</td>
+									</tr>
+									<tr >
+										<td  t-if="docs.course">
+											<span style="font-size: 15px;font-weight: bold;">Faculty</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.faculty.name"/>
+										</td>
+										<td  t-if="docs.course">
+											<span style="font-size: 15px;font-weight: bold;">Course</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.course_id.name.split('|')[1]"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.level">
+											<span style="font-size: 15px;font-weight: bold;">Level</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.sudo().level.name"/>
+										</td>
+										<td  t-if="docs.national_id" >
+											<span style="font-size: 15px;font-weight: bold;">National ID</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.national_id"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.nationality" >
+											<span style="font-size: 15px;font-weight: bold;">Nationality</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_nationality.en_name"/>
+										</td>
+										<td>
+											<span style="font-size: 15px;font-weight: bold;">Status</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_status.en_name"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.birthday" >
+											<span style="font-size: 15px;font-weight: bold;">Birthday</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.birth_date"/>
+										</td>
+										<td t-if="docs.birth_place"  >
+											<span style="font-size: 15px;font-weight: bold;">City</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_city.name"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.address and docs.student_id.street">
+											<span style="font-size: 15px;font-weight: bold;">Address</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.street.split('|')[0]"/>
+										</td>
+										<td t-if="docs.prev_cert"  >
+											<span style="font-size: 15px;font-weight: bold;">Student Certificate</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_certificates.name"/>
+                                                    -
+											<span style="font-size: 15px;font-weight: bold;">Percentage</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.percentage"/>
+                                                    % -
+											<span style="font-size: 15px;font-weight: bold;">Year</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.year"/>
+										</td>
+									</tr>
+									<tr t-if="docs.military">
+										<td  >
+											<span style="font-size: 15px;font-weight: bold;">Military Status</span>
+											<t t-if="docs.student_id.military_status == 'مؤجل لسن 28'">
+												<span style="font-size: 16px;" >postponed to 28</span>
+											</t>
+											<t t-elif="docs.student_id.military_status == 'مؤجل لسن 29'">
+												<span style="font-size: 16px;" >postponed to 29</span>
+											</t>
+											<t t-else="">
+												<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+											</t>
+										</td>
+									</tr>
+								</table>
+							</t>
+							<t t-else="">
+								<table class="table transcript marg_print" style=" margin-bottom:0px; direction: rtl;">
+									<tr t-if="docs.to" rowspan="2">
+										<td>
+											<span style="font-size: 15px;">موجه إلى</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.to"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.student_code_show">
+											<span  style="font-size: 15px;font-weight: bold;">رقم الطالب</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_code"/>
+										</td>
+										<td>
+											<span style="font-size: 15px;font-weight: bold;">اسم الطالب</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.name"/>
+										</td>
+									</tr>
+									<tr >
+										<td  t-if="docs.course">
+											<span style="font-size: 15px;font-weight: bold;">كلية</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.faculty.name"/>
+										</td>
+										<td  t-if="docs.course">
+											<span style="font-size: 15px;font-weight: bold;">برنامج</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.course_id.name.split('|')[0]"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.level">
+											<span style="font-size: 15px;font-weight: bold;">المستوى الدراسي</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.sudo().level.name"/>
+										</td>
+										<td  t-if="docs.national_id" >
+											<span style="font-size: 15px;font-weight: bold;">رقم البطاقة</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.national_id"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.nationality" >
+											<span style="font-size: 15px;font-weight: bold;">الجنسية</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_nationality.name"/>
+										</td>
+										<!-- <td><span style="font-size: 15px;font-weight: bold;">Status</span>
+                                                    :
+                                                    <span style="font-size: 15px;" t-esc="docs.student_id.student_status.en_name"/></td> -->
+									</tr>
+									<tr >
+										<td t-if="docs.birthday" >
+											<span style="font-size: 15px;font-weight: bold;">تاريخ الميلاد</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.birth_date"/>
+										</td>
+										<td t-if="docs.birth_place"  >
+											<span style="font-size: 15px;font-weight: bold;">محل الميلاد</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_city.name"/>
+										</td>
+									</tr>
+									<tr >
+										<td t-if="docs.address and docs.student_id.street">
+											<span style="font-size: 15px;font-weight: bold;">العنوان</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.street.split('|')[0]"/>
+										</td>
+									</tr>
+									<tr>
+										<td t-if="docs.prev_cert"  >
+											<span style="font-size: 15px;font-weight: bold;">مؤهل القبول</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.student_certificates.name"/>
+                                                    -
+											
+											<span style="font-size: 15px;font-weight: bold;">النسبة المئوية</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.percentage"/>
+                                                    % -
+											<span style="font-size: 15px;font-weight: bold;">سنة الحصول على المؤهل</span>
+                                                    :
+											<span style="font-size: 15px;" t-esc="docs.student_id.year"/>
+										</td>
+									</tr>
+									<tr t-if="docs.military">
+										<td  >
+											<span style="font-size: 15px;font-weight: bold;">الموقف من التجنيد</span>
+											<t t-if="docs.student_id.military_status == 'مؤجل لسن 28'">
+												<span style="font-size: 16px;" >مؤجل لسن 28</span>
+											</t>
+											<t t-elif="docs.student_id.military_status == 'مؤجل لسن 29'">
+												<span style="font-size: 16px;" >مؤجل لسن 29</span>
+											</t>
+											<t t-else="">
+												<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+											</t>
+										</td>
+									</tr>
+								</table>
+							</t>
+							<!-- End of Student data table -->
+							<!-- table signature -->
+							<t t-if="docs.language == 'en'">
+								<table class="table  en_signature" style="direction:rtl;">
+									<tr style='background:#f4f5f7;'>
+										<td style="padding-top:15px;">
+											<B>University president</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Secretary General of the University</B>
+										</td>
+										<td style="padding-top:15px;text-align:center;">
+											<B>Head of Admission and Registration</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Review it</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Admission and Registration</B>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding-top:15px;text-align:center;">
+											<span>Prof.Dr.</span>
+											<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[1]"/>
+										</td>
+										<td style="padding-top:15px"></td>
+										<td style="padding-top:15px;text-align:center;">
+											<span>Mr.</span>
+											<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[1]"/>
+										</td>
+										<td style="padding-top:15px"></td>
+										<td style="padding-top:15px"></td>
+									</tr>
+								</table>
+							</t>
+							<t t-else="">
+								<table class="table sign">
+									<tr style='background:#f4f5f7;'>
+										<td style="padding:15px;text-align:center;">
+											<B>رئيس الجامعة</B>
+										</td>
+										<td style="padding:15px">
+											<B>أمين عام الجامعة</B>
+										</td>
+										<td style="padding:15px;text-align:center;">
+											<B>رئيس القبول و التسجيل</B>
+										</td>
+										<td style="padding:15px">
+											<B>راجعه</B>
+										</td>
+										<td style="padding:15px">
+											<B>القبول و التسجيل</B>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding:15px;text-align:center;">
+											<span>أ.د/</span>
+											<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[0]"/>
+										</td>
+										<td style="padding:15px"></td>
+										<td style="padding:15px;text-align:center;">
+											<span>أ/</span>
+											<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[0]"/>
+										</td>
+										<td style="padding:15px"></td>
+										<td style="padding:15px"></td>
+									</tr>
+								</table>
+							</t>
+							<!-- End of table signature -->
+						</t>
+						<!-- End of No subjects template -->
+						<!-- Transcript with subject data -->
+						<t t-else="">
+							<t t-set="medicine_semester_six" t-value="0"/>
+							<t t-set="count" t-value="0"/>
+							<t t-set="breakline" t-value="0" />
+							<t t-if="docs.results" t-foreach="student" t-as="StuAcc">
+								<t t-if="StuAcc">
+									<t t-foreach="StuAcc" t-as="AcadSemester">
+										<!-- <t t-if="not AcadSemester.transferred"> -->
+										<t t-if="breakline != AcadSemester.academicyear_id.id or  not AcadSemester.academicyear_id.id">
+											<t t-if="count != 0 ">
+												<t t-if="docs.language == 'en'">
+													<table class="table  en_signature" style=" direction: rtl;">
+														<tr style='background:#f4f5f7;'>
+															<td style="padding-top:15px;">
+																<B>University president</B>
+															</td>
+															<td style="padding-top:15px">
+																<B>Secretary General of the University</B>
+															</td>
+															<td style="padding-top:15px;text-align:center;">
+																<B>Head of Admission and Registration</B>
+															</td>
+															<td style="padding-top:15px">
+																<B>Review it</B>
+															</td>
+															<td style="padding-top:15px">
+																<B>Admission and Registration</B>
+															</td>
+														</tr>
+														<tr>
+															<td style="padding-top:15px;text-align:center;">
+																<span>Prof.Dr.</span>
+																<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[1]"/>
+															</td>
+															<td style="padding-top:15px"></td>
+															<td style="padding-top:15px;text-align:center;">
+																<span>Mr.</span>
+																<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[1]"/>
+															</td>
+															<td style="padding-top:15px"></td>
+															<td style="padding-top:15px"></td>
+														</tr>
+													</table>
+												</t>
+												<t t-else="">
+													<table class="table sign">
+														<tr style='background:#f4f5f7;'>
+															<td style="padding:15px;text-align:center;">
+																<B>رئيس الجامعة</B>
+															</td>
+															<td style="padding:15px">
+																<B>أمين عام الجامعة</B>
+															</td>
+															<td style="padding:15px;text-align:center;">
+																<B>رئيس القبول و التسجيل</B>
+															</td>
+															<td style="padding:15px">
+																<B>راجعه</B>
+															</td>
+															<td style="padding:15px">
+																<B>القبول و التسجيل</B>
+															</td>
+														</tr>
+														<tr>
+															<td style="padding:15px;text-align:center;">
+																<span>أ.د/</span>
+																<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[0]"/>
+															</td>
+															<td style="padding:15px"></td>
+															<td style="padding:15px;text-align:center;">
+																<span>أ/</span>
+																<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[0]"/>
+															</td>
+															<td style="padding:15px"></td>
+															<td style="padding:15px"></td>
+														</tr>
+													</table>
+												</t>
+											</t>
+											<t t-if="count != 0 ">
+												<div  style="page-break-after: always;"/>
+											</t>
+											<t t-set="breakline" t-value="AcadSemester.academicyear_id.id" />
+											<!-- Student data table -->
+											<t t-if="docs.language == 'en'">
+												<table class="table transcript marg_print" style=" margin-bottom:0px;">
+													<tr t-if="docs.to" rowspan="2">
+														<td>
+															<span style="font-size: 15px;">Submitted to</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.to"/>
+														</td>
+													</tr>
+													<tr >
+														<td>
+															<span style="font-size: 15px;font-weight: bold;">Name</span>
+                                                    :
+															<t t-if="docs.language == 'en'">
+																<span style="font-size: 15px;" t-esc="docs.student_id.en_name"/>
+															</t>
+															<t t-else="">
+																<span style="font-size: 15px;" t-esc="docs.student_id.name"/>
+															</t>
+														</td>
+														<td t-if="docs.student_code_show">
+															<span  style="font-size: 15px;font-weight: bold;">Code</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_code"/>
+														</td>
+													</tr>
+													<tr >
+														<td  t-if="docs.course">
+															<span style="font-size: 15px;font-weight: bold;">Faculty</span>
+                                                    :	
+															<span style="font-size: 15px;" t-esc="docs.student_id.faculty.name"/>
+														</td>
+														<td  t-if="docs.course">
+															<span style="font-size: 15px;font-weight: bold;">Course</span>
+                                                    :	
+															<span style="font-size: 15px;" t-esc="docs.student_id.course_id.name.split('|')[1]"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.level">
+															<span style="font-size: 15px;font-weight: bold;">Level</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.sudo().level.name"/>
+														</td>
+														<td  t-if="docs.national_id" >
+															<span style="font-size: 15px;font-weight: bold;">National ID</span>
+                                                    :	
+															<span style="font-size: 15px;" t-esc="docs.student_id.national_id"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.nationality" >
+															<span style="font-size: 15px;font-weight: bold;">Nationality</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_nationality.en_name"/>
+														</td>
+														<td>
+															<span style="font-size: 15px;font-weight: bold;">Status</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_status.en_name"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.birthday" >
+															<span style="font-size: 15px;font-weight: bold;">Birthday</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.birth_date"/>
+														</td>
+														<td t-if="docs.birth_place"  >
+															<span style="font-size: 15px;font-weight: bold;">City</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_city.name"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.address and docs.student_id.street">
+															<span style="font-size: 15px;font-weight: bold;">Address</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.street.split('|')[0]"/>
+														</td>
+														<td t-if="docs.prev_cert"  >
+															<span style="font-size: 15px;font-weight: bold;">Student Certificate</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_certificates.name"/>
+                                                    -
+															
+															<span style="font-size: 15px;font-weight: bold;">Percentage</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.percentage"/>
+                                                    % -
+															
+															<span style="font-size: 15px;font-weight: bold;">Year</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.year"/>
+														</td>
+													</tr>
+													<tr t-if="docs.military">
+														<td  >
+															<span style="font-size: 15px;font-weight: bold;">Military Status</span>
+															<t t-if="docs.student_id.military_status == 'مؤجل لسن 28'">
+																<span style="font-size: 16px;" >postponed to 28</span>
+															</t>
+															<t t-elif="docs.student_id.military_status == 'مؤجل لسن 29'">
+																<span style="font-size: 16px;" >postponed to 29</span>
+															</t>
+															<t t-else="">
+																<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+															</t>
+														</td>
+													</tr>
+												</table>
+											</t>
+											<t t-else="">
+												<table class="table transcript marg_print" style=" margin-bottom:0px; direction: rtl;">
+													<tr t-if="docs.to" rowspan="2">
+														<td>
+															<span style="font-size: 15px;">موجه إلى</span>
+                                                    :	
+															<span style="font-size: 15px;" t-esc="docs.to"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.student_code_show">
+															<span  style="font-size: 15px;font-weight: bold;">رقم الطالب</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_code"/>
+														</td>
+														<td>
+															<span style="font-size: 15px;font-weight: bold;">اسم الطالب</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.name"/>
+														</td>
+													</tr>
+													<tr >
+														<td  t-if="docs.course">
+															<span style="font-size: 15px;font-weight: bold;">كلية</span>
+                                                    :	
+															<span style="font-size: 15px;" t-esc="docs.student_id.faculty.name"/>
+														</td>
+														<td  t-if="docs.course">
+															<span style="font-size: 15px;font-weight: bold;">برنامج</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.course_id.name.split('|')[0]"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.level">
+															<span style="font-size: 15px;font-weight: bold;">المستوى الدراسي</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.sudo().level.name"/>
+														</td>
+														<td  t-if="docs.national_id" >
+															<span style="font-size: 15px;font-weight: bold;">رقم البطاقة</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.national_id"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.nationality" >
+															<span style="font-size: 15px;font-weight: bold;">الجنسية</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_nationality.name"/>
+														</td>
+														<!-- <td><span style="font-size: 15px;font-weight: bold;">Status</span>
+                                                    :
+                                                    <span style="font-size: 15px;" t-esc="docs.student_id.student_status.en_name"/></td> -->
+													</tr>
+													<tr >
+														<td t-if="docs.birthday" >
+															<span style="font-size: 15px;font-weight: bold;">تاريخ الميلاد</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.birth_date"/>
+														</td>
+														<td t-if="docs.birth_place"  >
+															<span style="font-size: 15px;font-weight: bold;">محل الميلاد</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_city.name"/>
+														</td>
+													</tr>
+													<tr >
+														<td t-if="docs.address and docs.student_id.street">
+															<span style="font-size: 15px;font-weight: bold;">العنوان</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.street.split('|')[0]"/>
+														</td>
+													</tr>
+													<tr>
+														<td t-if="docs.prev_cert"  >
+															<span style="font-size: 15px;font-weight: bold;">مؤهل القبول</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.student_certificates.name"/>
+                                                    -	
+															<span style="font-size: 15px;font-weight: bold;">النسبة المئوية</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.percentage"/>
+                                                    % -
+															<span style="font-size: 15px;font-weight: bold;">سنة الحصول على المؤهل</span>
+                                                    :
+															<span style="font-size: 15px;" t-esc="docs.student_id.year"/>
+														</td>
+													</tr>
+													<tr t-if="docs.military">
+														<td  >
+															<span style="font-size: 15px;font-weight: bold;">الموقف من التجنيد</span>
+															<t t-if="docs.student_id.military_status == 'مؤجل لسن 28'">
+																<span style="font-size: 16px;" >مؤجل لسن 28</span>
+															</t>
+															<t t-elif="docs.student_id.military_status == 'مؤجل لسن 29'">
+																<span style="font-size: 16px;" >مؤجل لسن 29</span>
+															</t>
+															<t t-else="">
+																<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+															</t>
+														</td>
+													</tr>
+												</table>
+											</t>
+											<!-- End of Student data table -->
+                                            <!-- Student subjects grades -->
+                                            <!-- total grade head -->
+											<t t-if="docs.language == 'en'">
+												<table class="table table-bordered total" style=" margin-bottom:0px;">
+													<tr style='background:#dee3e8;'>
+														<t t-if="not docs['student_id'].checkblock()">
+															<td style='text-align: center'>
+																<B>GPA : 
+																	<span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].new_gpa" />
+																</B>
+															</td>
+															<td style='text-align: center'>
+																<B>Earned Hours : 
+																	<span style="font-size: 16px;" t-esc="docs['student_id'].new_crh" />
+																</B>
+															</td>
+														</t>
+														<t t-else ="">
+															<td style='text-align: center'>
+																<B>GPA : 
+																	<span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].cgpa" />
+																</B>
+															</td>
+															<td style='text-align: center'>
+																<B>Earned Hours : 
+																	<span style="font-size: 16px;" t-esc="docs['student_id'].crh" />
+																</B>
+															</td>
+														</t>
+													</tr>
+												</table>
+											</t>
+											<t t-else="">
+												<table class="table table-bordered total" style=" margin-bottom:0px; direction: rtl;">
+													<tr style='background:#dee3e8;'>
+														<t t-if="not docs['student_id'].checkblock()">
+															<td style='text-align: center'>
+																<B>المعدل التراكمي:
+																	<span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].new_gpa" />
+																</B>
+															</td>
+															<td style='text-align: center'>
+																<B>الساعات المكتسبة:
+																	<span style="font-size: 16px;" t-esc="docs['student_id'].new_crh" />
+																</B>
+															</td>
+														</t>
+														<t t-else ="">
+															<td style='text-align: center'>
+																<B>المعدل التراكمي:
+																	<span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].cgpa" />
+																</B>
+															</td>
+															<td style='text-align: center'>
+																<B>الساعات المكتسبة:
+																	<span style="font-size: 16px;" t-esc="docs['student_id'].crh" />
+																</B>
+															</td>
+														</t>
+													</tr>
+												</table>
+											</t>
+										</t>
+                                        <!-- End of total grade head -->
+                                        <!-- Year and Semester & block warning -->
+										<t t-if="docs.language == 'en'">
+											<div class="card-sub">
+												<B>
+													<font color="#1f4791" style="font-size: 14px;">
+														<span t-esc="AcadSemester.academicyear_id.name"/>
+												- Semester :
+														<span t-esc="AcadSemester.semester_id.name.split('|')[1]"/>
+														<!--   <t t-set="semester_len" t-value="semester_len+1"/>-->
+														<t t-if="AcadSemester.semester_status.id > 2">
+                                                    -
+															<span t-esc="AcadSemester.semester_status.name"/>
+														</t>
+														<br/>
+													</font>
+												</B>
+											</div>
+											<t t-if="not isinstance(AcadSemester.block_result.name, bool) ">
+												<div class="table-responsive">
+													<div class="alert alert-danger " role="alert">
+														<strong>Warning!</strong>
+                                                Result Blocked for
+														<span t-esc="AcadSemester.block_result.name.split('|')[1]"/>
+													</div>
+												</div>
+											</t>
+											<t t-if="invoice_count > 0 and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+												<div class="alert alert-danger " role="alert">
+													<strong>Warning!</strong>
+                                            Result Blocked for Unpaid Invoices
+													<a href="/my/invoices">Show Invoices
+														<fa class="fas fa-external-link-alt"></fa>
+													</a>
+												</div>
+											</t>
+											<t t-if="not AcadSemester.student_id.questionnaire_done() and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+												<div class="alert alert-danger " role="alert">
+													<strong>Warning!</strong>
+                                            Result Blocked for Unanswered Questionnaire
+												</div>
+											</t>
+										</t>
+										<t t-else="">
+											<div class="card-sub" style="direction:rtl;">
+												<B>
+													<font color="#1f4791" style="font-size: 14px;">
+														<span t-esc="AcadSemester.academicyear_id.name.split(':')[1]"/>
+												- الفصل الدراسي 
+														<span t-esc="AcadSemester.semester_id.name.split('|')[0]"/>
+														<!--   <t t-set="semester_len" t-value="semester_len+1"/>-->
+														<t t-if="AcadSemester.semester_status.id > 2">
+                                                    -
+															<span t-esc="AcadSemester.semester_status.name"/>
+														</t>
+														<br/>
+													</font>
+												</B>
+											</div>
+											<t t-if="not isinstance(AcadSemester.block_result.name, bool) ">
+												<div class="table-responsive">
+													<div class="alert alert-danger " role="alert">
+														<strong>تحذير!</strong>
+                                                النتيجة محجوبة بسبب
+														<span t-esc="AcadSemester.block_result.name.split('|')[0]"/>
+													</div>
+												</div>
+											</t>
+											<t t-if="invoice_count > 0 and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+												<div class="alert alert-danger " role="alert">
+													<strong>تحذير!</strong>
+                                            النتيجة محجوبة لوجود فواتير غير مسددة
+													<a href="/my/invoices">اعرض الفواتير
+														<fa class="fas fa-external-link-alt"></fa>
+													</a>
+												</div>
+											</t>
+											<t t-if="not AcadSemester.student_id.questionnaire_done() and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+												<div class="alert alert-danger " role="alert">
+													<strong>تحذير!</strong>
+                                            النتيجة محجوبة لعدم اتمام الاستبيان
+												</div>
+											</t>
+										</t>
+                                        <!-- End of Year and Semester & block warning -->
+										<!-- subjects grades table -->
+                                        <div class="table-responsive">
+											<t t-if="docs.language == 'en'">
+												<table class="table table-bordered datasub" style="margin-bottom: 7px !important; ">
+													<thead>
+														<tr style='background:#f4f5f7;'>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Subject Code</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Subject Name</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Credit</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Degree</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Points</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>Grade</th>
+														</tr>
+													</thead>
+													<tbody>
+														<t t-set="totalCH" t-value="0"/>
+														<t t-foreach="AcadSemester.accum_semesters_subjects_ids" t-as="SemesterSubjects">
+															<t t-set="totalCH" t-value="totalCH+SemesterSubjects.subject_id.subject_credithours"/>
+															<tr>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.code.split('|')[0]"/>
+																</td>
+																<td style='white-space:nowrap;padding:0px;text-align:center;'>
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.name.split('|')[0]"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.subject_credithours"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.final_degree"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.points"/>
+																</td>
+																<td style="padding:0px;;text-align:center;">
+																	<t t-if="not isinstance(SemesterSubjects.final_grade.name, bool) and is_published(SemesterSubjects.course_id.id,SemesterSubjects.academicyear_id.id,SemesterSubjects.semester_id.id)">
+																		<t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+																			<t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+																				<span style="padding-left:5px" t-esc="SemesterSubjects.final_grade.name.split('|')[1]"/>
+																			</t>
+																		</t>
+																		<t t-else="">
+																			<span style="padding-left:40px;" t-esc="SemesterSubjects.final_grade.name.split('|')[1]"/>
+																		</t>
+																	</t>
+																</td>
+															</tr>
+														</t>
+														<tr>
+															<t t-if="is_published(AcadSemester.course_id.id,AcadSemester.academicyear_id.id,AcadSemester.semester_id.id)">
+																<t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+																	<t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+																		<table class="table table-bordered">
+																			<tr style='background:#f4f5f7;'>
+																				<td>
+																					<B>
+                                                                                    Semester GPA :
+																						<font color="green">
+																							<span t-esc="'%.2f'%  AcadSemester.semester_gpa" />
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>GPA :
+																						<font color="green">
+																							<span t-esc="'%.2f'%  AcadSemester.current_gpa"/>
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>Attempted Hours :
+																						<font color="green">
+																							<span t-esc="totalCH"/>
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>Earned Hours :
+																						<font color="green">
+																							<span t-esc="AcadSemester.semester_hr"/>
+																						</font>
+																					</B>
+																				</td>
+																			</tr>
+																		</table>
+																	</t>
+																</t>
+																<t t-else="">
+																	<table style ="margin-bottom: 3px;" class="table table-bordered gpatable">
+																		<tr style='background:#f4f5f7;'>
+																			<td>
+																				<B>
+                                                                                Semester GPA :
+																					<font color="green">
+																						<span t-esc="'%.2f'%  AcadSemester.semester_gpa"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																				<B>GPA :
+																					<font color="green">
+																						<span t-esc="'%.2f'%  AcadSemester.current_gpa"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																			    <B>Attempted Hours :
+																					<font color="green">
+																						<span t-esc="totalCH"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																				<B>Earned Hours :
+																					<font color="green">
+																						<span t-esc="'{0:g}'.format(float('{0:.2f}'.format(AcadSemester.semester_hr)))"/>
+																					</font>
+																				</B>
+																			</td>
+																		</tr>
+																	</table>
+																</t>
+																<t t-if="AcadSemester.final_grade.pass_grade == False and AcadSemester.final_grade.id not in (1,26) and docs.student_id.faculty.id == 12">
+																	<t t-foreach="AcadSemester.accum_semesters_subjects_ids.sorted(key=lambda r: r.subject_id.subject_addtogpa)" t-as="subject">
+																		<t t-if="chk_summer(subject.subject_id.id,docs.student_id)">
+																			<span style='color:red;font-weight:bold;font-size:12px;' t-esc="subject.subject_id.name.split('|')[0]"></span>
+																			<br />
+																		</t>
+																	</t>
+																</t>
+															</t>
+														</tr>
+													</tbody>
+												</table>
+											</t>
+											<t t-else="">
+												<table class="table table-bordered datasub" style="margin-bottom: 7px !important; direction:rtl;">
+													<thead>
+														<tr style='background:#f4f5f7;'>
+															<th style='padding:0px;text-align:center;font-size: 12px'>كود المقرر</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>اسم المقرر</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>الساعات المعتمدة</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>الدرجة</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>النقاط</th>
+															<th style='padding:0px;text-align:center;font-size: 12px'>التقدير</th>
+														</tr>
+													</thead>
+													<tbody>
+														<t t-set="totalCH" t-value="0"/>
+														<t t-foreach="AcadSemester.accum_semesters_subjects_ids" t-as="SemesterSubjects">
+															<t t-set="totalCH" t-value="totalCH+SemesterSubjects.subject_id.subject_credithours"/>
+															<tr>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.code.split('|')[0]"/>
+																</td>
+																<td style='white-space:nowrap;padding:0px'>
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.name.split('|')[0]"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.subject_id.subject_credithours"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.final_degree"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<span style="padding:5px" t-esc="SemesterSubjects.points"/>
+																</td>
+																<td style="padding:0px;text-align:center;">
+																	<t t-if="not isinstance(SemesterSubjects.final_grade.name, bool) and is_published(SemesterSubjects.course_id.id,SemesterSubjects.academicyear_id.id,SemesterSubjects.semester_id.id)">
+																		<t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+																			<t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+																				<span style="padding-left:5px;" t-esc="SemesterSubjects.final_grade.name.split('|')[0]"/>
+																			</t>
+																		</t>
+																		<t t-else="">
+																			<span style="padding-left:40px;" t-esc="SemesterSubjects.final_grade.name.split('|')[0]"/>
+																		</t>
+																	</t>
+																</td>
+															</tr>
+														</t>
+														<tr>
+															<t t-if="is_published(AcadSemester.course_id.id,AcadSemester.academicyear_id.id,AcadSemester.semester_id.id)">
+																<t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+																	<t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+																		<table class="table table-bordered" style="direction:rtl;">
+																			<tr style='background:#f4f5f7;'>
+																				<td>
+																					<B>
+                                                                                    المعدل الفصلي:
+																						<font color="green">
+																							<span t-esc="'%.2f'%  AcadSemester.semester_gpa" />
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>المعدل التراكمي:
+																						<font color="green">
+																							<span t-esc="'%.2f'%  AcadSemester.current_gpa"/>
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>الساعات المسجلة:
+																						<font color="green">
+																							<span t-esc="totalCH"/>
+																						</font>
+																					</B>
+																				</td>
+																				<td>
+																					<B>الساعات الحاصل عليها:
+																						<font color="green">
+																							<span t-esc="AcadSemester.semester_hr"/>
+																						</font>
+																					</B>
+																				</td>
+																			</tr>
+																		</table>
+																	</t>
+																</t>
+																<t t-else="">
+																	<table style ="margin-bottom: 3px; direction:rtl;" class="table table-bordered gpatable">
+																		<tr style='background:#f4f5f7;'>
+																			<td>
+																				<B>
+                                                                                المعدل الفصلي:
+																					<font color="green">
+																						<span t-esc="'%.2f'%  AcadSemester.semester_gpa"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																				<B>المعدل التراكمي:
+																					<font color="green">
+																						<span t-esc="'%.2f'%  AcadSemester.current_gpa"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																				<B>الساعات المسجلة:
+																					<font color="green">
+																						<span t-esc="totalCH"/>
+																					</font>
+																				</B>
+																			</td>
+																			<td>
+																				<B>الساعات الحاصل عليها:
+																					<font color="green">
+																						<span t-esc="'{0:g}'.format(float('{0:.2f}'.format(AcadSemester.semester_hr)))"/>
+																					</font>
+																				</B>
+																			</td>
+																		</tr>
+																	</table>
+																</t>
+																<t t-if="AcadSemester.final_grade.pass_grade == False and AcadSemester.final_grade.id not in (1,26) and docs.student_id.faculty.id == 12">
+																	<t t-foreach="AcadSemester.accum_semesters_subjects_ids.sorted(key=lambda r: r.subject_id.subject_addtogpa)" t-as="subject">
+																		<t t-if="chk_summer(subject.subject_id.id,docs.student_id)">
+																			<span style='color:red;font-weight:bold;font-size:12px;' t-esc="subject.subject_id.name.split('|')[0]"></span>
+																			<br/>
+																		</t>
+																	</t>
+																</t>
+															</t>
+														</tr>
+													</tbody>
+												</table>
+											</t>
+										</div>
+									</t>
+									<!-- for  StuAcc-->
+									<t t-set="count" t-value="1"/></t>
+								<!-- if StuAcc-->
+							</t>
+							<t t-if="docs.language == 'en'">
+								<table class="table en_signature" style="direction:rtl;">
+									<tr style='background:#f4f5f7;'>
+										<td style="padding-top:15px;text-align:center;">
+											<B>University president</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Secretary General of the University</B>
+										</td>
+										<td style="padding-top:15px;text-align:center;">
+											<B>Head of Admission and Registration</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Review it</B>
+										</td>
+										<td style="padding-top:15px">
+											<B>Admission and Registration</B>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding-top:15px;text-align:center;">
+											<span>Prof.Dr.</span>
+											<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[1]"/>
+										</td>
+										<td style="padding-top:15px"></td>
+										<td style="padding-top:15px;text-align:center;">
+											<span>Mr.</span>
+											<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[1]"/>
+										</td>
+										<td style="padding-top:15px"></td>
+										<td style="padding-top:15px"></td>
+									</tr>
+								</table>
+								<table style="float:left;font-size: 10px; " class=" table-bordered text-left grade_data">
+									<tr style='background:#f4f5f7;font-weight:bold'>
+										<t t-set="course_grade" t-value="get_course_grade(docs.student_id.course_id)"/>
+										<B>
+											<t t-foreach="course_grade" t-as="grade">
+												<td style="padding: 5px">
+													<span  t-esc="grade.display_name.split('|')[1]"/>
+												</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+												<td style="padding: 5px">P</td>
+												<td style="padding: 5px">PC</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id == 1 or docs.student_id.course_id.id == 20">
+												<td  style="padding: 5px">S</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+												<td style="padding: 5px">T</td>
+											</t>
+										</B>
+									</tr>
+									<tr style='background:#f4f5f7;'>
+										<t t-foreach="course_grade" t-as="grade">
+											<td style="padding: 5px">
+												<span  t-esc="grade.points_from"/>
+											</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+											<td style="padding: 5px">Passed</td>
+											<td style="padding: 5px">Passed</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id == 1 or docs.student_id.course_id.id == 20">
+											<td style="padding: 5px">Satisfied</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+											<td style="padding: 5px">Transferred</td>
+										</t>
+									</tr>
+								</table>
+								<table style="float:right;font-size: 10px;" class=" table-bordered text-left grade_data">
+									<t t-set="grades_eqiv" t-value="get_grades_eqiv(docs.student_id.course_id)"/>
+									<tr style='background:#f4f5f7;font-weight:bold'>
+										<t t-foreach="grades_eqiv" t-as="eqiv">
+											<td style="padding: 5px">
+												<span  t-esc="eqiv.grade"/>
+											</td>
+										</t>
+									</tr>
+									<tr style='background:#f4f5f7;'>
+										<t t-foreach="grades_eqiv" t-as="eqiv">
+											<td style="padding: 5px">
+												<t t-if="eqiv.grade == 'Excellent'">
+                                                                    &gt; =
+                                                            </t>
+												<span  t-esc="eqiv.point_from"/>
+												<t t-if="eqiv.grade != 'Excellent'">
+                                                            &lt;
+													<span  t-esc="eqiv.point_to"/>
+												</t>
+											</td>
+										</t>
+									</tr>
+								</table>
+							</t>
+							<t t-else="">
+								<table class="table sign">
+									<tr style='background:#f4f5f7;'>
+										<td style="padding:15px;text-align:center;">
+											<B>رئيس الجامعة</B>
+										</td>
+										<td style="padding:15px">
+											<B>أمين عام الجامعة</B>
+										</td>
+										<td style="padding:15px;text-align:center;">
+											<B>رئيس القبول و التسجيل</B>
+										</td>
+										<td style="padding:15px">
+											<B>راجعه</B>
+										</td>
+										<td style="padding:15px">
+											<B>القبول و التسجيل</B>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding:15px;text-align:center;">
+											<span>أ.د/</span>
+											<span style="font-weight: normal;" t-esc="company_details.university_president.split('|')[0]"/>
+										</td>
+										<td style="padding:15px"></td>
+										<td style="padding:15px;text-align:center;">
+											<span>أ/</span>
+											<span style="font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[0]"/>
+										</td>
+										<td style="padding:15px"></td>
+										<td style="padding:15px"></td>
+									</tr>
+								</table>
+								<table style="float:left;font-size: 10px; " class=" table-bordered text-left grade_data">
+									<tr style='background:#f4f5f7;font-weight:bold'>
+										<t t-set="course_grade" t-value="get_course_grade(docs.student_id.course_id)"/>
+										<B>
+											<t t-foreach="course_grade" t-as="grade">
+												<td style="padding: 5px">
+													<span  t-esc="grade.display_name.split('|')[1]"/>
+												</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+												<td style="padding: 5px">P</td>
+												<td style="padding: 5px">PC</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id == 1 or docs.student_id.course_id.id == 20">
+												<td  style="padding: 5px">S</td>
+											</t>
+											<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+												<td style="padding: 5px">T</td>
+											</t>
+										</B>
+									</tr>
+									<tr style='background:#f4f5f7;'>
+										<t t-foreach="course_grade" t-as="grade">
+											<td style="padding: 5px">
+												<span  t-esc="grade.points_from"/>
+											</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+											<td style="padding: 5px">Passed</td>
+											<td style="padding: 5px">Passed</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id == 1 or docs.student_id.course_id.id == 20">
+											<td style="padding: 5px">Satisfied</td>
+										</t>
+										<t t-if="docs.student_id.course_id.id != 15 and docs.student_id.course_id.id != 20">
+											<td style="padding: 5px">Transferred</td>
+										</t>
+									</tr>
+								</table>
+								<table style="float:right;font-size: 10px;" class=" table-bordered text-left grade_data">
+									<t t-set="grades_eqiv" t-value="get_grades_eqiv(docs.student_id.course_id)"/>
+									<tr style='background:#f4f5f7;font-weight:bold'>
+										<t t-foreach="grades_eqiv" t-as="eqiv">
+											<td style="padding: 5px">
+												<span  t-esc="eqiv.grade"/>
+											</td>
+										</t>
+									</tr>
+									<tr style='background:#f4f5f7;'>
+										<t t-set="grades_eqiv" t-value="get_grades_eqiv(docs.student_id.course_id)"/>
+										<t t-foreach="grades_eqiv" t-as="eqiv">
+											<td style="padding: 5px">
+												<t t-if="eqiv.grade == 'Excellent'">
+                                                                    &gt; =
+                                                            </t>
+												<span  t-esc="eqiv.point_from"/>
+												<t t-if="eqiv.grade != 'Excellent'">
+                                                            &lt;
+													<span  t-esc="eqiv.point_to"/>
+												</t>
+											</td>
+										</t>
+									</tr>
+								</table>
+							</t>
+							<div t-if="docs.notes" class="col-md-12 text-right">
+								<span style="font-size: 16px;" t-esc="docs.notes"/>
+							</div>
+							<table class="table caption" style="direction: rtl;">
+								<tr>
+									<td style ="font-size: 17px;">
+										<t t-if="docs.student_id.special_case">
+											<t t-if="docs.student_id.gender == 'f'">
+                                          " الطالبة التحقت
+                                        </t>
+											<t t-if="docs.student_id.gender =='m'">
+                                          " الطالب التحق
+                                         </t>
+                                          بالدراسة بالجامعة اعتبار من الترم 
+											<span  t-esc="docs.student_id.join_term.name.split('|')[0]"/>
+                                         سنة
+											<span  t-esc="docs.student_id.join_year.name"/>
+                                         محولا من جامعة
+											<span  t-esc="docs.student_id.university_name.name"/>
+											<t t-if="docs.student_id.university_country.id == 229">
+                                    
+                                         بدولة أوكرانيا
+                                         طبقا لقرار مجلس الوزراء  رقم 184
+                                         بتاريخ
+                                         2022/3/10 م
+                                          </t>
+											<t t-if="docs.student_id.university_country.id == 195">
+                                          بدولة السودان
+                                         طبقا لقرار مجلس الوزراء  رقم 238
+                                         بتاريخ
+                                         2023/5/3 م
+                                          </t>
+											<t t-if="docs.student_id.university_country.id == 190">
+                                          بدولة روسيا
+                                         طبقا لقرار مجلس الوزراء  رقم 238
+                                         بتاريخ
+                                         2023/5/3 م
+                                          </t>
+                                       "										
+										</t>
+									</td>
+								</tr>
+							</table>
+						</t>
+					</div>
+					<div t-if="docs.report_type == 'status'" class="text-center" style="direction:rtl;">
+						<h3>
+							<t t-if="docs.student_id.gender =='m'">
+								<span style="font-size: 20px; font-weight:bold;">اسم الطالب:</span>
+							</t>
+							<t t-if="docs.student_id.gender == 'f'">
+								<span style="font-size: 20px; font-weight:bold;">اسم الطالبة:</span>
+							</t>
+							<span style="font-size: 20px; padding-left:20px;" t-esc="docs.student_id.name"/>
+							<span style="font-size: 20px; font-weight:bold;">رقم اكاديمي:</span>
+							<span style="font-size: 20px;" t-esc="docs.student_id.student_code"/>
+							<br/>
+							<t t-if="docs.student_id.gender =='m'">
+								<span style="font-size: 20px; font-weight:bold;">تفيد جامعة حورس بأن الطالب المذكور اسمه
+                                اعلاه مقيد في
+                            </span>
+							</t>
+							<t t-if="docs.student_id.gender == 'f'">
+								<span style="font-size: 20px; font-weight:bold;">
+                                    تفيد جامعة حورس بأن الطالبه المذكور اسمها
+                                    اعلاه مقيده في
+                                </span>
+							</t>
+							<span style="font-size: 20px;" t-esc="docs.student_id.faculty.name_ar"/>
+							<br/>
+							<t t-if="docs.student_id.gender =='m'">
+								<span style="font-size: 18px;font-weight: bold;">مقيد في</span>
+                                /
+								<t t-if="docs.student_id.student_status.id != 55 ">
+									<span style="font-size: 16px;">المستوي الدراسي</span>
+									<span style="font-size: 16px;"
+                                          t-esc="docs.student_id.level.name.split(' ')[0]"/>
+								</t>
+								<t t-elif="docs.student_id.course_id.id == 5">
+									<span style="font-size: 16px;font-weight: bold;">سنة الإمتياز</span>
+								</t>
+							</t>
+							<t t-if="docs.student_id.gender == 'f'">
+								<span style="font-size: 18px;font-weight: bold;">مقيده في</span>
+                                /
+								<t t-if="docs.student_id.student_status.id != 55 ">
+									<span style="font-size: 16px;font-weight: bold;">المستوي الدراسي</span>
+									<span style="font-size: 16px;"
+                                          t-esc="docs.student_id.level.name.split(' ')[0]"/>
+								</t>
+								<t t-elif="docs.student_id.course_id.id == 5">
+									<span style="font-size: 16px;font-weight: bold;">سنة الإمتياز</span>
+								</t>
+							</t>
+							<span style="font-size: 20px; font-weight:bold;">للعام الدراسي:
+                            </span>
+							<span style="font-size: 20px;" t-esc="curr_academic_year.name.split(':')[1]"/>
+							<br/>
+							<t t-if="docs.student_id.gender =='m'">
+								<span style="font-size: 20px; font-weight:bold;">والطالب يستحق عليه رسوم دراسية مبلغ وقدره:
+                            </span>
+							</t>
+							<t t-if="docs.student_id.gender == 'f'">
+								<span style="font-size: 20px; font-weight:bold;">والطالبه يستحق عليها رسوم دراسية مبلغ وقدره:
+                                </span>
+							</t>
+							<span style="font-size: 20px;">0</span>
+							<span style="font-size: 20px; font-weight:bold;">لاغير</span>
+							<br/>
+							<span style="font-size: 20px; font-weight:bold;">فى الفصل الدراسى الواحد ومبلغ قدره:
+                            </span>
+							<span style="font-size: 20px;">0</span>
+							<br/>
+							<span style="font-size: 20px; font-weight:bold;">    للعام الدراسى كامل ونود الإشاره الى ان العام الدراسى يبدأ فى
+                            </span>
+							<span style="font-size: 20px; font-weight:bold;">وينتهى فى
+                            </span>
+							<br/>
+							<span style="font-size: 20px; font-weight:bold;">ومدة الدراسه بالكليه:
+                            </span>
+							<span style="font-size: 20px;" t-esc="len(docs.student_id.student_accumlative_ids)"/>
+							<span style="font-size: 20px; font-weight:bold;">اعوام</span>
+							<br/>
+							<t t-if="docs.student_id.gender =='m'">
+								<span style="font-size: 20px; font-weight:bold;">وقد اعطيت له هذه الإفاده بناء على طلبه لها
+                                لتقديمها الى
+                            </span>
+							</t>
+							<t t-if="docs.student_id.gender == 'f'">
+								<span style="font-size: 20px; font-weight:bold;">وقد اعطيت لها هذه الإفاده بناء على طلبها لها
+                                    لتقديمها الى
+                                </span>
+							</t>
+							<span t-if="docs.to" t-esc="docs.to"/>
+							<span style="font-size: 20px;" t-else="">
+                                من يهمه الامر
+                            </span>
+						</h3>
+					</div>
+					<!--                    english-->
+					<div t-if="docs.report_type == 'registration certificate' and docs.language == 'en'" style="direction:ltr;">
+						<div class="text-center">
+							<span style="font-weight:bold; font-size: 25px;color:#000;">Certificate
+                            </span>
+						</div>
+						<table  class="table reg">
+							<tbody>
+								<tr>
+									<td colspan= "4">
+										<span style="font-size: 18px;">Horus University certifies that :</span>
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.faculty.name"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span style="font-size: 18px;">Student name</span>
+                                        /
+										<span style="font-size: 16px;" t-esc="docs.student_id.en_name"/>
+									</td>
+									<td></td>
+									<td></td>
+									<td>
+										<span style="font-size: 18px;">Nationality</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.student_nationality.en_name"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<t>
+											<span style="font-size: 18px;">Registered in</span>
+                                            /
+											<t t-if="docs.student_id.student_status.id != 55 ">
+												<!--<span style="font-size: 16px;">level</span>-->
+												<span style="font-size: 16px;"
+                                                      t-esc="docs.student_id.level.name"/>
+											</t>
+											<t t-else="">
+												<span style="font-size: 16px;">Intern Year</span>
+											</t>
+										</t>
+									</td>
+									<td></td>
+									<td></td>
+									<td>
+										<span style="font-size: 18px;">Student code</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.student_code"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span style="font-size: 18px;">Academic year</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="curr_academic_year.name.split(':')[1]"/>
+									</td>
+									<td></td>
+									<td></td>
+									<td>
+										<span style="font-size: 18px;">Course</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.course_id.name.split('|')[1]"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<span style="font-size: 18px;">Birth date </span>
+                                        /
+										<span style="font-size: 16px;" t-esc="docs.student_id.birth_date"
+                                        t-options="{'widget': 'date', 'tz_name': 'Africa/Cairo','format': 'dd-MM-yyyy'}"/>
+									</td>
+									<td></td>
+									<td></td>
+									<td>
+										<span style="font-size: 18px;">Address</span>
+                                        /
+										<t t-if="docs.student_id.student_birth_place.name">
+											<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.student_birth_place.name.split('|')[0]"/>
+										</t>
+									</td>
+								</tr>
+								<tr>
+									<td t-if="docs.military">
+										<span style="font-size: 18px;">Military State </span>
+                                        /
+										<t t-if="docs.student_id.military_status == 'مؤجل لسن 28'">
+											<span style="font-size: 16px;" >postponed to 28</span>
+										</t>
+										<t t-elif="docs.student_id.military_status == 'مؤجل لسن 29'">
+											<span style="font-size: 16px;" >postponed to 29</span>
+										</t>
+										<t t-else="">
+											<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+										</t>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table  class="table reg">
+							<tbody>
+								<tr>
+									<td>
+										<span style="font-size: 18px;">This certificate has been submitted</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.to"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div t-if="docs.notes and docs.language == 'ar'" class="col-md-12 text-right">
+							<span style="font-size: 16px;" t-esc="docs.notes"/>
+						</div>
+						<div t-if="docs.notes and docs.language == 'en'" class="col-md-12 text-left">
+							<span style="font-size: 16px;" t-esc="docs.notes"/>
+						</div>
+						<table class="table reg">
+							<tbody>
+								<tr>
+									<td style="white-space:nowrap">
+										<span style="font-size: 16px;">Prepared by</span>
+									</td>
+									<td style="white-space:nowrap">
+										<span style="font-size: 16px;">Review it</span>
+									</td>
+									<td style="text-align:center;white-space:nowrap">
+										<span style="font-size: 16px;">Head of Admission and Registration</span>
+									</td>
+									<td style="text-align:center;white-space:nowrap;">
+										<span style="font-size: 16px;">University president</span>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td></td>
+									<td style="text-align:center">
+										<span style="font-weight: normal;font-size: 16px;">Mr.</span>
+										<span style="font-weight: normal;font-size: 16px;" t-esc="company_details.head_admission_registration.split('|')[1]"/>
+									</td>
+									<td style="text-align:center">
+										<span style="font-weight: normal;font-size: 16px;">Prof.Dr.</span>
+										<span style="font-weight: normal;font-size: 16px;" t-esc="company_details.university_president.split('|')[1]"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- arabic-->
+					<div t-if="docs.report_type == 'registration certificate' and not docs.language == 'en'" style="direction:rtl;">
+						<div class="text-center">
+							<span style="font-weight:bold; font-size: 35px;color:#000;">إثبات قيد
+                            </span>
+						</div>
+						<table class="table reg">
+							<tbody>
+								<tr>
+									<td>
+										<span style="font-size: 18px;font-weight: bold;">موجه إلى</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.to"/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+										<span style="font-size: 18px;">يشهد </span>
+										<span style="font-size: 18px;"
+                                              t-esc="docs.student_id.faculty.name_ar"/>
+										<span style="font-size: 18px;font-weight: bold;">أن:</span>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<t t-if="docs.student_id.gender =='m'">
+											<span style="font-size: 18px;font-weight: bold;">الطالب</span>
+                                            /
+											<span style="font-size: 16px;" t-esc="docs.student_id.name"/>
+										</t>
+										<t t-if="docs.student_id.gender == 'f'">
+											<span style="font-size: 18px;font-weight: bold;">الطالبه</span>
+                                            /
+											<span style="font-size: 16px;" t-esc="docs.student_id.name"/>
+										</t>
+									</td>
+									<td>
+										<span style="font-size: 18px;font-weight: bold;">كود</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.student_code"/>
+									</td>
+									<td>
+										<span style="font-size: 18px;font-weight: bold;">الجنسية</span>
+                                        /
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.student_nationality.name"/>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<t t-if="docs.student_id.gender =='m'">
+											<span style="font-size: 18px;font-weight: bold;">مقيد بالمستوى الدراسي</span>
+                                            :
+											<span style="font-size: 16px;"
+                                                    t-esc="docs.student_id.level.name.split(' ')[0]"/>
+										</t>
+										<t t-if="docs.student_id.gender == 'f'">
+											<span style="font-size: 18px;font-weight: bold;">مقيدة بالمستوى الدراسي</span>
+                                            :
+											<span style="font-size: 16px;"
+                                                  t-esc="docs.student_id.level.name.split(' ')[0]"/>
+										</t>
+									</td>
+									<td>
+										<span style="font-size: 18px;font-weight: bold;">التخصص</span>
+                                        :
+										<span style="font-size: 16px;"
+                                              t-esc="docs.student_id.course_id.name.split('|')[0]"/>
+									</td>
+									<td>
+										<span style="font-size: 18px;font-weight: bold;">العام الأكاديمي</span>
+                                        :
+										<span style="font-size: 16px;"
+                                              t-esc="curr_academic_year.name.split(':')[1]"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table reg">
+							<tbody>
+								<tr>
+									<t t-if="docs.student_id.gender =='m'">
+										<td colspan="3" t-if="docs.military">
+											<span style="font-size: 18px;font-weight: bold;">ملاحظات:- علما بأن الطالب المذكور </span>
+											<span style="font-size: 16px;" t-esc="docs.student_id.military_status"/>
+											<span style="font-size: 18px;font-weight: bold;">طبقا للقرار العسكري رقم </span>
+											<span style="font-size: 16px;" t-esc="docs.student_id.decisionno"/>
+											<span style="font-size: 18px;font-weight: bold;">لسنه </span>
+											<span style="font-size: 16px;" t-esc="docs.student_id.military_date"/>
+											<span style="font-size: 18px;font-weight: bold;">والرقم الثلاثي للطالب هو </span>
+											<span style="font-size: 16px;" t-esc="docs.student_id.militaryno"/>
+										</td>
+									</t>
+								</tr>
+							</tbody>
+						</table>
+						<div t-if="docs.notes" class="col-md-12 text-right">
+							<span style="font-size: 16px;" t-esc="docs.notes"/>
+						</div>
+						<table class="table reg">
+							<tbody>
+								<tr>
+									<!-- <td style="text-align:center"><span style="font-size: 18px;font-weight: bold;">اعده</span></td> -->
+									<td style="text-align:center">
+										<span style="font-size: 18px;font-weight: bold;">الموظف المختص</span>
+									</td>
+									<td style="text-align:center">
+										<span style="font-size: 18px;font-weight: bold;">رئيس شئون الطلاب</span>
+									</td>
+									<td style="text-align:center">
+										<span style="font-size: 18px;font-weight: bold;">عميد المعهد</span>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td style="text-align:center">
+										<span style="font-size:18px;font-weight: normal;">أ/</span>
+										<span style="font-size:18px;font-weight: normal;" t-esc="company_details.head_admission_registration.split('|')[0]"/>
+									</td>
+									<td style="text-align:center">
+										<span style="font-size:18px;font-weight: normal;">أ.د/</span>
+										<span style="font-size:18px;font-weight: normal;" t-esc="company_details.university_president.split('|')[0]"/>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<table class="table caption" style="direction: rtl;">
+							<tr>
+								<td style ="font-size: 17px;">
+									<t t-if="docs.student_id.special_case">
+										<t t-if="docs.student_id.gender == 'f'">
+                                          " الطالبة التحقت
+                                        </t>
+										<t t-if="docs.student_id.gender =='m'">
+                                          " الطالب التحق
+                                         </t>
+                                          بالدراسة بالجامعة اعتبار من الترم 
+										<span  t-esc="docs.student_id.join_term.name.split('|')[0]"/>
+                                         سنة
+										<span  t-esc="docs.student_id.join_year.name"/>
+                                         محولا من
+										<br/>
+										<span  t-esc="docs.student_id.university_name.name"/>
+										<t t-if="docs.student_id.university_country.id == 229">
+                                    
+                                         بدولة أوكرانيا
+                                         طبقا لقرار مجلس الوزراء  رقم 184
+                                         بتاريخ
+                                         2022/3/10 م
+                                          </t>
+										<t t-if="docs.student_id.university_country.id == 195">
+                                          بدولة السودان
+                                         طبقا لقرار مجلس الوزراء  رقم 238
+                                         بتاريخ
+                                         2023/5/3 م
+                                          </t>
+										<t t-if="docs.student_id.university_country.id == 190">
+                                          بدولة روسيا
+                                         طبقا لقرار مجلس الوزراء  رقم 238
+                                         بتاريخ
+                                         2023/5/3 م
+                                          </t>
+                                       "
+									</t>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</t>
+			</t>
+		</t>
+	</template>
+</odoo>

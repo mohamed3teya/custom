@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="enroll_application_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <!--<t t-call="web.external_layout">-->
+                     <table class="table" style="border:0px !important;margin-bottom: 0px;" dir="rtl">
+                         <tr>
+                            <td style="position:relative;border: 0px;">
+                                 <b>
+                                    <span style="font-size: 20px;">Admission and Registration</span>
+                                 </b>
+                                 <br/>
+                                 <span>
+                                     <img style="position:absolute; top:5px; left:20px;"
+                                          src="/hue_students_reports/static/src/images/horuslogo.png"
+                                          alt="Horus University" height="60" width="200"/>
+                                 </span>
+                            </td>
+                         </tr>
+                     </table>
+                        <div class="page mt64">
+                            <div class="row  mt20" >
+                                <h4 class="text-center"><b>نموذج مراجعة بيانات </b> </h4>
+                                  <h4 class="text-center"> <b> للطلاب المرشحين لجامعة حورس للعام الجامعى
+                                    <span t-field="o.join_year_id.name"/>
+                               </b> </h4>        
+                            </div>
+                            <table class="table table-condensed" name="invoice_line_table">
+                                <tbody class="invoice_tbody">
+                                    <tr>
+                                        <td style="text-align:center !important;">اسم الطالب</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;" colspan="3">
+                                            <span t-field="o.arabic_name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center !important;">العنوان</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;" colspan="3" >
+                                            <span t-field="o.address"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center !important;">الرقم القومى</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.national_id"/>
+                                        </td>
+                                        <td style="text-align:center !important;">الجنسية</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.nationality_id.name"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td style="text-align:center !important;">الكلية المرشح لها</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.partner_id.faculty.name_ar"/>
+                                        </td>
+                                        <td style="text-align:center !important;">نوع المؤهل</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.certificate_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center !important;">سنة المؤهل</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.certificate_date"/>
+                                        </td>
+                                        <td style="text-align:center !important;">النسبة المئوية</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.certificate_percentage"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center !important;">رقم موبيل الطالب</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.mobile_number"/>
+                                        </td>
+                                        <td style="text-align:center !important;">كود الملف</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;">
+                                            <span t-field="o.application_number"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align:center !important;">الرقم الأكاديمى</td>
+                                        <td class="text-right" id="subtotal" style="text-align:right !important;" colspan="3">
+                                            <span t-field="o.Student_code"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="row  mt20" style="text-align:right !important;">
+                                <h4><strong>
+                                الأوراق المقدمة لإدارة الجامعة لـ
+                                    <span t-field="o.partner_id.faculty.name_ar"/>
+                                    التى اقر بصحتها صحة تامة وصحة البيانات السابق ذكرها وذلك على مسؤوليتي الكاملة دون ادنى مسؤولية على الجامعة :
+                                </strong></h4>        
+                            </div>
+                            <!--<t t-if="o.certificate_id.id == 1">-->
+                            <!--   <table class="table table-condensed" name="invoice_line_table">-->
+                            <!--        <h4><strong>الشهادات المصريه</strong></h4> -->
+                            <!--        <tbody class="invoice_tbody">-->
+                            <!--            <tr>-->
+                            <!--                <td style="text-align:right !important;"><strong>1 - شهادة الثانويه </strong></td>-->
+                            <!--            </tr>-->
+                            <!--            <tr>-->
+                            <!--                <td style="text-align:right !important;"><strong>2 - شهادة الميلاد</strong></td>-->
+                            <!--            </tr>-->
+                            <!--        </tbody>-->
+                            <!--    </table>-->
+                            <!--</t>-->
+                             <t t-if="o.special_case">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong>الشهادات المصريه</strong></h4> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>1 - شهاده الثانويه العامه </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>2 - شهادة الميلاد</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>3 - شهاده التحركات</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>4 - اثبات القيد</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>5 - بيان الدرجات</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>6 - المحتوي العلمي</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>7 - المستوي الدراسي المقيد فيه الطالب</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-else="">
+                            <t t-if="o.certificate_id.enroll_code == '5'">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong>الشهادات المصريه</strong></h4> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>1 - شهادة الثانويه </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>2 - شهادة الميلاد</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-elif="o.certificate_id.enroll_code == '4'">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong> الشهادة الليبيه والسودانية</strong></h4>
+                                    <h6><strong> ملحوظه الشهادة الليبيه يجب حصول الطالب عليها من داخل ليبيا مع تأكد توثيقات الشهادة </strong></h6> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>1 - أصل شهادة الثانويه  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>2 - شهادة ميلاد</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>3 - شهادة تحركات لولي الأمر والطالب  </strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-elif="o.certificate_id.enroll_code == '3'">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong>الشهادات المعادلة</strong></h4>
+                                    <h6><strong>التأكد من التوثيقات الخارجية</strong></h6> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>1 - أصل شهادة الثانوية  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>2 - شهادة الميلاد</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>3 - شهادة قدرات في حالة وجود شهادة سعودية  </strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-elif="o.certificate_id.enroll_code == '2'">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong>I.G</strong></h4>
+                                    <h6><strong>1- مع تأكد توثيقات خارجية مصر والإدارة العامة للإمتحانات من داخل مصر</strong></h6>
+                                    <h6><strong>2- مع تأكد توثيقات الخارجيه فقط لو مدرسة خارج مصر</strong></h6>
+                                    <h6><strong>إستلام عدد نتيجة 8 مواد القطاع الطبي و 9 مواد للقطاع الهندسي</strong></h6> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>1 - أحياء    (   )   </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>2 - رياضيات  (   ) </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>3 - فيزياء    (   )  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>4 - كيمياء    (   )   </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>5 - إنجليزي  (   )  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>6 - ماده مكملة (                        )    (   )  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>7 - ماده مكملة (                        )     (   )  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>8 - ماده مكملة (                        )     (   )  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>9 - مادة الرياضيات المتقدمة (                      ) في حالة دخول الطالب كلية هندسة ملحوظه يكون قد أداها في مستوي ال AS   (   )  </strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            <t t-elif="o.certificate_id.enroll_code == '1'">
+                               <table class="table table-condensed" name="invoice_line_table">
+                                    <h4><strong> الدبلومة الأمريكية</strong></h4>
+                                    <h6><strong>مع تأكد التوثيقات وإعتمادة الإدارة التعليمية لتسلسل الدراسي</strong></h6>
+                                    <h6><strong>مع تأكد إعتماد شهادة ال GPA لإدارة للإمتحانات</strong></h6> 
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>EST1 </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>EST2  </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>تسلسل دراسي   </strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>شهادة الميلاد</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>شهادة GPA</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>باسورد ال EST</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>جواب إعتماد المدرسة</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="text-align:right !important;"><strong>مدرسة خارج مصر إحضار خطاب إيميد إيست</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </t>
+                            </t>
+                            <div class="row  mt20" style="text-align:right !important;">
+                                <h4><strong>
+                                ملحوظة : هذا الاقرار يلغى اى اقرارات تم توقيعها سابقا
+                                </strong></h4>        
+                            </div>
+                            <br />
+                            <div class="row mb64" style="text-align:left !important;">
+                                <div class="col-xs-12">
+                                   <span>التوقيع /  ___________________________</span>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="col-xs-12">
+                                    <span>التاريخ / ___________________________</span>
+                                </div>
+                            </div>   
+                        </div>
+                    <!--</t>-->
+                </t>
+            </t>
+        </template>
+    
+        <record id="enroll_application_report_view" model="ir.actions.report">
+            <field name="name">Enroll Application</field>
+            <field name="model">op.admission</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_admission.enroll_application_report</field>
+        </record>
+
+        <!--<template id="enroll_report_assets_backend" name="Enroll Application Report" inherit_id="hue_admission.enroll_application_report">
+            <xpath expr="." position="inside">
+		          All links to CSS and JS files should be added in here.
+                <link   href="/web_rtl/static/src/css/bootstrap-rtl.min.css" rel="stylesheet"/>
+                <link  href="/web_rtl/static/src/css/rtl.css" rel="stylesheet"/>
+                <script type="text/javascript" src="/hue_customization/static/src/js/main.js"></script>
+            </xpath>
+        </template>-->
+  
+    </data>
+</odoo>

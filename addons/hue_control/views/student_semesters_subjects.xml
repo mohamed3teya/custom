@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--op_student_semesters_subjects_tree_view-->
+		<record id="op_student_semesters_subjects_tree_view" model="ir.ui.view">
+            <field name="name">op.student.semesters.subjects Tree</field>
+            <field name="model">op.student.semesters.subjects</field>
+            <field name="arch" type="xml">
+                <tree string="Semester Subjects">
+                    <field name="student_id"/>
+                    <field name="student_code"/>
+                    <field name="course_id"/>
+                    <field name="subject_id"/>
+                    <field name="subject_credit"/>
+                    <field name="academicyear_id"/>
+                    <field name="semester_id"/>
+                    <field name="final_grade"/>
+                    <field name="final_degree"/>
+                     <field name="final_grade_sequence"/>
+                </tree>
+            </field>
+        </record>
+		<!--student_subject_final_grades_graph_view-->
+		<record id="student_subject_final_grades_graph_view" model="ir.ui.view">
+           <field name="name">op.student.semesters.subjects.graph</field>
+           <field name="model">op.student.semesters.subjects</field>
+           <field name="arch" type="xml">
+               <graph string="Student Grades"  type="line">
+                   <field name="final_grade"/>
+               </graph>
+           </field>
+        </record>
+		<!--subject_control_security_action-->
+		<record model="ir.actions.act_window" id="student_subject_final_grades_action">
+			<field name="name">Student Subject Final Grades</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.student.semesters.subjects</field>
+			<field name="view_mode">tree,form,graph</field>
+		</record>
+	</data>
+</odoo>

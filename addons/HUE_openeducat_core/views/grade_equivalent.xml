@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="view_op_grade_equiv_tree" model="ir.ui.view">
+			<field name="name">op coursegradeseqiv</field>
+			<field name="model">op.course.gradeseqiv</field>
+			<field name="arch" type="xml">
+				<tree string="op coursegradeseqiv">
+					<field name="course_id"/>
+					<field name="grade"/>
+					<field name="point_from"/>
+					<field name="point_to"/>
+				</tree>
+			</field>
+		</record>
+		<record model="ir.actions.act_window" id="act_open_op_grade_equiv">
+			<field name="name">Course Grades Equivalent</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.course.gradeseqiv</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

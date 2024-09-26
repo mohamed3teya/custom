@@ -1,0 +1,62 @@
+<odoo>
+	<data>
+        <!--HUE event calendar tree-->
+        <record id="view_hue_event_calendar_tree" model="ir.ui.view">
+            <field name="name">hue.event.calendar.tree</field>
+            <field name="model">hue.event.calendar</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <tree string="Event calendar">
+                    <field name="course_id" />
+                    <field name="type" />
+                    <field name="academic_year" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+                    <field name="semester" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}" />
+                    <field name="start_date" />
+                    <field name="end_date" />
+                    <field name="level" />
+                    <field name="gpa_from" />
+                    <field name="gpa_to" />
+                    <field name="student_id"/>
+                </tree>
+            </field>
+        </record>
+        <!--HUE event calendar form-->
+        <record id="view_hue_event_calendar_form" model="ir.ui.view">
+            <field name="name">hue.event.calendar.form</field>
+            <field name="model">hue.event.calendar</field>
+            <field name="priority" eval="8" />
+            <field name="arch" type="xml">
+                <form string="Event calendar">
+                    <sheet>
+                        <group colspan="4" col="4">
+                            <field name="course_id" />
+                            <field name="type" />
+	                    
+                            <field name="academic_year" options='{"no_open": True}' />
+                            <field name="semester" options='{"no_open": True}' />
+                            <field name="start_date" />
+                            <field name="end_date" />
+                            <field name="gpa_from" />
+                            <field name="gpa_to" />
+                            <field name="level" />
+                            <field name="student_id"/>
+                             <field name="max_level"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"
+                            groups="base.group_user" />
+                        <field name="message_ids" widget="mail_thread" />
+                    </div>
+                </form>
+            </field>
+        </record>
+		<!--Actions-->
+		<record id="hue_event_calendar_action" model="ir.actions.act_window">
+			<field name="name">Event Calendar</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.event.calendar</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

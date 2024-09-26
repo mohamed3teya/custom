@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- form -->
+        <record id="military_education_student_wizard_form" model="ir.ui.view">
+            <field name="name">military education students form</field>
+            <field name="model">military.education.students.wizard</field>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <form string="military education student Report">
+                    <sheet>
+                        <div>
+                            <group colspan="8" cols="8">
+                                <group>
+                                <field name="faculty_id"/>
+                                <field name="semester_id"/>
+                                <field name="level"/>
+                                <field name="no_military"/>
+                                </group>
+                                <group>
+                                    <field name="academic_year_id"/>
+                                    <field name="military_num"/>
+                                     <field name="student_status"  widget="many2many_tags"  />
+                                </group>
+                            </group>
+                        </div>
+                    </sheet>
+                    <footer>
+                        <span groups="base.group_user">
+                            <button string="Print" type="object" name="print_report" class="oe_highlight"/>
+                            <button special="cancel" string="Close" type="object"/>
+                        </span>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!-- action  -->
+        <record model="ir.actions.act_window" id="action_military_education_wizard">
+            <field name="name">Military education students Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">military.education.students.wizard</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        <!-- menu -->
+        <!-- <menuitem id="menu_student_data_report"
+                  name="Student Data Report"
+                  sequence="5"/>
+         <menuitem id="submenu_student_data_report"
+                  name="Student Data Report"
+                   parent="menu_student_data_report"
+                  sequence="5"/>
+        <menuitem id="menu_military_education_wizard"
+                  name="military_education Report"
+                  sequence="1"
+                  parent="hue_student_reports_yasmin.submenu_student_data_report"
+                  action="action_military_education_wizard"/> -->
+    </data>
+</odoo>

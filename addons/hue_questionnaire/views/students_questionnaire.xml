@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--students_questionnaire_tree_view-->
+        <record id="students_questionnaire_tree_view" model="ir.ui.view">
+            <field name="name">students questionnaire</field>
+            <field name="model">students.questionnaire</field>
+            <field name="arch" type="xml">
+                <tree string="students questionnaire">
+                    <field name="student_id" />
+                    <field name="academic_year_id" />
+                    <field name="semester_id" />
+                </tree>
+            </field>
+        </record>
+        <!--students_questionnaire_form_view-->
+        <record id="students_questionnaire_form_view" model="ir.ui.view">
+            <field name="name">students questionnaire</field>
+            <field name="model">students.questionnaire</field>
+            <field name="arch" type="xml">
+                <form string="students questionnaire">
+                    <sheet>
+                        <group col="4">
+                        <field name="student_id" />
+                        <field name="academic_year_id" />
+                        <field name="semester_id" />                        
+                        </group>  
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--students_questionnaire_action-->
+		<record model="ir.actions.act_window" id="students_questionnaire_action">
+			<field name="name">students questionnaire</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">students.questionnaire</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

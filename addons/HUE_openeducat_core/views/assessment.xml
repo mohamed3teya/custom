@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.actions.act_window" id="act_open_op_assessment">
+			<field name="name">Assessments</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.assessments</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

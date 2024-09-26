@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Core Configuration Menu -->
+        <!-- Event Menu -->
+        <menuitem id="hue_event_calendar_menu" name="Event Calendar" action="hue_event_calendar_action"
+                  parent="openeducat_core.menu_op_school_config" sequence="70" />
+
+        <!-- Military Menu -->
+        <menuitem id="military_student" name="Military " parent="openeducat_core.menu_op_school_config" sequence="11"/>
+        <menuitem id="military_student_menu" name="Military Student" parent="military_student" action="military_student_action" sequence="1"/>
+        <menuitem id="military_student_report_menu" name="Military Student Report" parent="military_student"
+                  action="action_military_student_wizard" sequence="2"/>
+		
+		<!--Course department menu-->
+		<menuitem id="hue_department" name="Course Department" parent="openeducat_core.menu_op_school_config" sequence="11"/>
+        <menuitem id="student_course_department_menu" name="Student course department" parent="hue_department"
+                  action="student_course_department_action" sequence="1"/>
+		
+        <!-- Registration Menu -->
+        <menuitem id="registration_menu" name="Registration" parent="openeducat_core.menu_op_school_config" sequence="12"/>
+        <menuitem id="summer_subject_reg_menu" name="Training Field Registration" parent="registration_menu"
+                  action="summer_subject_reg_action" sequence="1"/>
+		<menuitem id="hue_registration_menu" name="HUE Registration" action="hue_student_registration_action"
+                  parent="registration_menu" sequence="2"/>
+		<menuitem id="hue_student_registration_log_menu" name="Registration Log" action="hue_student_registration_log_action"
+                  parent="registration_menu" sequence="3" />
+        <menuitem id="hue_student_registration_missing_menu" name="Registration Missing" action="hue_student_registration_missing_action"
+                  parent="registration_menu" sequence="4" />
+        <menuitem id="hue_student_registration_missing_subject_menu" name="Registration Missing Subject" action="hue_student_registration_missing_subject_action"
+                  parent="registration_menu" sequence="5" />
+		
+		<!--transferred student menu-->
+		<menuitem id="transferred_student" name="Transferred" parent="openeducat_core.menu_op_school_config" sequence="10"/>
+        <menuitem id="transferred_student_menu" name="Transferred Student" parent="transferred_student"
+                  action="transferred_student_action" sequence="1"/>
+        <menuitem id="university_transfer_menu" name="University Transfer" parent="transferred_student"
+                  action="university_transfer_action" sequence="2"/>
+        
+        <!--Services menu-->
+        <menuitem id="service_root" name="Services" parent="openeducat_core.menu_op_school_config" sequence="13"/>
+        <menuitem id="hue_service_menu" name="Service Type" parent="service_root"
+                  action="hue_service_action" sequence="1"/>
+        <menuitem id="student_service_menu" name="Student Service" parent="service_root"
+                  action="student_service_action" sequence="2"/>
+        <menuitem id="student_alumni_menu" name="Alumni Service" parent="service_root"
+                  action="alumni_service_action" sequence="3"/>
+        
+        <!--Transportation menu-->
+        <menuitem id="transport_root" name="Transportation " parent="openeducat_core.menu_op_school_config" sequence="11"/>
+        <menuitem id="transport_student_line_menu" name="Student Transportation Lines" parent="transport_root"
+                  action="student_transport_Lines_action" sequence="1"/>
+        <menuitem id="transport_lines_menu" name="Transport Lines" parent="transport_root"
+                  action="transport_lines_action" sequence="2"/>
+    </data>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--Subject_security_tree_view-->
+		<record id="Subject_security_tree_view" model="ir.ui.view">
+			<field name="name">Subject Control security</field>
+			<field name="model">subjects.control.security</field>
+			<field name="arch" type="xml">
+				<tree string="Subject Control security ">
+					<field name="user"/>
+					<field name="course_id"/>
+					<field name="batch_id"/>
+					<field name="subject_id"/>
+				</tree>
+			</field>
+		</record>
+		<!--Subject_security_from_view-->
+		<record id="Subject_security_from_view" model="ir.ui.view">
+			<field name="name">Subject Control security</field>
+			<field name="model">subjects.control.security</field>
+			<field name="arch" type="xml">
+				<form string="Subject Control security">
+					<sheet>
+						<group col="4">
+							<field name="user" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="course_id" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="batch_id" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+							<field name="subject_id" widget="many2many" options="{'no_create': True, 'no_create_edit':True,'no_open': True}"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--subject_control_security_action-->
+		<record model="ir.actions.act_window" id="subject_control_security_action">
+			<field name="name">Subject Control Security</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">subjects.control.security</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

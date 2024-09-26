@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+	<data>
+		<record id="view_hue_op_course_tree_fees" model="ir.ui.view">
+			<field name="name">courses fees</field>
+			<field name="model">op.course</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_course_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='fees_term_id']" position="attributes">
+					<attribute name="required">0</attribute>
+				</xpath>
+			</field>
+		</record>
+		<record id="view_hue_op_course_form" model="ir.ui.view">
+			<field name="name">courses</field>
+			<field name="model">op.course</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_course_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='min_unit_load']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='code']" position="after">
+					<field name='section'/>
+				</xpath>
+				<xpath expr="//field[@name='fees_term_id']" position="attributes">
+					<attribute name="required">0</attribute>
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//field[@name='max_unit_load']" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<field name='evaluation_type' position='after'>
+					<field name='parent_id' position='move'/>
+				</field>
+				<xpath expr="//notebook[1]" position="before">
+					<group>
+						<group>
+						<field name="cretificate_arabicname"/>
+						<field name="cretificate_englishname"/>
+						<field name="projecthours"/>
+						<field name="credithours"/>
+						<field name="corehours"/>
+						<field name="farouk_id"/>
+						<field name="electivehours"/>
+						<field name="freehours"/>
+						</group>
+						<group>
+						<field name="faculty_id"/>
+						<field name="loadhourstype"/>
+						<field name="honors_gpa"/>
+						<field name="traininghours"/>
+						<field name="control_email"/>
+						<field name="faculty_ids" options="{'no_create': True}" widget="many2many_tags"/>
+						<field name="intern_year"/>
+						<field name="sds_tobedeleted"/>
+						</group>
+					</group>
+				</xpath>
+				<xpath expr="//page[1]" position="attributes">
+					<attribute name="invisible">1</attribute>
+				</xpath>
+				<xpath expr="//notebook" position="inside">
+					<page name="Grades" string="Grades">
+						<field name="course_grade_ids" nolabel="1">
+							<tree editable="bottom">
+								<field name="grade_id"/>
+								<field name="percent_from"/>
+								<field name="percent_to"/>
+								<field name="points_from"/>
+								<field name="points_to"/>
+								<field name="grade_Eqiv"/>
+								<field name="first_pass_grade"/>
+								<field name="second_pass_grade"/>
+								<field name="honours_grade"/>
+							</tree>
+						</field>
+					</page>
+					<page name="Levels" string="Levels">
+						<field name="course_level_ids" nolabel="1">
+							<tree editable="bottom">
+								<field name="level_id"/>
+								<field name="farouk_id"/>
+								<field name="hours_from"/>
+								<field name="hours_to"/>
+							</tree>
+						</field>
+					</page>
+					<page name="Load Hours" string="Load Hours GPA">
+						<field name="course_loadhours_ids">
+							<tree editable="bottom">
+								<field name="level_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+								<field name="semester_id"/>
+								<field name="hours_from"/>
+								<field name="hours_to"/>
+								<field name="gpa_from"/>
+								<field name="gpa_to"/>
+							</tree>
+						</field>
+					</page>
+					<!--<page name="Load Hours" string="Load Hours Levels"><group  name="Load Hours"><field name="course_loadhourslevels_ids"><tree editable="bottom"><field name="LH_levels"  /><field name="LH_semesters"  /><field name="gpa_from"  /><field name="gpa_to"  /><field name="hours_from"  /><field name="hours_to"  /></tree></field></group></page>-->
+					<page name="Subjects" string="Subjects">
+						<field name="subjects_ids">
+							<tree>
+								<field name="code"/>
+								<field name="name"/>
+								<field name="subject_semester"/>
+								<field name="subject_level"/>
+								<!--<field name="subject_credithours"/>-->
+								<field name="subject_type"/>
+							</tree>
+						</field>
+					</page>
+					<page name="Results Publish" string="Results Publish">
+						<field name="course_resultspublish_ids">
+							<tree>
+								<field name="acadyears"/>
+								<field name="semesters"/>
+								<field name="publishflag"/>
+							</tree>
+						</field>
+					</page>
+					<page name="Control Managment" string="Control Managment">
+						<group name="Control Managment">
+							<field name="fr_percent"/>
+							<field name="pass_degree"/>
+							<field name="second_pass_degree"/>
+							<field name="deduction_grade_first"/>
+							<field name="deduction_grade_second"/>
+						</group>
+					</page>
+					<page name="Course Grades Equivalent" string="Course Grades Equivalent">
+						<field name="course_grade_eqiv_ids">
+							<tree editable="bottom">
+								<field name="grade"/>
+								<field name="point_from"/>
+								<field name="point_to"/>
+							</tree>
+						</field>
+					</page>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>  

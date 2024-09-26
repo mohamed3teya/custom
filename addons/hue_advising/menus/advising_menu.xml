@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Root Menu for Advising -->
+        <menuitem id="hue_advising_root_menu" name="Advising" sequence="90" />
+        <menuitem id="hue_advisor_student_root_menu" name="Advisor Students" sequence="92"/>
+
+        <!-- Advisor students submenu -->
+        <menuitem id="hue_advisor_students_sub_menu" parent="hue_advisor_student_root_menu" 
+                  name="Advisor Students"  action="act_advisor_students_domain_main"/>
+
+        <!-- Academic Advisor Submenu -->
+        <menuitem id="hue_academic_direction_root_menu" parent="hue_advising_root_menu" name="Academic Advisor"/>
+        <menuitem id="hue_academic_direction_menu" name="Academic Advisors" action="hue_academic_direction_action" parent="hue_academic_direction_root_menu" sequence="2" />
+        <menuitem id="hue_academic_direction_line_menu" name="Academic Advisor Students" action="hue_academic_direction_line_action" parent="hue_academic_direction_root_menu" sequence="3" />
+
+        <!-- GPA Calculator Menu Item -->
+        <menuitem id="hue_gpa_calculator_menu" name="GPA Calculator" action="hue_gpa_calculator_action" parent="hue_advising_root_menu" sequence="20" />
+
+        <!-- Core Configuration Menu -->
+        <!-- <menuitem id="hue_academic_direction_core_root_menu" name="Academic Advisor" parent="openeducat_core.menu_op_school_config" sequence="90" />
+        <menuitem id="hue_academic_direction_menu" name="Academic Advisors" action="hue_academic_direction_core_action" parent="hue_academic_direction_core_root_menu" sequence="10" />
+        <menuitem id="hue_academic_direction_line_menu" name="Academic Advisor Students" action="hue_academic_direction_line_core_action" parent="hue_academic_direction_core_root_menu" sequence="20" />
+        <menuitem id="student_without_advisor_menu" name="Students without Advisor" parent="hue_academic_direction_core_root_menu" action="student_without_advisor_action" sequence="1"/>
+		<menuitem id="transferred_advisor_menu" name="Transferred advisor" parent="hue_academic_direction_core_root_menu" action="transferred_advisor_action" sequence="6"/> -->
+
+        <!-- Core Configuration Menu -->
+        <!-- <menuitem id="hue_academic_direction_core_menu" name="Academic Advisors" action="hue_academic_direction_core_action" parent="hue_academic_direction_root_menu" sequence="10" /> -->
+        <!-- <menuitem id="hue_academic_direction_line_advising_menu" name="Academic Advisor Students" action="hue_academic_direction_line_core_action" parent="hue_academic_direction_root_menu" sequence="20" /> -->
+        <menuitem id="student_without_advisor_advising_menu" name="Students without Advisor" parent="hue_academic_direction_root_menu" action="student_without_advisor_action" sequence="4"/>
+		<menuitem id="transferred_advisor_advising_menu" name="Transferred advisor" parent="hue_academic_direction_root_menu" action="transferred_advisor_action" sequence="5"/>
+    </data>
+</odoo>

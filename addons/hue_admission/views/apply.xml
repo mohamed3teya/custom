@@ -1,0 +1,3560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+   <template id="edit" name="Student edit Admission Layout">
+      <t t-call="hue_admission.admission_template">
+         <div class="l-row">
+            <div class="l-col-12">
+               <div class="form-header">
+                  <img src="/hue_admission/static/img/logoen.png" class="logo" alt="" style="width: auto;  display: block;margin: 0 auto;" />
+                  <h1 t-if="mode == 'view'" class="margin-bottom-0">Application Follow up</h1>
+                  <h3 t-if="mode == 'view'" class="margin-bottom-0" style="font-family: 'Almarai', sans-serif;">متابعة طلب الالتحاق</h3>
+                  <h1 t-if="mode == 'edit'" class="margin-bottom-0">Edit Application</h1>
+                  <h3 t-if="mode == 'edit'" class="margin-bottom-0" style="font-family: 'Almarai', sans-serif;">تعديل بيانات طلب الالتحاق</h3>
+               </div>
+               <div class="form-body" t-if="mode == 'edit'">
+                  <fieldset>
+                     <legend>
+                        <span style="font-family: 'Almarai', sans-serif;">
+                           (
+                           <span t-esc="application.application_number" />
+                           ) تعديل طلب رقم
+                        </span>
+                     </legend>
+                  </fieldset>
+                  <form action="/save_edit" method="post" id="solid-form" enctype="multipart/form-data">
+                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                      <input type="hidden" name="ref_number" t-att-value="application.ref_number" />
+                     <fieldset>
+                        <legend>
+                           Personal information -
+                           <span class="arabic_span">البيانات الشخصية</span>
+                        </legend>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="english_name">
+                                    Student English Name
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;">اسم الطالب باللغة الانجليزية</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" class="form-element form-element-icon" id="english_name" name="english_name" placeholder="Student English Name"  t-att-value="application.english_name"/>
+                                    <i class="fa fa-male fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="arabic_name">
+                                    Student Arabic Name
+                                    <span class="arabic_span">اسم الطالب باللغة العربية</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input style="direction: rtl;font-family: 'Almarai', sans-serif;" type="text" class="form-element form-element-icon" id="arabic_name" name="arabic_name" placeholder="ادخل اسم الطالب باللغة العربية ..."   t-att-value="application.arabic_name"/>
+                                    <i class="fa fa-male fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group form-group-select" data-icon="078">
+                                 <label for="religion">
+                                    Religion
+                                    <span class="arabic_span">الديانة</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="religion" id="religion" class="form-element form-element-icon">
+                                       <option value="#" disabled="disabled">Religion</option>
+                                        <t t-if="application.religion == 'm'" >
+                                              <option value="m" selected="selected" >Muslim - مسلم</option>
+                                          </t>
+                                          <t t-else=""  >
+                                             <option value="m">Muslim - مسلم</option>
+                                          </t>
+                                        <t t-if="application.religion == 'c'" >
+                                              <option value="c" selected="selected" >Muslim - مسلم</option>
+                                          </t>
+                                          <t t-else=""  >
+                                             <option value="c">MChristian - مسيحى</option>
+                                          </t>                                            
+
+                                    </select>
+                                    <i class="fa fa-info fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group form-group-select" data-icon="f078">
+                                 <label for="nationality_id">
+                                    Nationality
+                                    <span class="arabic_span">بلد الجنسية</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="nationality_id" id="nationality_id" class="form-element form-element-icon">
+                                       <option value=""  disabled="disabled">Select Nationality</option>
+                                       <t t-foreach="countries" t-as="country">
+                                          <option t-if="application.nationality_id.id == country.id" selected="selected" t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>
+                                          <option t-else="application.nationality_id.id != country.id"  t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>                                          
+                                       </t>
+                                    </select>
+                                    <i class="fa fa-globe fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group form-group-select" data-icon="&amp;#xf078" id="city_id_id">
+                                 <label for="city_id">
+                                    Governorate
+                                    <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">المحافظة</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="city_id" id="city_id" class="form-element form-element-icon">
+                                       <option value="" selected="selected" disabled="disabled">Select Governorate</option>
+                                       <t t-foreach="governorates" t-as="governorate">
+                                          <option t-if="application.city_id.id == governorate.id" selected="selected" t-att-value="governorate.id">
+                                             <t t-esc="governorate.name" />
+                                          </option>
+                                          <option t-else="application.city_id.id != governorate.id"  t-att-value="governorate.id">
+                                             <t t-esc="governorate.name" />
+                                          </option>                                            
+
+                                       </t>
+                                    </select>
+                                    <i class="fa fa-globe fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                              <div class="form-group" id="governorate_id">
+                                 <label for="governorate">
+                                    Governorate
+                                    <span class="arabic_span">المحافظة</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.governorate" class="form-element form-element-icon" id="governorate" name="governorate" placeholder="Enter Governorate" />
+                                    <i class="fa fa-map-marker fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="city">
+                                    City
+                                    <span class="arabic_span">المدينة</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.city" class="form-element form-element-icon" id="city" name="city" placeholder="Enter City" />
+                                    <i class="fa fa-map-marker fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="national_id">
+                                    National ID/Passport number
+                                    <span class="arabic_span">الرقم القومى /رقم جواز السفر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.national_id" class="form-element form-element-icon" id="national_id" name="national_id" style="font-family: 'Almarai', sans-serif;" placeholder="National ID - الرقم القومى للمصريين/ رقم جواز السفر لغير المصريين"  disabled="disabled" readonly="readonly"/>
+                                    <i class="fa fa-user fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group form-group-upload">
+                                 <label for="birth_certificate">
+                                    Birth Certificate
+                                    <span class="arabic_span">شهادة الميلاد</span>
+                                    <span class="text-muted" />
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="file" name="birth_certificate" id="birth_certificate" class="form-element" />
+                                    <input type="text" name="upload_c" id="upload_c" class="form-element form-element-icon" placeholder="Upload a Birth Certificate" />
+                                    <i class="fa fa-upload fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group form-group-select" data-icon="078">
+                                 <label for="gender">
+                                    Gender
+                                    <span class="arabic_span">النوع</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="gender" id="gender" class="form-element form-element-icon">
+                                       <option value="#"  disabled="disabled">Select Gender</option>
+                                          <t t-if="application.gender == 'm'">
+                                             <option value="m" selected="selected">Male - ذكر</option>
+                                          </t>
+                                          <t t-else="">
+                                            <option value="m">Male - ذكر</option>
+                                          </t>                                               
+                                          <t t-if="application.gender == 'f'">
+                                            <option value="f" selected="selected">Female - انثى</option>
+                                          </t>
+                                          <t t-else="">
+                                            <option value="f">Female - انثى</option>
+                                          </t>                                         
+                                       
+                                    </select>
+                                    <i class="fa fa-user fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-12">
+                              <div class="form-group">
+                                 <label for="birthday" class="bordered-bottom-1 f-label text-medium">
+                                    BIRTHDAY
+                                    <span style="font-family: 'Almarai', sans-serif;float: right;">تاريخ الميلاد</span>
+                                 </label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-4">
+                              <div class="form-group form-group-select" data-icon="078">
+                                 <label for="bday">
+                                    DAY
+                                    <span class="arabic_span">اليوم</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="bday" id="bday" class="form-element form-element-icon">
+                                       <option value="#" disabled="disabled">Day</option>
+                                        <t t-foreach="days" t-as="d">
+                                          <option t-if="day == d" selected="selected" t-att-value="d">
+                                             <t t-esc="d"/>
+                                          </option>
+                                          <option t-else="day != d"  t-att-value="d">
+                                             <t t-esc="d"/>
+                                          </option>                                           
+                                       
+                                        </t> 
+                                    </select>
+                                    <i class="fa fa-calendar fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group form-group-select" data-icon="f078">
+                                 <label for="bmonth">
+                                    MONTH
+                                    <span class="arabic_span">الشهر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="bmonth" id="bmonth" class="form-element form-element-icon">
+                                       <option value="#" selected="selected" disabled="disabled">Month</option>
+                                       <t t-foreach="months" t-as="m">
+                                             <option t-if="month == m[0]" selected="selected" t-att-value="m[0]">
+                                             <t t-esc="m[1]"/>
+                                          </option>
+                                          <option t-else="month != m[0]"  t-att-value="m[0]">
+                                             <t t-esc="m[1]"/>
+                                          </option>                                       
+                                        </t>
+                                    </select>
+                                    <i class="fa fa-calendar fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group form-group-select" data-icon="f078">
+                                 <label for="byear">
+                                    YEAR
+                                    <span class="arabic_span">السنة</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="byear" id="byear" class="form-element form-element-icon">
+                                       <option value="#"  disabled="disabled">Year</option>
+                                       <t t-foreach="years" t-as="y">
+                                           <option t-if="year == y" selected="selected" t-att-value="y">
+                                             <t t-esc="y"/>
+                                          </option>
+                                          <option t-else="year != y"  t-att-value="y">
+                                             <t t-esc="y"/>
+                                          </option>                                       
+                                       </t>
+                                    </select>
+                                    <i class="fa fa-calendar fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </fieldset>
+                     <fieldset>
+                        <legend>
+                           Contact Information -
+                           <span style="font-family: 'Almarai', sans-serif;">بيانات الاتصال</span>
+                        </legend>
+                        <div class="l-row">
+                           <div class="l-col-12">
+                              <div class="form-group form-group-textarea">
+                                 <label for="address">
+                                    ADDRESS
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">عنوان الطالب بالتفصيل</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <textarea name="address" id="address"  rows="2" class="form-element form-element-icon" placeholder="Address" ><t t-esc="application.address"/></textarea>   
+                                    <i class="fa fa-road fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="mobile_number">
+                                    MOBILE NUMBER
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">رقم الموبيل</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.mobile_number" class="form-element form-element-icon" name="mobile_number" id="mobile_number" placeholder="Mobile Number" />
+                                    <i class="fa fa-mobile fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="parent_mobile">
+                                    OTHER MOBILE NUMBER
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">رقم موبيل اخر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.parent_mobile"  class="form-element form-element-icon" name="parent_mobile" id="parent_mobile" placeholder="Other Mobile Number" />
+                                    <i class="fa fa-mobile fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="email">
+                                    E-MAIL
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكترونى للطالب</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.email" class="form-element form-element-icon" name="email" id="email" placeholder="E-Mail" />
+                                    <i class="fa fa-envelope fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-6">
+                              <div class="form-group">
+                                 <label for="home_number">
+                                    HOME NUMBER
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون ارضى</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.home_number"  class="form-element form-element-icon" name="home_number" id="home_number" placeholder="Home Phone" />
+                                    <i class="fa fa-phone fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </fieldset>
+                     <fieldset>
+                        <legend>
+                           Family Information -
+                           <span style="font-family: 'Almarai', sans-serif;">بيانات العائلة</span>
+                        </legend>
+                        <div class="l-row">
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="father_name">
+                                    Guardian Name
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم ولي الأمر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.father_name" class="form-element form-element-icon" id="father_name" name="father_name" placeholder="Guardian Name" />
+                                    <i class="fa fa-user fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                 <label for="father_nationality">
+                                    Guardian Nationality
+                                    <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">بلد الجنسية</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="father_nationality" id="father_nationality" class="form-element form-element-icon">
+                                       <option value="" selected="selected" disabled="disabled">Select Nationality</option>
+                                       <t t-foreach="countries" t-as="country">
+                                           <option t-if="application.father_nationality.id == country.id" selected="selected" t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>
+                                          <option t-else="application.father_nationality.id != country.id"  t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>                                          
+
+                                       </t>
+                                    </select>
+                                    <i class="fa fa-globe fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="father_job">
+                                    Guardian Job
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">وظيفة ولي الأمر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.father_job" class="form-element form-element-icon" id="father_job" name="father_job" placeholder="Guardian Job" />
+                                    <i class="fa fa-cube fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="father_mail">
+                                    Guardian E-mail
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكتروني</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.father_mail" class="form-element form-element-icon" id="father_mail" name="father_mail" placeholder="Guardian E-mail" />
+                                    <i class="fa fa-envelope fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="father_mobile">
+                                    Guardian Mobile
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">موبيل ولي الامر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.father_mobile"  class="form-element form-element-icon" id="father_mobile" name="father_mobile" placeholder="Guardian Mobile" />
+                                    <i class="fa fa-mobile fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="father_phone">
+                                    Guardian Telephone
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون  ولي الامر</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.father_phone" class="form-element form-element-icon" id="father_phone" name="father_phone" placeholder=" Guardian Telephone" />
+                                    <i class="fa fa-phone fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="mother_name">
+                                    Mother Name
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم الام</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"   t-att-value="application.mother_name" class="form-element form-element-icon" id="mother_name" name="mother_name" placeholder="Mother Name" />
+                                    <i class="fa fa-user fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                 <label for="mother_nationality">
+                                    Mother Nationality
+                                    <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">بلد الجنسية</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <select name="mother_nationality" id="dpos" class="form-element form-element-icon">
+                                       <option value="" selected="selected" disabled="disabled">Select Nationality</option>
+                                       <t t-foreach="countries" t-as="country">
+                                           <option t-if="application.mother_nationality.id == country.id" selected="selected" t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>
+                                          <option t-else="application.mother_nationality.id != country.id"  t-att-value="country.id">
+                                             <t t-esc="country.name" />
+                                          </option>  
+                                       </t>
+                                    </select>
+                                    <i class="fa fa-globe fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="mother_job">
+                                    Mother Job
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">وظيفة الام</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"   t-att-value="application.mother_job" class="form-element form-element-icon" id="mother_job" name="mother_job" placeholder="Mother Job " />
+                                    <i class="fa fa-cube fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="l-row">
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="mother_mail">
+                                    Mother E-mail
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكتروني</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.mother_mail" class="form-element form-element-icon" id="mother_mail" name="mother_mail" placeholder="Mother E-mail" />
+                                    <i class="fa fa-envelope fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="mother_mobile">
+                                    Mother Mobile
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">موبيل الام</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text"  t-att-value="application.mother_mobile"  class="form-element form-element-icon" id="mother_mobile" name="mother_mobile" placeholder="Mother Mobile" />
+                                    <i class="fa fa-mobile fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-col-4">
+                              <div class="form-group">
+                                 <label for="mother_phone">
+                                    Mother Telephone
+                                    <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون الام</span>
+                                 </label>
+                                 <div class="l-pos-r">
+                                    <input type="text" t-att-value="application.mother_phone" class="form-element form-element-icon" id="mother_phone" name="mother_phone" placeholder=" Mother Telephone" />
+                                    <i class="fa fa-phone fa-absolute fa-background" />
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <section>
+                           <div class="l-row">
+                              <div class="l-col-12">
+                                 <div class="form-group">
+                                    <label class="bordered-bottom-1 text-bold text-medium f-label">
+                                       Sibling Information
+                                       <span style="font-family: 'Almarai', sans-serif;float:right;">بيانات الاشقاء</span>
+                                    </label>
+                                 </div>
+                              </div>
+                              <div class="l-col-12">
+                                 <div class="form-group form-group-checkbox margin-bottom-0">
+                                    <label for="tApplicable">
+                                          <t t-if="application.sibling_name">
+                                             <input type="checkbox" class="form-element" id="tApplicable" name="tApplicable" checked="checked" />
+                                          </t>
+                                          <t t-else=""  >
+                                            <input type="checkbox" class="form-element" id="tApplicable" name="tApplicable" />
+                                          </t>     
+                                       
+                                       <span class="check-svg-2" />
+                                       <svg viewBox="-5.362 -7.374 42 42">
+                                          <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                          <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                       </svg>
+                                       <span>Do you have a sibling at HUE</span>
+                                       <span style="font-family: 'Almarai', sans-serif;float:right;">( هل لديك اشقاء بجامعة حورس )</span>
+                                       ?
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-row" id="sibling_check">
+                              <div class="l-col-6">
+                                 <div class="form-group" style="display: none;">
+                                    <label for="sibling_name">
+                                       Sibling Name
+                                       <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم الطالب</span>
+                                    </label>
+                                    <div class="l-pos-r">
+                                       <input type="text" t-att-value="application.sibling_name" class="form-element form-element-icon" id="sibling_name" name="sibling_name" placeholder="Sibling Name " />
+                                       <i class="fa fa-graduation-cap fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group" style="display: none;">
+                                    <label for="sibling_id">
+                                       HUE ID Number
+                                       <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">الرقم الجامعي</span>
+                                    </label>
+                                    <div class="l-pos-r">
+                                       <input type="text" t-att-value="application.sibling_id" class="form-element form-element-icon" id="sibling_id" name="sibling_id" placeholder="HUE ID Number" />
+                                       <i class="fa fa-graduation-cap fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </section>
+                     </fieldset>
+                     <fieldset>
+                        <legend>
+                           Certificate Data  -
+                           <span style="font-family: 'Almarai', sans-serif;">بيانات الشهادة</span>
+                        </legend>
+                        <section>
+                           <div class="l-row">
+                              <div class="l-col-12">
+                                 <div class="form-group">
+                                    <label for="graduate-school" class="bordered-bottom-1 text-bold text-medium f-label">
+                                       Certificate Data
+                                       <span style="font-family: 'Almarai', sans-serif;float: right;">بيانات الشهادة</span>
+                                    </label>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-row">
+                              <div class="l-col-6">
+                                 <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                    <label for="certificate_id">
+                                       Certificate
+                                       <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">الشهادة</span>
+                                    </label>
+                                    <div class="l-pos-r">
+                                       <select name="certificate_id" id="certificate_id" class="form-element form-element-icon">
+                                          <option value="" selected="selected">Select Certificate</option>
+                                          <t t-foreach="certificates" t-as="certificate">
+                                             <option t-if="application.certificate_id.id == certificate.id" selected="selected" t-att-value="certificate.id">
+                                                <t t-esc="certificate.name" />
+                                             </option>
+                                             <option t-else="application.certificate_id.id != certificate.id"  t-att-value="certificate.id">
+                                                <t t-esc="certificate.name" />
+                                             </option>                                              
+                                     
+                                          </t>
+                                       </select>
+                                       <i class="fa fa-cog fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group">
+                                    <label for="school_name">School Name</label>
+                                    <div class="l-pos-r">
+                                       <input type="text"  t-att-value="application.school_name" class="form-element form-element-icon" id="school_name" name="school_name" placeholder="School Name" />
+                                       <i class="fa fa-university fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="l-row">
+                              <div class="l-col-6">
+                                 <div class="form-group">
+                                    <label for="certificate_percentage">Certificate Percentage(%)</label>
+                                    <div class="l-pos-r">
+                                       <input type="number" class="form-element form-element-icon" id="certificate_percentage" name="certificate_percentage"  t-att-value="application.certificate_percentage"  placeholder="Certificate Percentage(%)" />
+                                       <i class="fa fa-cog fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group">
+                                    <label for="certificate_degree">Certificate Degree</label>
+                                    <div class="l-pos-r">
+                                       <input type="number" t-att-value="application.certificate_degree" class="form-element form-element-icon" id="certificate_degree" name="certificate_degree" placeholder="Certificate Degree " />
+                                       <i class="fa fa-cog fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group">
+                                    <label for="seat_no">Seat no</label>
+                                    <div class="l-pos-r">
+                                       <input type="text" t-att-value="application.seat_no" class="form-element form-element-icon" id="seat_no" name="seat_no" placeholder="Seat no " />
+                                       <i class="fa fa-cog fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group form-group-select" data-icon="f078">
+                                    <label for="certificate_date">
+                                       YEAR
+                                       <span class="arabic_span">السنة</span>
+                                    </label>
+                                    <div class="l-pos-r">
+                                       <select name="certificate_date" id="certificate_date" class="form-element form-element-icon">
+                                          <option value="#"  disabled="disabled">Year</option>
+                                          <t  t-if="application.certificate_date == 2023" >
+                                             <option value="2023" selected="selected">2023</option>
+                                          </t>
+                                          <t t-else=""  >
+                                             <option value="2023" >2023</option>
+                                          </t>
+                                          <option value="2022">2022</option>
+                                          <option value="2021">2021</option>           
+                                          <option value="2020">2020</option>
+                                          <option value="2019">2019</option>
+                                          <option value="2018">2018</option>
+                                       </select>
+                                       <i class="fa fa-calendar fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="l-col-6">
+                                 <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                    <label for="certificate_country">
+                                       Certificate Country
+                                       <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;" />
+                                    </label>
+                                    <div class="l-pos-r">
+                                       <select name="certificate_country" id="certificate_country" class="form-element form-element-icon">
+                                          <option value="" selected="selected">Select Certificate Country</option>
+                                          <t t-foreach="certificates_country" t-as="certificate_c">
+                                         
+                                          <option t-if="application.certificate_country.id == certificate_c.id" selected="selected" t-att-value="certificate_c.id">
+                                             <t t-esc="certificate_c.name" />
+                                          </option>
+                                          <option t-else="application.certificate_country.id != certificate_c.id"  t-att-value="certificate_c.id">
+                                             <t t-esc="certificate_c.name" />
+                                          </option>                                                 
+                                          </t>
+                                       </select>
+                                       <i class="fa fa-globe fa-absolute fa-background" />
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </section>
+                     </fieldset>
+                     <fieldset>
+                        <legend>
+                           Desired Faculties  -
+                           <span style="font-family: 'Almarai', sans-serif;">الرغبات</span>
+                        </legend>
+                        <div class="l-row">
+                           <div class="l-col-12" style="font-family: 'Almarai', sans-serif;    text-align: center;">
+                              <label   class="text-bold text-medium f-label">
+                                 سيتم فتح اضافة رغبات جديدة خلال 24 ساعة
+                                 <!--فى حالة الرغبة فى اضافة رغبة جديدة -->
+                              </label>
+                           </div>
+                        </div>
+                     <!--   <div class="l-row">
+                           <div class="l-col-4 l-col-offset-4">
+              
+                              <a style="width:100%" href="javascript:void(0);" id="addMore" class="btn btn-primary btn-radius">
+                                 أضافة رغبة جديدة
+                                 <i class="fa fa-plus-square" />
+                              </a>
+                           </div>
+                        </div>-->
+                     </fieldset>
+                     <div class="l-row">
+                        <div class="l-col-12">
+                           <p />
+                           <br />
+                           <p />
+                        </div>
+                     </div>
+                     <div class="l-row">
+                        <div class="l-col-4 l-col-offset-4">
+                           <div class="form-group">
+                              <input   style="width:100%"  type="submit" value="تعديل بيانات طلب الالتحاق" id="submit" name="submit" class="btn btn-success btn-flat" />
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+                <div class="form-body" t-if="mode == 'view'">
+                  <div class="alert" t-if="status == 'fail'">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&amp;times;</span>
+                     <h5 style="text-align:center;font-family: 'Almarai', sans-serif;">
+                        حدث خطأ ما فى تسجيل الطلب برجاء المحاولة مرة أخري , أو التحدث مع احد ممثلي الجامعة اسفل الصفحة
+                     </h5>
+                  </div>
+                  <div class="alert success" t-if="status == 'success'">
+                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&amp;times;</span>
+                     <h5 style="text-align:center;font-family: 'Almarai', sans-serif;">
+                        تم تعديل البيانات بنجاح
+                     </h5>
+                  </div>                   
+                  <fieldset>
+                     <legend>
+                        <span style="font-family: 'Almarai', sans-serif;">
+                           <span t-esc="application.application_number" />
+                        </span>
+                     </legend>
+                     <div class="l-row">
+                        <!--<div class="l-col-6 ">-->
+                        <!--   <div class="form-group">-->
+                        <!--      <button style="width:100%" type="submit" value="" id="submit" name="submit" class="btn btn-success btn-flat">-->
+                        <!--         أضافة رغبة جديدة-->
+                        <!--         <i class="fa fa-plus-circle" />-->
+                        <!--      </button>-->
+                        <!--   </div>-->
+                        <!--</div>-->
+                        <div class="l-col-6 ">
+                           <div class="form-group">
+                              <a style="width:100%" t-att-href="'/edit/'+application.ref_number" class="btn btn-success btn-flat">
+                                 تعديل بيانات طلب الالتحاق
+                                 <i class="fa fa-pencil" />
+                              </a>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="l-row margin-0">
+                        <div class="l-col-12 ">
+                           <div class="form-group">
+                              <strong>
+                                 Applicant Name /
+                                 <span style="font-family: 'Almarai', sans-serif;">اسم المتقدم</span>
+                                 :
+                                 <span>
+                                    <span t-esc="application.english_name" />
+                                 </span>
+                              </strong>
+                           </div>
+                           <div class="form-group">
+                              <strong>
+                                 Application  Number  /
+                                 <span style="font-family: 'Almarai', sans-serif;">رقم الطلب</span>
+                                 :
+                                 <span>
+                                    <span t-esc="application.application_number" />
+                                 </span>
+                              </strong>
+                           </div>
+                           <div class="form-group">
+                              <strong>
+                                 National ID - Passport number /
+                                 <span style="font-family: 'Almarai', sans-serif;">الرقم القومى - رقم جواز السفر</span>
+                                 :
+                                 <span>
+                                    <span t-esc="application.national_id" />
+                                 </span>
+                              </strong>
+                           </div>
+                        </div>
+                     </div>
+                  </fieldset>
+                  <fieldset>
+                     <legend>
+                        Desired Faculties  -
+                        <span style="font-family: 'Almarai', sans-serif;">الرغبات</span>
+                     </legend>
+                     <div class="l-row margin-0">
+                        <div class="l-col-12">
+                           <div class="table-responsive">
+                              <table class="table table-hover small-text" id="tb">
+                                 <tr class="tr-header">
+                                    <th>
+                                       Desires -
+                                       <span style="font-family: 'Almarai', sans-serif;">ترتيب الرغبات</span>
+                                    </th>
+                                    <th>
+                                       Faculty -
+                                       <span style="font-family: 'Almarai', sans-serif;">الكلية</span>
+                                    </th>
+                                    <th>
+                                       Date -
+                                       <span style="font-family: 'Almarai', sans-serif;">التاريخ</span>
+                                    </th>
+                                 </tr>
+                                 <span t-set="count" t-value="1" />
+                                 <t t-foreach="application.admission_application_ids" t-as="admission">
+                                    <tr>
+                                       <td>
+                                          <strong t-esc="count" />
+                                       </td>
+                                       <td>
+                                          <i class="fa fa-university fa-absolute fa-background" />
+                                          <strong t-esc="admission.register_id.name" />
+                                       </td>
+                                       <td>
+                                          <span t-esc="admission.application_date" />
+                                       </td>
+                                       <span t-set="count" t-value="count+1" />
+                                    </tr>
+                                 </t>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </fieldset>
+               </div>
+            </div>
+            <!-- end col -->
+  <script>//Custom Simple Captcha
+
+        $.validator.methods.simpleCaptcha = function(value, element, param) {
+
+                return value == param;
+
+        };
+
+            
+        $('#solid-form').validate({
+
+            errorClass: "state-invalid",
+            errorPlacement: function(error, element) {
+
+                if (element.attr('name') === 'bwork' || element.attr('name') === 'bapplied' || element.attr('name') === 'someone') {
+
+                    error.insertBefore(element.closest('.form-group'));    
+
+
+                } else {
+
+                    error.insertAfter(element.parents('.form-group'));
+
+                }
+
+            },
+   
+            //Rules for validation
+ 
+            rules:{
+ 
+
+ 
+ 
+ 
+               // family information
+ father_name : {
+                    required: true,
+                    minlength: 5
+
+                },
+ 
+ father_job : {
+                    required: true,
+                    minlength: 5
+
+                },
+ father_mobile: {
+                    required: true,
+                    minlength: 5
+
+                },
+ father_mail: {
+                    required: true,
+                    email: true
+
+
+                },
+ mother_mail: {
+                   
+                    email: true
+
+
+                },
+ father_nationality: {
+                    required: true,
+                    
+
+                },
+ mother_name : {
+                    required: true,
+                    minlength: 5
+
+                },
+ mother_job : {
+                    required: true,
+                    minlength: 5
+
+                },
+ mother_mobile: {
+                    required: true,
+                    minlength: 5
+
+                },
+ 
+ 
+ mother_nationality : {
+                    required: true,
+                    
+
+                },
+ sibling_name : {
+                    required: true,
+                    
+
+                },
+ sibling_id : {
+                    required: true,
+                    
+
+                },
+                city_id: {
+                    required: true,
+                    
+
+                },
+ 
+    faculty1: {
+                    required: true,
+                },
+         faculty2: {
+                    required: true,
+                }, faculty3: {
+                    required: true,
+                }, faculty4: {
+                    required: true,
+                }, faculty5: {
+                    required: true,
+                },
+ nationality_id: {
+                    required: true,
+                    
+
+                },                
+                english_name: {
+
+                    required: true,
+                    minlength: 2, 
+                    maxlength: 75
+
+                },
+                arabic_name: {
+
+                    required: true,
+                    minlength: 2,
+                    maxlength: 75
+
+                },
+                  religion: {
+                    required: true,
+                },
+                
+                address: {
+
+                    required: true,
+                    minlength: 5,
+
+                },
+               
+                national_id: {
+
+                    required: true,
+                    minlength: 14,
+                    maxlength: 14,
+                   
+
+                },
+                passport_id :{
+                  required: true,
+                },
+                home_number:{
+                 number: true,
+                },
+                zipcode: {
+
+                    required: true,
+                    minlength: 4,
+                    digits: true
+
+                },
+                country: {
+
+                    required: true
+
+                },
+                phone: {
+
+                    required: true
+
+                },
+                mobile_number: {
+
+                    required: true
+
+                },
+                email: {
+
+                    required: true,
+                    email: true
+
+                },
+                status: {
+
+                    required: true
+
+                },
+                gender: {
+
+                    required: true
+
+                },
+                citizenship: {
+
+                    required: true
+
+                },
+                bmonth: {
+
+                    required: true
+
+                },
+                bday: {
+
+                    required: true
+
+                },
+                byear: {
+
+                    required: true
+
+                },
+                dpos: {
+
+                    required: true
+
+                },
+                dstart: {
+
+                    required: true
+
+                },
+                expSalary: {
+
+                    required: true,
+                    digits: true
+
+                },
+                hYears: {
+
+                    required: true,
+
+                },
+                tertiary: {
+
+                    required: true,
+                    minlength: 3,
+
+                },
+                tYears: {
+
+                    required: true
+
+                },
+                tDegree: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                gSchool: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                gYears: {
+
+                    required: true
+
+                },
+                gDegree: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                certificate_date: {
+
+                    required: true,
+                    
+
+                },
+                sDate: {
+
+                    required: true
+
+                },
+                cReason: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pEmployer: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pPosition: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pSalary: {
+
+                    required: true,
+                    digits: true
+
+                },
+                pStartDate: {
+
+                    required: true
+
+                },
+                pEndDate: {
+
+                    required: true
+
+                },
+                pReason: {
+
+                    required: true,
+                    minlength: 5
+
+                },
+                certificate_id: {
+
+                    required: true,
+                    
+
+                },
+                certificate_percentage: {
+
+                    required: false,
+              
+
+                },
+                certificate_degree: {
+
+                    required: false,
+                   
+                  
+
+                },school_name: {
+
+                    required: true,
+                  
+
+                },
+                certificate_country: {
+
+                    required: false,
+                  
+
+                },
+                certificate_degree: {
+
+                    
+                    max: 420,
+
+                },certificate_percentage: {
+
+                    
+                    max: 130,
+
+                },
+
+            },
+
+            //Messages appearing on validation
+            messages: {
+
+                english_name: {
+
+                    required: "English Name is required",
+                    minlength: "English Name must be at least {0} characters",
+                    maxlength: "English Name should not exceed {0} characters"
+
+                },
+                arabic_name: {
+
+                    required: "Arabic Name is required",
+                    minlength: "Arabic Name must be at least {0} characters",
+                    maxlength: "Arabic Name should not exceed {0} characters"
+
+                },
+                address: {
+
+                    required: "Address is required",
+                    minlength: "Address must be at least {0} characters"
+
+                },
+                city: {
+
+                    required: "City is required",
+                    minlength: "City must be at least {0} characters"
+
+                },
+                state: {
+
+                    required: "State/Province is required",
+                    minlength: "State/Province must be at least {0} characters"
+
+                },
+                zipcode: {
+
+                    required: "Zipcode is required",
+                    minlength: "Zipcode must be at least 4 digits",
+                    digits: "Zipcode must be in numerical format"
+
+                },
+                country: {
+
+                    required: "Please select a country"
+
+                },
+                phone: {
+
+                    required: "Home Phone is required"
+
+                },
+                mobile_number: {
+
+                    required: "Mobile  is required"
+
+                },
+                email: {
+
+                    required: "Email is required",
+                    email: "That is not a valid Email format"
+
+                },
+                status: {
+
+                    required: "Please select status"
+
+                },
+                gender: {
+
+                    required: "Please select gender"
+
+                },
+                citizenship: {
+
+                    required: "Please select citizenship"
+
+                },
+                bmonth: {
+
+                    required: "Please select birth month"
+
+                },
+                bday: {
+
+                    required: "Please select birth day"
+
+                },
+                byear: {
+
+                    required: "Please select birth year"
+
+                },
+                dpos: {
+
+                    required: "Please select desired position"
+
+                },
+                dstart: {
+
+                    required: "Please select desired start date"
+
+                },
+                expSalary: {
+
+                    required: "Please enter expected salary"
+
+                },
+                bwork: {
+
+                    required: "Please answer the question"
+
+                },
+                bapplied: {
+
+                    required: "Please answer the question"
+
+                },
+                hYears: {
+
+                    required: "Please enter years attended",
+
+                },
+                tertiary: {
+
+                    required: "Institution name is required",
+                    minlength: "Institution name must be at least {0} characters"
+
+                },
+                tYears: {
+
+                    required: "Please enter years attended",
+
+                },
+                tDegree: {
+
+                    required: "Please enter degree",
+                    minlength: "Degree must be at least {0} characters"
+
+                },
+                gSchool: {
+
+                    required: "Institution name is required",
+                    minlength: "Institution name must be at least {0} characters"
+
+                },
+                gYears: {
+
+                    required: "Please enter years attended"
+
+                },
+                gDegree: {
+
+                    required: "Please enter degree",
+                    minlength: "Degree must be at least {0} characters"
+
+                },
+                sDate: {
+
+                    required: "Please enter start date"
+
+                },
+                cReason: {
+
+                    required: "Please state your reason",
+                    minlength: "Reason must be at least {0} characters"
+
+                },
+                pEmployer: {
+
+                    required: "Please enter your employer",
+                    minlength: "Employer must be at least {0} characters"
+
+                },
+                pPosition: {
+
+                    required: "Please enter your position",
+                    minlength: "Position must be at least {0} characters"
+
+                },
+                pSalary: {
+
+                    required: "Please enter salary"
+
+                },
+                pStartDate: {
+
+                    required: "Please enter start date"
+
+                },
+                pEndDate: {
+
+                    required: "Please enter end date"
+
+                },
+                pReason: {
+
+                    required: "Please state your reason",
+                    minlength: "Reason must be at least {0} characters"
+
+                },
+                reference1: {
+
+                    required: "Who is your reference 1",
+                    minlength: "Reference 1 must be at least {0} characters"
+
+                },
+                relationship1: {
+
+                    required: "What is your relationship to reference 1",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref1Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+ 
+                relationship2: {
+
+                    required: "What is your relationship to reference 2",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref2Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+                reference3: {
+
+                    required: "Who is your reference 3",
+                    minlength: "Reference 3 must be at least {0} characters"
+
+                },
+                relationship3: {
+
+                    required: "What is your relationship to reference 3",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref3Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+                birth_certificate: {
+
+                    required: "We require a Birth Certificate ",
+                    accept: "Incorrect file format"
+
+                },
+               
+
+            }
+
+        });</script>
+                  <script>//Masking
+        
+        $(function() {
+
+            $("#father_mobile, #mother_mobile,#mobile_number,#parent_mobile").mask('99999999999', {placeholder:'X'});
+            
+
+        });</script>
+                  <script>
+                     $('#tApplicable').on('change', function() {
+
+            var _this = $(this);
+            var parent_row = _this.parents('.l-row');
+            var sibling_row = parent_row.siblings('.l-row');
+            var inputs = sibling_row.find("input");
+            var form_group = sibling_row.find('.form-group');
+            var state_invalid = sibling_row.find('em.state-invalid').hide();
+
+            if (_this.is(":checked")) {
+               form_group.fadeIn();
+                inputs.removeAttr('disabled');
+                
+               
+
+            } else {
+                form_group.fadeOut();
+                inputs.prop('disabled', true);
+                inputs.removeAttr('checked');
+                inputs.removeClass('state-invalid');
+                inputs.val('');
+              
+            }
+
+        });
+        //Applicability
+        
+        $('#nationality_id').on('change', function() {
+
+            var _this = $(this);
+    
+            if (_this.val() == 1) {
+                 $("#city_id_id").fadeIn();
+                 $("#governorate_id").fadeOut();
+      
+            } else {
+
+                $("#city_id_id").fadeOut();
+                 $("#governorate_id").fadeIn();
+          
+            }
+
+        });
+
+$(function(){
+var _this = $('#tApplicable');
+var parent_row = _this.parents('.l-row');
+            var sibling_row = parent_row.siblings('.l-row');
+            var inputs = sibling_row.find("input");
+            var form_group = sibling_row.find('.form-group');
+            var state_invalid = sibling_row.find('em.state-invalid').hide();
+
+            if (_this.is(":checked")) {
+               form_group.fadeIn();
+                inputs.removeAttr('disabled');
+                
+               
+
+            } else {
+                form_group.fadeOut();
+                inputs.prop('disabled', true);
+                inputs.removeAttr('checked');
+                inputs.removeClass('state-invalid');
+                inputs.val('');
+              
+            }
+
+if( $("#nationality_id").val() == 1){
+   $("#governorate_id").hide();
+}else{
+ $("#city_id_id").hide();
+}
+  
+
+
+
+});
+                  </script>           
+         </div>
+      </t>
+   </template>
+   <template id="apply" name="Student Main Frontend Layout">
+      <html class="no-js">
+         <head>
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <title>HUE Admission Portal</title>
+            <meta name="Solid - CSS3 Radio, Checkbox  Toggle Switch" content="Solid - Responsive Forms" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="stylesheet" href="/hue_admission/static/src/application/css/styles.css" type="text/css" id="form-style" />
+            <link rel="stylesheet" href="/hue_admission/static/src/application/font-awesome-4.4.0/css/font-awesome.min.css" type="text/css" />
+            <script src="/hue_admission/static/src/application/js/vendor/jquery-1.11.1.min.js" type="text/javascript" />
+            <!-- jquery library -->
+            <script src="/hue_admission/static/src/application/js/vendor/jquery-ui.min.js" type="text/javascript"/>
+            <!-- jquery ui plugin -->
+            <script src="/hue_admission/static/src/application/js/vendor/jquery.validate.min.js" type="text/javascript" />
+            <!-- jquery validator -->
+            <script src="/hue_admission/static/src/application/js/vendor/jquery.additional-methods.min.js" type="text/javascript" />
+            <!-- jquery additional-methods -->
+            <script src="/hue_admission/static/src/application/js/vendor/jquery.maskedinput.min.js" type="text/javascript" />
+            <!-- jquery masked input -->
+            <script src="/hue_admission/static/src/application/js/solid-form.js" type="text/javascript" />
+            <!-- jquery custom codes -->
+            <link href="https://fonts.googleapis.com/css2?family=Almarai&amp;display=swap" rel="stylesheet" />
+            <script type="text/javascript">
+               var odoo = {
+                        csrf_token: "
+               <t t-esc="request.csrf_token(None)" />
+               ",
+                    };
+                  odoo.session_info = {is_superuser:
+               <t t-esc="json.dumps(request.env.user._is_superuser())" />
+               ,
+                   is_system:
+               <t t-esc="json.dumps(request.env.user._is_system())" />
+               ,
+                   is_website_user:
+               <t t-esc="json.dumps(request.env.user._is_public())" />
+               ,
+                   user_id:
+               <t t-esc="json.dumps(request.env.user.id)" />
+               ,
+                   is_frontend: true, };
+            </script>
+            <style />
+         </head>
+         <body>
+            <t t-if ="not admission_apply">
+            <div id="wrapper" class="solid-form">
+               <section id="form-container">
+                  <p class="form-close-button">x</p>
+                  <div class="l-container w-80" id="solid-form-container" style="margin: 149px auto 4em auto;">
+                     <div class="l-row">
+                        <div class="l-col-12">
+                           <div class="form-header">
+                              <img src="/hue_admission/static/img/logoen.png" class="logo" alt="" style="width: auto;  display: block;margin: 0 auto;" />
+                              <h1 class="margin-bottom-0">Closed now</h1>
+                           </div>
+                           <div class="form-body">
+                              <div class="alert" t-if="fail">
+                                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&amp;times;</span>
+                                 <h4 style="text-align:center;font-family: 'Almarai', sans-serif;">
+                                    <span t-esc="fail" />
+                                 </h4>
+                              </div>
+                                 </div>
+                        </div>
+                     </div>
+                  </div>
+                  </section>
+               </div>
+             </t>
+            <t t-if ="admission_apply">
+            <div id="wrapper" class="solid-form">
+               <section id="form-container">
+                  <p class="form-close-button">x</p>
+                  <div class="l-container w-80" id="solid-form-container">
+                     <div class="l-row">
+                        <div class="l-col-12">
+                           <div class="form-header">
+                              <img src="/hue_admission/static/img/logoen.png" class="logo" alt="" style="width: auto;  display: block;margin: 0 auto;" />
+                              <h1 class="margin-bottom-0">Student APPLICATION FORM</h1>
+                              <span>Please complete promptly the form below.</span>
+                           </div>
+                           <div class="form-body">
+                              <div class="alert" t-if="fail">
+                                 <span class="closebtn" onclick="this.parentElement.style.display='none';">&amp;times;</span>
+                                 <h4 style="text-align:center;font-family: 'Almarai', sans-serif;">
+                                    <span t-esc="fail" />
+                                 </h4>
+                              </div>
+                              <form action="/create" method="post" id="solid-form" enctype="multipart/form-data">
+                                 <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+                                 <fieldset>
+                                    <legend>
+                                       Personal information -
+                                       <span class="arabic_span">البيانات الشخصية</span>
+                                    </legend>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="english_name">
+                                                Student English Name
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;">اسم الطالب باللغة الانجليزية</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="english_name" name="english_name" placeholder="Student English Name" />
+                                                <i class="fa fa-male fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="arabic_name">
+                                                Student Arabic Name
+                                                <span class="arabic_span">اسم الطالب باللغة العربية</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input style="direction: rtl;font-family: 'Almarai', sans-serif;" type="text" class="form-element form-element-icon" id="arabic_name" name="arabic_name" placeholder="ادخل اسم الطالب باللغة العربية ..." />
+                                                <i class="fa fa-male fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group form-group-select" data-icon="078">
+                                             <label for="religion">
+                                                Religion
+                                                <span class="arabic_span">الديانة</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="religion" id="religion" class="form-element form-element-icon">
+                                                   <option value="#" selected="selected" disabled="disabled">Religion</option>
+                                                   <option value="m">Muslim - مسلم</option>
+                                                   <option value="c">Christian - مسيحى</option>
+                                                </select>
+                                                <i class="fa fa-info fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group form-group-select" data-icon="f078">
+                                             <label for="nationality_id">
+                                                Nationality
+                                                <span class="arabic_span">بلد الجنسية</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="nationality_id" id="nationality_id" class="form-element form-element-icon">
+                                                   <option value="" selected="selected" disabled="disabled">Select Nationality</option>
+                                                   <t t-foreach="countries" t-as="country">
+                                                      <option id="basic_single" t-att-value="country.id">
+                                                         <t t-esc="country.name" />
+                                                      </option>
+                                                   </t>
+                                                </select>
+                                                <i class="fa fa-globe fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group form-group-select" data-icon="&amp;#xf078" id="city_id_id">
+                                             <label for="city_id">
+                                                Governorate
+                                                <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">المحافظة</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="city_id" id="city_id" class="form-element form-element-icon">
+                                                   <option value="" selected="selected" disabled="disabled">Select Governorate</option>
+                                                   <t t-foreach="governorates" t-as="governorate">
+                                                      <option t-att-value="governorate.id">
+                                                         <t t-esc="governorate.name" />
+                                                      </option>
+                                                   </t>
+                                                </select>
+                                                <i class="fa fa-globe fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                          <div class="form-group" id="governorate_id">
+                                             <label for="governorate">
+                                                Governorate
+                                                <span class="arabic_span">المحافظة</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="governorate" name="governorate" placeholder="Enter Governorate" />
+                                                <i class="fa fa-map-marker fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="city">
+                                                City
+                                                <span class="arabic_span">المدينة</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="city" name="city" placeholder="Enter City" />
+                                                <i class="fa fa-map-marker fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <!--<div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="national_id">
+                                                National ID/Passport number
+                                                <span class="arabic_span">الرقم القومى /رقم جواز السفر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="national_id" name="national_id" style="font-family: 'Almarai', sans-serif;" placeholder="National ID - الرقم القومى للمصريين/ رقم جواز السفر لغير المصريين" />
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>-->
+                                        <div class="l-col-6" id="nid">
+                                          <div class="form-group">
+                                             <label for="national_id">
+                                                National ID
+                                                <span class="arabic_span">الرقم القومى</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="national_id" name="national_id" style="font-family: 'Almarai', sans-serif;" placeholder="National ID - الرقم القومى للمصريين" />
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       
+                                       <div class="l-col-6" id="pid">
+                                          <div class="form-group">
+                                             <label for="passport_id">
+                                                Passport number
+                                                <span class="arabic_span">رقم جواز السفر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="passport_id" name="passport_id" style="font-family: 'Almarai', sans-serif;" placeholder="Passport Number - رقم جواز السفر لغير المصريين" />
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group form-group-upload">
+                                             <label for="birth_certificate">
+                                                Birth Certificate
+                                                <span class="arabic_span">شهادة الميلاد</span>
+                                                <span class="text-muted" />
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="file" name="birth_certificate" id="birth_certificate" class="form-element" />
+                                                <input type="text" name="upload_c" id="upload_c" class="form-element form-element-icon" placeholder="Upload a Birth Certificate" />
+                                                <i class="fa fa-upload fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group form-group-select" data-icon="078">
+                                             <label for="gender">
+                                                Gender
+                                                <span class="arabic_span">النوع</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="gender" id="gender" class="form-element form-element-icon">
+                                                   <option value="#" selected="selected" disabled="disabled">Select Gender</option>
+                                                   <option value="m">Male - ذكر</option>
+                                                   <option value="f">Female - انثى</option>
+                                                </select>
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-12">
+                                          <div class="form-group">
+                                             <label for="birthday" class="bordered-bottom-1 f-label text-medium">
+                                                BIRTHDAY
+                                                <span style="font-family: 'Almarai', sans-serif;float: right;">تاريخ الميلاد</span>
+                                             </label>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-4">
+                                          <div class="form-group form-group-select" data-icon="078">
+                                             <label for="bday">
+                                                DAY
+                                                <span class="arabic_span">اليوم</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="bday" id="bday" class="form-element form-element-icon">
+                                                   <option value="#" selected="selected" disabled="disabled">Day</option>
+                                                   <option value="1">01</option>
+                                                   <option value="2">02</option>
+                                                   <option value="3">03</option>
+                                                   <option value="4">04</option>
+                                                   <option value="5">05</option>
+                                                   <option value="6">06</option>
+                                                   <option value="7">07</option>
+                                                   <option value="8">08</option>
+                                                   <option value="9">09</option>
+                                                   <option value="10">10</option>
+                                                   <option value="11">11</option>
+                                                   <option value="12">12</option>
+                                                   <option value="13">13</option>
+                                                   <option value="14">14</option>
+                                                   <option value="15">15</option>
+                                                   <option value="16">16</option>
+                                                   <option value="17">17</option>
+                                                   <option value="18">18</option>
+                                                   <option value="19">19</option>
+                                                   <option value="20">20</option>
+                                                   <option value="21">21</option>
+                                                   <option value="22">22</option>
+                                                   <option value="23">23</option>
+                                                   <option value="24">24</option>
+                                                   <option value="25">25</option>
+                                                   <option value="26">26</option>
+                                                   <option value="27">27</option>
+                                                   <option value="28">28</option>
+                                                   <option value="29">29</option>
+                                                   <option value="30">30</option>
+                                                   <option value="31">31</option>
+                                                </select>
+                                                <i class="fa fa-calendar fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group form-group-select" data-icon="f078">
+                                             <label for="bmonth">
+                                                MONTH
+                                                <span class="arabic_span">الشهر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="bmonth" id="bmonth" class="form-element form-element-icon">
+                                                   <option value="#" selected="selected" disabled="disabled">Month</option>
+                                                   <option value="1">January</option>
+                                                   <option value="2">February</option>
+                                                   <option value="3">March</option>
+                                                   <option value="4">April</option>
+                                                   <option value="5">May</option>
+                                                   <option value="6">June</option>
+                                                   <option value="7">July</option>
+                                                   <option value="8">August</option>
+                                                   <option value="9">September</option>
+                                                   <option value="10">October</option>
+                                                   <option value="11">November</option>
+                                                   <option value="12">December</option>
+                                                </select>
+                                                <i class="fa fa-calendar fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group form-group-select" data-icon="f078">
+                                             <label for="byear">
+                                                YEAR
+                                                <span class="arabic_span">السنة</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="byear" id="byear" class="form-element form-element-icon">
+                                                   <option value="#" selected="selected" disabled="disabled">Year</option>
+                                                   <option value="2009">2009</option>
+                                                   <option value="2008">2008</option>
+                                                   <option value="2007">2007</option>
+                                                   <option value="2006">2006</option>
+                                                   <option value="2005">2005</option>
+                                                   <option value="2004">2004</option>
+                                                   <option value="2003">2003</option>
+                                                   <option value="2002">2002</option>
+                                                   <option value="2001">2001</option>
+                                                   <option value="2000">2000</option>
+                                                   <option value="1999">1999</option>
+                                                   <option value="1998">1999</option>
+                                                   <option value="1997">1998</option>
+                                                   <option value="1996">1997</option>
+                                                   <option value="1996">1996</option>
+                                                   <option value="1995">1995</option>
+                                                   <option value="1994">1994</option>
+                                                   <option value="1993">1993</option>
+                                                   <option value="1992">1992</option>
+                                                   <option value="1991">1991</option>
+                                                   <option value="1990">1990</option>
+                                                   <option value="1989">1989</option>
+                                                   <option value="1988">1988</option>
+                                                   <option value="1987">1987</option>
+                                                   <option value="1986">1986</option>
+                                                   <option value="1985">1985</option>
+                                                   <option value="1984">1984</option>
+                                                   <option value="1983">1983</option>
+                                                   <option value="1982">1982</option>
+                                                   <option value="1981">1981</option>
+                                                   <option value="1980">1980</option>
+                                                   <option value="1979">1979</option>
+                                                   <option value="1978">1978</option>
+                                                   <option value="1977">1977</option>
+                                                   <option value="1976">1976</option>
+                                                   <option value="1975">1975</option>
+                                                   <option value="1974">1974</option>
+                                                   <option value="1973">1973</option>
+                                                   <option value="1972">1972</option>
+                                                   <option value="1971">1971</option>
+                                                   <option value="1970">1970</option>
+                                                </select>
+                                                <i class="fa fa-calendar fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </fieldset>
+                                 <fieldset>
+                                    <legend>
+                                       Contact Information -
+                                       <span style="font-family: 'Almarai', sans-serif;">بيانات الاتصال</span>
+                                    </legend>
+                                    <div class="l-row">
+                                       <div class="l-col-12">
+                                          <div class="form-group form-group-textarea">
+                                             <label for="address">
+                                                ADDRESS
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">عنوان الطالب بالتفصيل</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <textarea name="address" id="address" rows="2" class="form-element form-element-icon" placeholder="Address" />
+                                                <i class="fa fa-road fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="mobile_number">
+                                                MOBILE NUMBER
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">رقم الموبيل</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" name="mobile_number" id="mobile_number" placeholder="Mobile Number" />
+                                                <i class="fa fa-mobile fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="parent_mobile">
+                                                OTHER MOBILE NUMBER
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">رقم موبيل اخر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" name="parent_mobile" id="parent_mobile" placeholder="Other Mobile Number" />
+                                                <i class="fa fa-mobile fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="email">
+                                                E-MAIL
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكترونى للطالب</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" name="email" id="email" placeholder="E-Mail" />
+                                                <i class="fa fa-envelope fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-6">
+                                          <div class="form-group">
+                                             <label for="home_number">
+                                                HOME NUMBER
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون ارضى</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" name="home_number" id="home_number" placeholder="Home Phone" />
+                                                <i class="fa fa-phone fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </fieldset>
+                                 <fieldset>
+                                    <legend>
+                                       Family Information -
+                                       <span style="font-family: 'Almarai', sans-serif;">بيانات العائلة</span>
+                                    </legend>
+                                    <div class="l-row">
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="father_name">
+                                                Guardian Name
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم ولي الأمر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="father_name" name="father_name" placeholder="Guardian Name" />
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                             <label for="father_nationality">
+                                                Guardian Nationality
+                                                <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">بلد الجنسية</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="father_nationality" id="father_nationality" class="form-element form-element-icon">
+                                                   <option value="" selected="selected" disabled="disabled">Select Nationality</option>
+                                                   <t t-foreach="countries" t-as="country">
+                                                      <option id="basic_single" t-att-value="country.id">
+                                                         <t t-esc="country.name" />
+                                                      </option>
+                                                   </t>
+                                                </select>
+                                                <i class="fa fa-globe fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="father_job">
+                                                Guardian Job
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">وظيفة ولي الأمر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="father_job" name="father_job" placeholder="Guardian Job" />
+                                                <i class="fa fa-cube fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="father_mail">
+                                                Guardian E-mail
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكتروني</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="father_mail" name="father_mail" placeholder="Guardian E-mail" />
+                                                <i class="fa fa-envelope fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="father_mobile">
+                                                Guardian Mobile
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">موبيل ولي الامر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="father_mobile" name="father_mobile" placeholder="Guardian Mobile" />
+                                                <i class="fa fa-mobile fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="father_phone">
+                                                Guardian Telephone
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون  ولي الامر</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="father_phone" name="father_phone" placeholder=" Guardian Telephone" />
+                                                <i class="fa fa-phone fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="mother_name">
+                                                Mother Name
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم الام</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="mother_name" name="mother_name" placeholder="Mother Name" />
+                                                <i class="fa fa-user fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                             <label for="mother_nationality">
+                                                Mother Nationality
+                                                <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">بلد الجنسية</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <select name="mother_nationality" id="dpos" class="form-element form-element-icon">
+                                                   <option value="" selected="selected" disabled="disabled">Select Nationality</option>
+                                                   <t t-foreach="countries" t-as="country">
+                                                      <option id="basic_single" t-att-value="country.id">
+                                                         <t t-esc="country.name" />
+                                                      </option>
+                                                   </t>
+                                                </select>
+                                                <i class="fa fa-globe fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="mother_job">
+                                                Mother Job
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">وظيفة الام</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="mother_job" name="mother_job" placeholder="Mother Job " />
+                                                <i class="fa fa-cube fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="mother_mail">
+                                                Mother E-mail
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">البريد الالكتروني</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="mother_mail" name="mother_mail" placeholder="Mother E-mail" />
+                                                <i class="fa fa-envelope fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="mother_mobile">
+                                                Mother Mobile
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">موبيل الام</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="mother_mobile" name="mother_mobile" placeholder="Mother Mobile" />
+                                                <i class="fa fa-mobile fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-col-4">
+                                          <div class="form-group">
+                                             <label for="mother_phone">
+                                                Mother Telephone
+                                                <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">تليفون الام</span>
+                                             </label>
+                                             <div class="l-pos-r">
+                                                <input type="text" class="form-element form-element-icon" id="mother_phone" name="mother_phone" placeholder=" Mother Telephone" />
+                                                <i class="fa fa-phone fa-absolute fa-background" />
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <section>
+                                       <div class="l-row">
+                                          <div class="l-col-12">
+                                             <div class="form-group">
+                                                <label class="bordered-bottom-1 text-bold text-medium f-label">
+                                                   Sibling Information
+                                                   <span style="font-family: 'Almarai', sans-serif;float:right;">بيانات الاشقاء</span>
+                                                </label>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-12">
+                                             <div class="form-group form-group-checkbox margin-bottom-0">
+                                                <label for="tApplicable">
+                                                   <input type="checkbox" class="form-element" id="tApplicable" name="tApplicable" />
+                                                   <span class="check-svg-2" />
+                                                   <svg viewBox="-5.362 -7.374 42 42">
+                                                      <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                      <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                                   </svg>
+                                                   <span>Do you have a sibling at HUE</span>
+                                                   <span style="font-family: 'Almarai', sans-serif;float:right;">( هل لديك اشقاء بجامعة حورس )</span>
+                                                   ?
+                                                </label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-row" id="sibling_check">
+                                          <div class="l-col-6">
+                                             <div class="form-group" style="display: none;">
+                                                <label for="sibling_name">
+                                                   Sibling Name
+                                                   <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">اسم الطالب</span>
+                                                </label>
+                                                <div class="l-pos-r">
+                                                   <input type="text" class="form-element form-element-icon" id="sibling_name" name="sibling_name" placeholder="Sibling Name " />
+                                                   <i class="fa fa-graduation-cap fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group" style="display: none;">
+                                                <label for="sibling_id">
+                                                   HUE ID Number
+                                                   <span style="font-family: 'Almarai', sans-serif;float:right;padding-right: 9px;">الرقم الجامعي</span>
+                                                </label>
+                                                <div class="l-pos-r">
+                                                   <input type="text" class="form-element form-element-icon" id="sibling_id" name="sibling_id" placeholder="HUE ID Number" />
+                                                   <i class="fa fa-graduation-cap fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </section>
+                                 </fieldset>
+                                 <fieldset>
+                                    <legend>
+                                       Certificate Data  -
+                                       <span style="font-family: 'Almarai', sans-serif;">بيانات الشهادة</span>
+                                    </legend>
+                                    <section>
+                                       <div class="l-row">
+                                          <div class="l-col-12">
+                                             <div class="form-group">
+                                                <label for="graduate-school" class="bordered-bottom-1 text-bold text-medium f-label">
+                                                   Certificate Data
+                                                   <span style="font-family: 'Almarai', sans-serif;float: right;">بيانات الشهادة</span>
+                                                </label>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-row">
+                                          <div class="l-col-6">
+                                             <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                                <label for="certificate_id">
+                                                   Certificate
+                                                   <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;">الشهادة</span>
+                                                </label>
+                                                <div class="l-pos-r">
+                                                   <select name="certificate_id" id="certificate_id" class="form-element form-element-icon">
+                                                      <option value="" selected="selected">Select Certificate</option>
+                                                      <t t-foreach="certificates" t-as="certificate">
+                                                         <option id="basic_single" t-att-value="certificate.id">
+                                                            <t t-esc="certificate.name" />
+                                                         </option>
+                                                      </t>
+                                                   </select>
+                                                   <i class="fa fa-cog fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group">
+                                                <label for="school_name">School Name</label>
+                                                <div class="l-pos-r">
+                                                   <input type="text" class="form-element form-element-icon" id="school_name" name="school_name" placeholder="School Name" />
+                                                   <i class="fa fa-university fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div class="l-row">
+                                          <div class="l-col-6">
+                                             <div class="form-group">
+                                                <label for="certificate_percentage">Certificate Percentage(%)</label>
+                                                <div class="l-pos-r">
+                                                   <input type="number" class="form-element form-element-icon" id="certificate_percentage" name="certificate_percentage" placeholder="Certificate Percentage(%)" />
+                                                   <i class="fa fa-cog fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group">
+                                                <label for="certificate_degree">Certificate Degree</label>
+                                                <div class="l-pos-r">
+                                                   <input type="number" class="form-element form-element-icon" id="certificate_degree" name="certificate_degree" placeholder="Certificate Degree " />
+                                                   <i class="fa fa-cog fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group">
+                                                <label for="seat_no">Seat no</label>
+                                                <div class="l-pos-r">
+                                                   <input type="text" class="form-element form-element-icon" id="seat_no" name="seat_no" placeholder="Seat no " />
+                                                   <i class="fa fa-cog fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group form-group-select" data-icon="f078">
+                                                <label for="certificate_date">
+                                                   YEAR
+                                                   <span class="arabic_span">السنة</span>
+                                                </label>
+                                                <div class="l-pos-r">
+                                                   <select name="certificate_date" id="certificate_date" class="form-element form-element-icon">
+                                                      <option value="#" selected="selected" disabled="disabled">Year</option>
+                                                      <option value="2023">2023</option>
+                                                      <option value="2022">2022</option>
+                                                      <!--<option value="2021">2021</option>-->
+                                                      <!--<option value="2020">2020</option>-->
+                                                      <!--<option value="2019">2019</option>-->
+                                                      <!--<option value="2018">2018</option>-->
+                                                   </select>
+                                                   <i class="fa fa-calendar fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                          <div class="l-col-6">
+                                             <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                                <label for="certificate_country">
+                                                   Certificate Country
+                                                   <span style="font-family: 'Almarai', sans-serif;float: right;padding-right: 9px;" />
+                                                </label>
+                                                <div class="l-pos-r">
+                                                   <select name="certificate_country" id="certificate_country" class="form-element form-element-icon">
+                                                      <option value="" selected="selected">Select Certificate Country</option>
+                                                      <t t-foreach="certificates_country" t-as="certificate_c">
+                                                         <option id="basic_single" t-att-value="certificate_c.id">
+                                                            <t t-esc="certificate_c.name" />
+                                                         </option>
+                                                      </t>
+                                                   </select>
+                                                   <i class="fa fa-globe fa-absolute fa-background" />
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </section>
+                                 </fieldset>
+                                 <fieldset>
+                                    <legend>
+                                       Desired Faculties  -
+                                       <span style="font-family: 'Almarai', sans-serif;">الرغبات</span>
+                                    </legend>
+                                    <div class="l-row">
+                                       <div class="l-col-12">
+                                          <label class="text-bold text-medium f-label">
+                                             Please choose the faculty applied for by select at least one each one is for 1600 EGP
+                                             <span style="font-family: 'Almarai', sans-serif;float:right;">الرجاء اختيار الكلية التي تقدمت بطلبها باختيار واحد على الأقل لكل منها  1600جنيه مصري</span>
+                                          </label>
+                                       </div>
+                                    </div>
+                                    <div class="l-row">
+                                       <div class="l-col-12">
+                                          <div class="table-responsive">
+                                             <table class="table table-hover small-text" id="tb">
+                                                <tr class="tr-header">
+                                                   <th>
+                                                      Desires -
+                                                      <span style="font-family: 'Almarai', sans-serif;">ترتيب الرغبات</span>
+                                                   </th>
+                                                   <th>
+                                                      Faculty -
+                                                      <span style="font-family: 'Almarai', sans-serif;">الكلية</span>
+                                                   </th>
+                                                   <th>
+                                                      Amount -
+                                                      <span style="font-family: 'Almarai', sans-serif;">القيمة</span>
+                                                   </th>
+                                                   <th>
+                                                      <span style="font-family: 'Almarai', sans-serif;">حذف الرغبة</span>
+                                                   </th>
+                                                </tr>
+                                                <tr>
+                                                   <td style="direction:rtl;">
+                                                      First choice -
+                                                      <span style="font-family: 'Almarai', sans-serif;">الرغبة الاولى (اجبارى)</span>
+                                                   </td>
+                                                   <td>
+                                                      <div class="form-group form-group-select" data-icon="&amp;#xf078">
+                                                         <div class="l-pos-r">
+                                                            <select name="faculty1" id="faculty1" class="faculities form-element form-element-icon">
+                                                               <option value="" selected="selected" disabled="disabled">Select Faculty</option>
+                                                               <t t-foreach="universities" t-as="university">
+                                                                  <option id="basic_single" t-att-value="university.id">
+                                                                     <t t-esc="university.name" />
+                                                                  </option>
+                                                               </t>
+                                                            </select>
+                                                            <i class="fa fa-university fa-absolute fa-background" />
+                                                         </div>
+                                                      </div>
+                                                   </td>
+                                                   <td>
+                                                      <input class="price" type="hidden" value="1600" />
+                                                      1600 EGP
+                                                   </td>
+                                                   <td>
+                                                      <a href="javascript:void(0);" style="display:none;" class="btn btn-warning btn-xs remove">
+                                                         حذف
+                                                         <i class="fa fa-times-circle-o" />
+                                                      </a>
+                                                   </td>
+                                                </tr>
+                                                <tfoot style="border-top: 5px solid #29233d;">
+                                                   <tr class="summary">
+                                                      <td colspan="2">
+                                                         Total (
+                                                         <span style="font-family: 'Almarai', sans-serif;direction:rtl;">القيمة المطلوبة</span>
+                                                         )
+                                                      </td>
+                                                      <td id="total_price" />
+                                                   </tr>
+                                                </tfoot>
+                                             </table>
+                                          </div>
+                                          <a style="width:100%" href="javascript:void(0);" id="addMore" class="btn btn-primary btn-radius">
+                                             أضافة رغبة جديدة
+                                             <i class="fa fa-plus-square" />
+                                          </a>
+                                       </div>
+                                    </div>
+                                 </fieldset>
+                                 <fieldset>
+                                    <legend>
+                                       Application Instructions -
+                                       <span style="font-family: 'Almarai', sans-serif;">تعليمات طلب الالتحاق</span>
+                                    </legend>
+                                    <div class="l-row">
+                                       <div class="l-col-12">
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup1" name="chkgroup1" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup1">يعتبر قبول طلب الإلتحاق بالجامعة ترشيح مبدئى وليس قبولا نهائيا الا بعد ظهور التنسيق الداخلى للجامعة طبقا لقواعد وزارة التعليم العالى و تسليم أصول شهادة الثانوية العامة او ما يعادلها مستوفاه لمجموع الدرجات اللازمة للإلتحاق بالكلية و شهادة الميلاد وكافة مستندات الالتحاق بالجامعة و كذلك اجتياز اختبار اللغة الإنجليزية بالجامعة فى العام</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup2" name="chkgroup2" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup2">لا يكون القبول النهائى بالجامعة الا بعد موافقة وزارة التعليم العالى على التسجيل فى العام الدراسى</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup3" name="chkgroup3" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup3">لا يحق للطالب التحويل من كلية الى اخرى الا بعد موافقة السيد الأستاذ الدكتور رئيس الجامعة أو السيد أمين عام الجامعة و للجامعة الحق فى رفض طلب التحويل دون إبداء الاسباب</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup4" name="chkgroup4" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup4">عدم تسجيل الطالب بأى جامعة خاصة أخرى داخل جمهورية مصر العربية وفى حالة ظهور ذلك يلغى قيد الطالب نهائيا من الجامعة و يتحمل الطالب تبعيات هذا الوضع ويطبق على الطالب قواعد السحب و الاسترداد المتبعة للجامعة بالعام الدراسى 2020/2021</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup5" name="chkgroup5" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup5">لا يعتبر السداد لاى مبالغ شرط لصحة القبول بالجامعة ولا يعتد بهذا السداد فى مواجهة ادارة الجامعة فى حالة رفض القبول من قبل وزارة التعليم العالى</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                          <div style="font-family: 'Almarai', sans-serif;direction:rtl" class="form-group form-group-checkbox state-success">
+                                             <input type="checkbox" required="required" class="form-element valid" id="chkgroup6" name="chkgroup6" value="1" />
+                                             <span class="check-svg-2" />
+                                             <label style="font-family: 'Almarai', sans-serif;direction:rtl" for="chkgroup6">لايجوز الرجوع على إدارة الجامعة او ممثليها سواء بصفتهم او باشخاصهم امام اى جهات قضائية او غير قضائية فى ما ورد بعاليه بناء على قرار مجلس الجامعات الخاصة بتنسيق الطلاب تنازليا لحين استكمال الاعداد</label>
+                                             <svg viewBox="-5.362 -7.374 42 42">
+                                                <path class="check-start" d="M0,18.838c0,0,3.867,8.116,4.942,9.185" />
+                                                <path class="check-end" d="M4.942,28.023c0,0,26.821-26.636,27.737-28.023" />
+                                             </svg>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </fieldset>
+                                 <div class="l-row">
+                                    <div class="l-col-12">
+                                       <p />
+                                       <br />
+                                       <p />
+                                    </div>
+                                 </div>
+                                 <div class="l-row">
+                                    <div class="l-col-12">
+                                       <div class="form-group">
+                                          <input type="submit" value="Confirm and Pay مراجعة البيانات والدفع" id="submit" name="submit" class="btn btn-success btn-flat" />
+                                       </div>
+                                    </div>
+                                 </div>
+                              </form>
+                           </div>
+                        </div>
+                        <!-- end col -->
+                     </div>
+                     <!-- end row -->
+                  </div>
+                  <!-- end container -->
+                  <script>//Custom Simple Captcha
+
+        $.validator.methods.simpleCaptcha = function(value, element, param) {
+
+                return value == param;
+
+        };
+
+
+         //arabic name 
+         $.validator.addMethod("validarabicname", function (value, element) {
+                return /^[\u0600-\u06FF\s]+$/.test(value);
+            }, "Please enter a arabic characters");
+
+
+        //english name 
+         $.validator.addMethod("validUsername", function (value, element) {
+                return /^[a-zA-Z\s]+$/.test(value); 
+            }, "Please enter a english characters");
+            
+            
+       // different desire 
+            jQuery.validator.addMethod("notEqualTo", function(value, element, param) {
+            var notEqual = true;
+            value = $.trim(value);
+        
+            for (i = 0; i &lt; param.length; i++) {
+                if (value == $.trim($(param[i]).val())) { 
+                    notEqual = false; 
+                }
+            }
+        
+            return this.optional(element) || notEqual;
+        }, "Please enter a diferent value.");
+
+
+            
+        $('#solid-form').validate({
+
+            errorClass: "state-invalid",
+            errorPlacement: function(error, element) {
+
+                if (element.attr('name') === 'bwork' || element.attr('name') === 'bapplied' || element.attr('name') === 'someone') {
+
+                    error.insertBefore(element.closest('.form-group'));    
+
+
+                } else {
+
+                    error.insertAfter(element.parents('.form-group'));
+
+                }
+
+            },
+   
+            //Rules for validation
+ 
+            rules:{
+ 
+
+ 
+ 
+ 
+               // family information
+ father_name : {
+                    required: true,
+                    minlength: 5
+
+                },
+ 
+ father_job : {
+                    required: true,
+                    minlength: 3
+
+                },
+ father_mobile: {
+                    required: true,
+                    minlength: 5
+
+                },
+ father_mail: {
+                    required: true,
+                    email: true
+
+
+                },
+ mother_mail: {
+                   
+                    email: true
+
+
+                },
+ father_nationality: {
+                    required: true,
+                    
+
+                },
+ mother_name : {
+                    required: true,
+                    minlength: 5
+
+                },
+ mother_job : {
+                    required: true,
+                    minlength: 5
+
+                },
+ mother_mobile: {
+                    required: true,
+                    minlength: 5
+
+                },
+ 
+ 
+ mother_nationality : {
+                    required: true,
+                    
+
+                },
+ sibling_name : {
+                    required: true,
+                    
+
+                },
+ sibling_id : {
+                    required: true,
+                    number :true
+                    
+
+                },
+                city_id: {
+                    required: true,
+                    
+
+                },
+ 
+    faculty1: {
+                    required: true,
+                },
+         faculty2: {
+                    required: true,
+                     notEqualTo:['#faculty1']
+                }, faculty3: {
+                    required: true,
+                     notEqualTo:['#faculty1', '#faculty2']
+                }, faculty4: {
+                    required: true,
+                     notEqualTo:['#faculty1', '#faculty2', '#faculty3']
+                }, faculty5: {
+                    required: true,
+                     notEqualTo:['#faculty1', '#faculty2', '#faculty3', '#faculty4']
+                },
+ nationality_id: {
+                    required: true,
+                    
+
+                },                
+                english_name: {
+
+                    required: true,
+                    validUsername: true,
+                    minlength: 2, 
+                    maxlength: 75
+
+                },
+                arabic_name: {
+                    validarabicname : true,
+                    required: true,
+                    minlength: 2,
+                    maxlength: 75
+
+                },
+                  religion: {
+                    required: true,
+                },
+                
+                address: {
+
+                    required: true,
+                    minlength: 5,
+
+                },
+               
+                national_id: {
+
+                    required: true,
+                    number: true,
+                    minlength: 14,
+                    maxlength: 14,
+                   
+
+                },
+                 passport_id :{
+                  required: true,
+                },
+                home_number:{
+                 number: true,
+                },
+                zipcode: {
+
+                    required: true,
+                    minlength: 4,
+                    digits: true
+
+                },
+                country: {
+
+                    required: true
+
+                },
+                phone: {
+
+                    required: true
+
+                },
+                mobile_number: {
+
+                    required: true
+
+                },
+                email: {
+
+                    required: true,
+                    email: true
+
+                },
+                status: {
+
+                    required: true
+
+                },
+                gender: {
+
+                    required: true
+
+                },
+                citizenship: {
+
+                    required: true
+
+                },
+                bmonth: {
+
+                    required: true
+
+                },
+                bday: {
+
+                    required: true
+
+                },
+                byear: {
+
+                    required: true
+
+                },
+                dpos: {
+
+                    required: true
+
+                },
+                dstart: {
+
+                    required: true
+
+                },
+                expSalary: {
+
+                    required: true,
+                    digits: true
+
+                },
+                bwork: {
+
+                    required: true
+
+                },
+                bapplied: {
+
+                    required: true
+
+                },
+                someone: {
+
+                    required: true
+
+                },
+                highschool: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                hYears: {
+
+                    required: true,
+
+                },
+                tertiary: {
+
+                    required: true,
+                    minlength: 3,
+
+                },
+                tYears: {
+
+                    required: true
+
+                },
+                tDegree: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                gSchool: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                gYears: {
+
+                    required: true
+
+                },
+                gDegree: {
+
+                    required: true,
+                    minlength: 2
+
+                },
+                skills: {
+
+                    required: true,
+                    minlength: 10,
+                    maxlength: 480
+
+                },
+                qualifications: {
+
+                    required: true,
+                    minlength: 10,
+                    maxlength: 480
+
+                },
+                cEmployer: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                cPosition: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                certificate_date: {
+
+                    required: true,
+                    
+
+                },
+                sDate: {
+
+                    required: true
+
+                },
+                cReason: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pEmployer: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pPosition: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                pSalary: {
+
+                    required: true,
+                    digits: true
+
+                },
+                pStartDate: {
+
+                    required: true
+
+                },
+                pEndDate: {
+
+                    required: true
+
+                },
+                pReason: {
+
+                    required: true,
+                    minlength: 5
+
+                },
+                certificate_id: {
+
+                    required: true,
+                    
+
+                },
+                certificate_percentage: {
+                  required: true,
+                     max: 130,
+              
+
+                },
+                certificate_degree: {
+                  required: true,
+                    max: 420,
+                   
+                  
+
+                },school_name: {
+
+                    required: true,
+                  
+
+                },
+                certificate_country: {
+
+                    required: false,
+                  
+
+                },
+               
+                ref2Years: {
+
+                    required: true,
+                    digits: true
+
+                },
+                reference3: {
+
+                    required: true,
+                    minlength: 3
+
+                },
+                relationship3: {
+
+                    required: true,
+                    minlength: 3,
+
+                },
+                ref3Years: {
+
+                    required: true,
+                    digits: true
+
+                },
+                birth_certificate: {
+
+                    required: true,
+                   
+
+                },
+               
+
+            },
+
+            //Messages appearing on validation
+            messages: {
+
+                english_name: {
+
+                    required: "English Name is required",
+                    minlength: "English Name must be at least {0} characters",
+                    maxlength: "English Name should not exceed {0} characters"
+
+                },
+                arabic_name: {
+
+                    required: "Arabic Name is required",
+                    minlength: "Arabic Name must be at least {0} characters",
+                    maxlength: "Arabic Name should not exceed {0} characters"
+
+                },
+                address: {
+
+                    required: "Address is required",
+                    minlength: "Address must be at least {0} characters"
+
+                },
+                city: {
+
+                    required: "City is required",
+                    minlength: "City must be at least {0} characters"
+
+                },
+                state: {
+
+                    required: "State/Province is required",
+                    minlength: "State/Province must be at least {0} characters"
+
+                },
+                zipcode: {
+
+                    required: "Zipcode is required",
+                    minlength: "Zipcode must be at least 4 digits",
+                    digits: "Zipcode must be in numerical format"
+
+                },
+                country: {
+
+                    required: "Please select a country"
+
+                },
+                phone: {
+
+                    required: "Home Phone is required"
+
+                },
+                mobile_number: {
+
+                    required: "Mobile  is required"
+
+                },
+                email: {
+
+                    required: "Email is required",
+                    email: "That is not a valid Email format"
+
+                },
+                status: {
+
+                    required: "Please select status"
+
+                },
+                gender: {
+
+                    required: "Please select gender"
+
+                },
+                citizenship: {
+
+                    required: "Please select citizenship"
+
+                },
+                bmonth: {
+
+                    required: "Please select birth month"
+
+                },
+                bday: {
+
+                    required: "Please select birth day"
+
+                },
+                byear: {
+
+                    required: "Please select birth year"
+
+                },
+                dpos: {
+
+                    required: "Please select desired position"
+
+                },
+                dstart: {
+
+                    required: "Please select desired start date"
+
+                },
+                expSalary: {
+
+                    required: "Please enter expected salary"
+
+                },
+                bwork: {
+
+                    required: "Please answer the question"
+
+                },
+                bapplied: {
+
+                    required: "Please answer the question"
+
+                },
+                someone: {
+
+                    required: "Please answer the question"
+
+                },
+                highschool: {
+
+                    required: "Institution name is required",
+                    minlength: "Institution name must be at least {0} characters"
+
+                },
+                hYears: {
+
+                    required: "Please enter years attended",
+
+                },
+                tertiary: {
+
+                    required: "Institution name is required",
+                    minlength: "Institution name must be at least {0} characters"
+
+                },
+                tYears: {
+
+                    required: "Please enter years attended",
+
+                },
+                tDegree: {
+
+                    required: "Please enter degree",
+                    minlength: "Degree must be at least {0} characters"
+
+                },
+                gSchool: {
+
+                    required: "Institution name is required",
+                    minlength: "Institution name must be at least {0} characters"
+
+                },
+                gYears: {
+
+                    required: "Please enter years attended"
+
+                },
+                gDegree: {
+
+                    required: "Please enter degree",
+                    minlength: "Degree must be at least {0} characters"
+
+                },
+                skills: {
+
+                    required: "Please enumerate/elaborate your skills",
+                    minlength: "Skills must be at least {0} characters",
+                    maxlength: "Skills must must exceed {0} characters"
+
+                },
+                qualifications: {
+
+                    required: "Please enumerate/elaborate your qualifications",
+                    minlength: "Qualifications must be at least {0} characters",
+                    maxlength: "Qualifications must must exceed {0} characters"
+                },
+                cEmployer: {
+
+                    required: "Please enter employer",
+                    minlength: "Employer must be at least {0} characters"
+
+                },
+                cPosition: {
+
+                    required: "Please enter position",
+                    minlength: "Position must be at least {0} characters"
+
+                },
+                cSalary: {
+
+                    required: "Please enter salary"
+
+                },
+                sDate: {
+
+                    required: "Please enter start date"
+
+                },
+                cReason: {
+
+                    required: "Please state your reason",
+                    minlength: "Reason must be at least {0} characters"
+
+                },
+                pEmployer: {
+
+                    required: "Please enter your employer",
+                    minlength: "Employer must be at least {0} characters"
+
+                },
+                pPosition: {
+
+                    required: "Please enter your position",
+                    minlength: "Position must be at least {0} characters"
+
+                },
+                pSalary: {
+
+                    required: "Please enter salary"
+
+                },
+                pStartDate: {
+
+                    required: "Please enter start date"
+
+                },
+                pEndDate: {
+
+                    required: "Please enter end date"
+
+                },
+                pReason: {
+
+                    required: "Please state your reason",
+                    minlength: "Reason must be at least {0} characters"
+
+                },
+                reference1: {
+
+                    required: "Who is your reference 1",
+                    minlength: "Reference 1 must be at least {0} characters"
+
+                },
+                relationship1: {
+
+                    required: "What is your relationship to reference 1",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref1Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+                chkgroup1: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                }, chkgroup2: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                },
+                 chkgroup3: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                },
+                 chkgroup4: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                },
+                 chkgroup5: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                },
+                 chkgroup6: {
+
+                    required: "Please select instruction to complete application",
+                    
+
+                },
+                relationship2: {
+
+                    required: "What is your relationship to reference 2",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref2Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+                reference3: {
+
+                    required: "Who is your reference 3",
+                    minlength: "Reference 3 must be at least {0} characters"
+
+                },
+                relationship3: {
+
+                    required: "What is your relationship to reference 3",
+                    minlength: "Relationship must be at least {0} characters"
+
+                },
+                ref3Years: {
+
+                    required: "Please enter acquainted years",
+                    digits: "Please enter in numerical format"
+
+                },
+                birth_certificate: {
+
+                    required: "We require a Birth Certificate ",
+                    accept: "Incorrect file format"
+
+                },
+               
+
+            }
+
+        });</script>
+                  <script>//Masking
+        
+        $(function() {
+
+            $("#father_mobile, #mother_mobile,#mobile_number,#parent_mobile").mask('99999999999', {placeholder:'X'});
+            
+
+        });</script>
+                  <script>
+                     $('#tApplicable').on('change', function() {
+
+            var _this = $(this);
+            var parent_row = _this.parents('.l-row');
+            var sibling_row = parent_row.siblings('.l-row');
+            var inputs = sibling_row.find("input");
+            var form_group = sibling_row.find('.form-group');
+            var state_invalid = sibling_row.find('em.state-invalid').hide();
+
+            if (_this.is(":checked")) {
+               form_group.fadeIn();
+                inputs.removeAttr('disabled');
+                
+               
+
+            } else {
+                form_group.fadeOut();
+                inputs.prop('disabled', true);
+                inputs.removeAttr('checked');
+                inputs.removeClass('state-invalid');
+                inputs.val('');
+              
+            }
+
+        });
+        //Applicability
+        
+        $('#nationality_id').on('change', function() {
+
+            var _this = $(this);
+    
+            if (_this.val() == 1) {
+                 $("#city_id_id").fadeIn();
+                 $("#governorate_id").fadeOut();
+                   $('#nid').show();
+                 $('#pid').hide();
+      
+            } else {
+
+                $("#city_id_id").fadeOut();
+                 $("#governorate_id").fadeIn();
+                $('#pid').show();
+                $('#nid').hide();
+                $("#national_id").val('');
+            }
+
+        });
+
+$(function(){
+  $("#governorate_id").hide();
+   $('#pid').hide();
+    $('#addMore').on('click', function() {
+               var rowCount = $('#tb tr').length;
+               if (rowCount &gt; 6) {
+                  return False
+               }
+              var data = $("#tb tr:eq(1)").clone(true).appendTo("#tb");
+              
+              
+              if (rowCount == 3) {
+                  data.find("td:eq(0)").html('Second choice -<span style="font-family: &quot;Almarai&quot;, sans-serif;direction:rtl;">الرغبة الثانية (اختياري)</span>');
+                  data.find("select").attr('id', 'faculty2').attr('name', 'faculty2');
+              }
+              if (rowCount == 4) {
+                  data.find("td:eq(0)").html('Third choice -<span style="font-family: &quot;Almarai&quot;, sans-serif;direction:rtl;">الرغبة الثالثة (اختياري)</span>');
+                  data.find("select").attr('id', 'faculty3').attr('name', 'faculty3');
+              }
+              if (rowCount == 5) {
+                  data.find("td:eq(0)").html('Fourth choice -<span style="font-family: &quot;Almarai&quot;, sans-serif;direction:rtl;">الرغبة الرابعة (اختياري)</span>');
+                  data.find("select").attr('id', 'faculty4').attr('name', 'faculty4');
+              }
+              if (rowCount == 6) {
+                  data.find("td:eq(0)").html('Fifth choice -<span style="font-family: &quot;Almarai&quot;, sans-serif;direction:rtl;">الرغبة الخامسة (اختياري)</span>');
+                  data.find("select").attr('id', 'faculty5').attr('name', 'faculty5');
+              }              
+              
+              data.find("a").show();
+              
+              myFunction()
+     });
+     $(document).on('click', '.remove', function() {
+         var trIndex = $(this).closest("tr").index();
+            if(trIndex&gt;1) {
+             $(this).closest("tr").remove();
+             myFunction()
+           } else {
+             alert("لا يمكن");
+           }
+           
+      });
+function myFunction(){
+
+      sum = 0;
+    $('.price').each(function() {
+   
+        var price = $(this);
+        sum += parseInt(price.val()) ;
+    });
+
+    $('#total_price').html(sum+' EGP');
+}
+
+myFunction()
+});
+                  </script>
+                  <!--Start of Tawk.to Script-->
+                  <script type="text/javascript">$(function(){
+                $(document).on('click', '#tab-3', function() {
+                  $("#form_data").show();
+                  $(".tab-content-3").show();
+              });
+    
+               });
+               var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+               (function(){
+               var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+               s1.async=true;
+               s1.src='https://embed.tawk.to/5ac88c98d7591465c709467c/default';
+               s1.charset='UTF-8';
+               s1.setAttribute('crossorigin','*');
+               s0.parentNode.insertBefore(s1,s0);
+               })();</script>
+                  <!--End of Tawk.to Script-->
+                  <!-- ajax/files.html will be loaded here via jquery .load() -->
+               </section>
+               <!-- end section -->
+               <a href="#" class="btn btn-flat btn-default pop-button">Click Me</a>
+            </div>
+            </t>
+            <!-- end wrapper -->
+         </body>
+      </html>
+   </template>
+</odoo>

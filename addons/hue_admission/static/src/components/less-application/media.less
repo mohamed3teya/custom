@@ -1,0 +1,217 @@
+@import url('global-variables.less');
+@import url('layout-grid.less');  
+
+@media (max-width: 1024px) {
+
+	.solid-form {
+
+		#solid-form-container {
+
+			margin-top: 75px;
+
+		}
+
+		[class^="l-col"] { 
+
+			padding: 0 @grid_gutter / 2;
+
+		}
+
+	}
+
+
+}
+
+@media (max-width: 894px) {
+
+	#wrapper {
+		
+		margin: 15px auto 1em auto;
+
+	}
+
+	.solid-form {
+
+		.settings-container {
+
+			[class="l-col-2"] {
+
+				width: 50% !important;
+
+			}
+
+		}
+
+		#solid-form-container {
+
+			width: 75%;
+			margin-top: 120px;
+
+
+		}
+
+		[class^="l-col"] { 
+
+			width: 100% !important; 		/* all columns will stack vertically */
+			margin-left: 0; 				/* suppress margin for offsets */
+			left: 0;  						/* suppress left values for push */
+			right: 0; 						/* suppress right values for pull */
+
+
+		}
+
+		.l-col-11,
+		.l-col-10,
+		.l-col-9,
+		.l-col-8,
+		.l-col-7,
+		.l-col-6,
+		.l-col-5,
+		.l-col-4,
+		.l-col-3,
+		.l-col-2,
+		.l-col-1 {
+
+			margin-bottom: 1em;
+
+			&:last-child {
+
+				margin-bottom: 0;
+
+			}
+
+		}
+
+		.form-body {
+
+			padding: 1em 1em 1em 1.35em;
+
+		}
+
+
+	}  /* end .solid-form */
+
+	.wizard > .steps > ul > li {
+
+    	width: 100%;
+
+	}
+
+}
+
+@media (max-width: 568px) {
+
+	#wrapper {
+
+		width: 96%;
+
+	}
+
+	.solid-form {
+
+		.dots {
+
+			display: none;
+
+		}
+
+		#solid-form-container {
+
+			width: 100%;
+			border-radius: 0 !important;
+
+		}
+
+		#form-container > .l-container {
+
+			padding: 0;	
+
+		}
+
+		.form-header {
+
+			border-radius: 0;
+			padding: 5px 10px 15px 10px;
+
+			h1 {
+
+				margin: 0;
+
+			}
+
+			&.form-header-bg {
+
+				margin: 9px 0 0px 0;
+
+			}
+
+		}
+
+		.form-body {
+
+			margin-bottom: 10px;
+    		padding: 20px 10px 15px 10px;
+
+		}
+
+		.rating-icon,
+		.rating-block {
+
+			float: left;
+
+		}
+
+		.tab-container {
+
+			> label {
+				
+				display: block;
+				margin: 0;
+
+			}
+
+		}
+
+	} /* end solid-form */
+
+	
+}
+
+@media (max-width: 440px) {
+
+	.solid-form {
+
+		.form-header {
+
+			h2 {
+
+				margin-top: 8px;
+
+			}
+
+		}
+
+		.form-body {
+
+			h3 {
+
+				font-size: 1.25em;
+
+			}
+
+		}
+
+		.form-group-radio,
+		.form-group-checkbox {
+
+			label {
+
+				// font-size: 90%;
+
+			}
+
+		}
+
+	}
+
+}

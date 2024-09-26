@@ -1,0 +1,61 @@
+<odoo>
+	<data>
+		<!--student_disciplinary_tree_view-->
+		<record id="student_disciplinary_tree_view" model="ir.ui.view">
+			<field name="name">Student disciplinary</field>
+			<field name="model">student.disciplinary</field>
+			<field name="arch" type="xml">
+				<tree string="Student disciplinary">
+					<field name="student_id" />
+					<field name="student_code" />
+					<field name="course_id" />
+					<field name="batch_id" />
+					<field name="disciplinary_type" />
+					<field name="date_from" />
+					<field name="date_to" />
+				</tree>
+			</field>
+		</record>
+		<!--student_disciplinary_form_view-->
+		<record id="student_disciplinary_form_view" model="ir.ui.view">
+			<field name="name">student disciplinary</field>
+			<field name="model">student.disciplinary</field>
+			<field name="arch" type="xml">
+				<form string="disciplinary Student">
+					<header>
+						<button name="button_done" string="Finish" class="oe_highlight" type="object"
+                                invisible="state=='done'"/>
+						<button name="button_draft"
+                                string="set to draft" class="oe_highlight" type="object"
+                                invisible="state=='draft'"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+					</header>
+					<sheet>
+						<group col="4">
+							<field name="student_id" />
+							<field name="student_code" />
+							<field name="course_id" />
+							<field name="batch_id" />
+							<field name="disciplinary_type" />
+						</group>
+						<group col="4">
+							<field name="date_from" />
+							<field name="date_to" />
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+						<field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+						<field name="message_ids" widget="mail_thread"/>
+					</div>
+				</form>
+			</field>
+		</record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="student_disciplinary_action">
+			<field name="name">Student disciplinary</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">student.disciplinary</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,18 @@
+/*trying css adjustment*/
+.o_ChatterTopbar_button {
+        margin-top: 3px !important;
+    }
+    
+.o_form_view.o_xxl_form_view {
+
+}
+
+.stu_btn {
+    margin: 3px;
+    width: 160px;
+}
+
+
+.stu_notebook ul {
+    flex-wrap: wrap !important;
+}

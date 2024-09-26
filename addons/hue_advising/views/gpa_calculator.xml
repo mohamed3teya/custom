@@ -1,0 +1,71 @@
+<odoo>
+	<data>
+		<!--inherit from student from-->
+		<record id="op_student_gpa_from_ext" model="ir.ui.view">
+            <field name="name">op.student.gpa</field>
+            <field name="model">op.student</field>
+            <field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+            <field name="arch" type="xml">
+				<xpath expr="//button_box [@name='student_button_box']" position="inside">
+						<button string="Gpa Calculator" type="object" class="oe_highlight stu_btn" icon="fa-calculator"
+								 name="gpa_calc_view"/>
+                        <button string="Registration" type="object" class="oe_highlight stu_btn" icon="fa-book"
+                              name="student_registration"/>
+				</xpath>
+            </field>
+        </record>
+		<!--gpa form-->
+		<record id="hue_gpa_calculator_form" model="ir.ui.view">
+            <field name="name">Gpa Calculator</field>
+            <field name="model">hue.gpa.calculator</field>
+            <field name="arch" type="xml">
+                <form string="Gpa Calculator">
+                    <header >
+                        <button name="action_start_advising" string="Start Advising" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="student_id" invisible="1" />
+                        </group>
+                        <group col="4">
+                            <field name="student_name" invisible="1"/>
+                            <field name="academic_year_id" />
+                            <field name="semester_id" />
+                        </group>
+                        <notebook>
+                            <page string="Suggested Plan">
+                                <field name="suggested_plan_ids" nolabel="1" widget="one2many_list" mode="tree" readonly="1">
+                                    <tree string="Suggested Plan" editable="bottom">
+                                        <field name="subject_id"/>
+                                        <field name="ex_grades" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<!--gpa tree-->
+		<record model='ir.ui.view' id='hue_gpa_calculator_tree'>
+            <field name="name">hue.gpa.calculator.tree</field>
+            <field name="model">hue.gpa.calculator</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="student_id"   />
+                    <field name="student_name"  />
+                    <field name="academic_year_id" />
+                    <field name="semester_id" />
+                    <field name="current_gpa" />
+                    <field name="ex_gpa" />
+                </tree>
+            </field>
+        </record>
+		<record id="hue_gpa_calculator_action" model="ir.actions.act_window">
+			<field name="name">Gpa Calculator</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.gpa.calculator</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

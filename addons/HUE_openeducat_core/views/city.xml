@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--view_hue_cities_form_view-->
+		<record id="view_hue_cities_form_view" model="ir.ui.view">
+			<field name="name">hue.stu.status.form.view</field>
+			<field name="model">hue.cities</field>
+			<field name="arch" type="xml">
+				<form string="HUE cities">
+					<sheet>
+						<group>
+							<group>
+								<field name="name"/>
+							</group>
+							<group>
+								<field name="d_id"/>
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--view_hue_cities_tree_view-->
+		<record id="view_hue_cities_tree_view" model="ir.ui.view">
+			<field name="name">hue.stu.status.tree.view</field>
+			<field name="model">hue.cities</field>
+			<field name="arch" type="xml">
+				<tree string="HUE cities">
+					<field name="name"/>
+					<field name="d_id"/>
+				</tree>
+			</field>
+		</record>
+		<!--act_open_op_city-->
+		<record model="ir.actions.act_window" id="act_open_op_city">
+			<field name="name">Cities</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.cities</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		<!-- get_hue_cities_action -->
+		<record id="get_hue_cities_action" model="ir.actions.server">
+			<field name="name">Get Hue Cities menu</field>
+			<field name="model_id" ref="model_hue_cities"/>
+			<field name="state">code</field>
+			<field name="code">model.get_hue_cities_fun()</field>
+		</record>
+	</data>
+</odoo>

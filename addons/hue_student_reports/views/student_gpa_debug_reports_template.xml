@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="student_gpa_debug_reports">
+        <t t-call="web.html_container">
+            <t t-call="web.internal_layout">
+                <div class="page">
+                    <table class="table">
+                        <tr>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">Name :</span>
+
+                                <span style="font-size: 16px;" t-esc="student.name"/>
+                            </td>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;">Code :</span>
+
+                                <span style="font-size: 16px;" t-esc="student.student_code"/>
+                            </td>
+                        </tr>
+                        <t t-if ="student.timestamp">
+                        <tr>
+                            <td style="padding: 2px;">
+                                <span style="font-size: 18px;"> GPA Timestamp:</span>
+                                <span t-esc="student.timestamp" t-options="{'widget': 'datetime', 'tz_name': 'Africa/Cairo','format': 'dd-MM-yyyy HH:mm:ss'}"/>
+                            </td>
+                        </tr>
+                        </t>
+                    </table>
+                    <t t-as="academic_year" t-foreach="academic_years">
+                        <t t-as="semester" t-foreach="semesters">
+                            <t t-set="semester_subjects"
+                               t-value="get_semester_subjects(student.id,academic_year.id,semester.id)"/>
+                            <t t-if="semester_subjects">
+                                <div style="background: #efff00;padding: 4px;font-weight: 600;">
+                                    <span style="font-size: 16px;" t-esc="academic_year.name"/>
+                                    <span style="font-size: 16px;">Term :
+                                        <t t-esc="semester.name.split('|')[1]"/>
+                                    </span>
+                                </div>
+
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr style='background:#f4f5f7;'>
+                                            <th style="width:3%;">#</th>
+                                            <th style="width:10%;">Code</th>
+                                            <th>Subject</th>
+                                            <th style="width:10%;">Hours</th>
+                                            <th style="width:10%;">Grade</th>
+                                            <th style="width:10%;">Points</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <t t-set="i" t-value="1"/>
+                                        <t t-set="registered_hours" t-value="0"/>
+                                        <t t-set="earned_hours" t-value="0"/>
+                                        <t t-set="actual_hours" t-value="0"/>
+                                        <t t-set="points_val" t-value="0"/>
+                                        <t t-as="subject" t-foreach="semester_subjects">
+                                            <t t-set="published" t-value="is_published(student.course_id.id,subject.academicyear_id.id,subject.semester_id.id)"/>
+                                            <tr>
+                                                <td style="padding: 7px;">
+                                                    <span t-esc="i"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="subject.subject_id.code.split('|')[0]"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="subject.subject_id.name.split('|')[0]"/>
+                                                </td>
+                                                <td>
+                                                    <t t-set="credit_hours"
+                                                       t-value="subject.subject_id.subject_credithours"/>
+                                                    <span t-esc="credit_hours"/>
+                                                    <t t-set="registered_hours"
+                                                       t-value="registered_hours+credit_hours"/>
+                                                    <t t-if="published and subject.final_grade.pass_grade">
+                                                        <t t-set="earned_hours" t-value="earned_hours+credit_hours"/>
+                                                    </t>
+                                                    <t t-if="published and subject.subject_id.subject_addtogpa and subject.final_grade.add_to_gpa">
+                                                        <t t-set="actual_hours" t-value="actual_hours+credit_hours"/>
+                                                    </t>
+                                                </td>
+                                                <td>
+                                                    <span t-if="published and subject.final_grade.name"
+                                                          t-esc="subject.final_grade.name.split('|')[1]"/>
+                                                </td>
+                                                <td>
+                                                    <t t-if="published">
+                                                    <t t-set="points"
+                                                       t-value="subject.course_id.course_grade_ids.filtered(lambda l: l.grade_id.id == subject.final_grade.id).points_from"/>
+
+                                                    <span t-if="subject.final_grade.name"
+                                                          t-esc="'%.2f'%  (points*credit_hours)"/>
+                                                     <t t-set="points_val" t-value="points_val+(points*credit_hours)"/>
+                                                    </t>
+                                                </td>
+                                                <t t-set="i" t-value="i+1"/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                                <table class="table" style="background: #7c7bad47;">
+                                    <tr>
+                                        <td>Earned Hours :
+                                            <span t-esc="earned_hours"/>
+                                        </td>
+                                        <td>Registered Hours :
+                                            <span t-esc="registered_hours"/>
+                                        </td>
+                                        <td>Actual Hours :
+                                            <span t-esc="actual_hours"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Semester points :  <span t-esc="'%.2f'%   points_val"/></td>
+                                        <td>Semester GPA : <span t-if="actual_hours > 0" t-esc="'%.2f'%   (points_val/actual_hours)"/></td>
+                                    </tr>
+                                </table>
+                            </t>
+                        </t>
+                    </t>
+                    <table class="table" style="background:#d9534f52;">
+                        <tr>
+                            <td>Earned Hours :
+                               <span t-esc="crh_denominator"/>
+                            </td>
+                            <td>Registered Hours :
+                            </td>
+                            <td>Actual Hours :
+                                <span t-esc="total_actual_hours"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Semester points : <span t-esc="total_points"/></td>
+                            <td>CGPA : <span t-esc="new_gpa"/></td>
+                            <td/>
+                        </tr>
+                    </table>
+                </div>
+
+
+            </t>
+        </t>
+    </template>
+</odoo>

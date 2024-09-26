@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record model="ir.actions.act_window" id="act_open_op_block">
+			<field name="name">Registration Block</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">hue.block.reason</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

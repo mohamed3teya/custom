@@ -1,0 +1,87 @@
+<odoo>
+	<data>
+		<record id="view_gen_time_table_line_tree_ext" model="ir.ui.view">
+            <field name="name">gen.time.table.line.tree.ext</field>
+            <field name="model">gen.time.table.line</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_gen_time_table_line_tree"/>
+            <field name="arch" type="xml">
+                <tree  position="attributes">
+                    <attribute name="editable">bottom</attribute>
+                </tree>
+                <xpath expr="//field[@name='session_start_time']" position="replace">
+                    <field name="session_type" readonly="subject_id==False"/>
+                </xpath>
+                <xpath expr="//field[@name='session_end_time']" position="replace">
+                    <field name="classroom_id" position='move'/>
+                </xpath>
+                <xpath expr="//field[@name='classroom_id']" position="attributes">
+                    <attribute name="readonly">session_type==False</attribute>
+                </xpath>
+                <xpath expr="//field[@name='subject_id']" position="before">
+                    <field name="suitable_subject_ids" column_invisible="1"/>
+                    <field name="suitable_faculty_ids" column_invisible="1"/>
+                    <field name="suitable_facility_ids" column_invisible="1"/>
+                    <field name="suitable_classroom_ids" column_invisible="1"/>
+                    <field name="suitable_sub_classroom_ids" column_invisible="1"/>
+                    <field name="validation_error" column_invisible="1"/>
+                </xpath>
+                <tree  position="attributes">
+                    <attribute name="decoration-danger">validation_error</attribute>
+                </tree>
+                <xpath expr="//field[@name='subject_id']" position="after">
+                    <field name="sub_classroom_id" string="Section" readonly="session_type=='Lecture' or classroom_id==False" required ="session_type!='Lecture'"/>					
+                    <field name="timing_id"  readonly="classroom_id==False" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+					<field name="suitable_to_timing_ids" column_invisible="1"/>
+                    <field name="to_timing_id" readonly="timing_id==False" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}" required="1"/>
+					<field name="facility_id" readonly="to_timing_id==False" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                    <field name="faculty_id" position='move'/>
+                    <field name="student_count"/>
+                </xpath>
+				<xpath expr="//field[@name='faculty_id']" position="replace">
+                    <field name="faculty_ids" widget="many2many_tags"/>
+                </xpath>
+                <xpath expr="//field[@name='day']" position="after">
+                    <field name="subject_id" position='move'/>
+                </xpath>
+                <xpath expr="//field[@name='student_count']" position="after">
+                    <field name="day" position='move'/>
+                </xpath>
+                <xpath expr="//field[@name='day']" position="attributes">
+                    <attribute name="column_invisible">True</attribute>
+                </xpath>
+                <xpath expr="//field[@name='faculty_ids']" position="attributes">
+                    <attribute name="readonly">to_timing_id==False</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_gen_time_table_line_form_ext" model="ir.ui.view">
+            <field name="name">gen.time.table.line.form.ext</field>
+            <field name="model">gen.time.table.line</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_gen_time_table_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subject_id']" position="before">
+                    <field name="suitable_subject_ids" column_invisible="1"/>
+                    <field name="suitable_faculty_ids" column_invisible="1"/>
+                    <field name="suitable_facility_ids" column_invisible="1"/>
+                    <field name="suitable_classroom_ids" column_invisible="1"/>
+                    <field name="suitable_sub_classroom_ids" column_invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_gen_time_wizard_form_ext" model="ir.ui.view">
+            <field name="name">gen.time.table.wizard.form.ext</field>
+            <field name="model">generate.time.table</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_generate_time_table_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='act_gen_time_table']" position="before">
+                    <!-- <button string="Validate" type="object" name="validate_gen_time_table" class="oe_highlight"/> -->
+                    <button string="Validate" type="object" name="validate_gen_time_table_red_text" class="oe_highlight"/>
+                    <!-- <button string="Validate_test" type="object" name="validate_gen_time_table_red_text" class="oe_highlight"/> -->
+                </xpath>
+            </field>
+        </record>
+	</data>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!--op_student_accumulative_form_ext-->
+		<record id="op_student_accumulative_form_ext" model="ir.ui.view">
+			<field name="name">op.student.accumulative.ext</field>
+			<field name="model">op.student</field>
+			<field name="inherit_id" ref="openeducat_core.view_op_student_form"/>
+			<field name="arch" type="xml">
+				<!--student alumni-->
+				<xpath expr="//notebook/page[@name='educational']" position="inside">
+				<!--credit hours course-->
+                <!--<xpath expr="//field[@name='course_detail_ids']" position="replace">-->
+                    <field name="student_semesters_accumlative_ids" nolabel="1">
+                        <tree editable="bottom" delete="0" class="tree_no_open">
+                            <field name="student_accum_id" readonly="1"/>
+                            <field name="course_id"/>
+                            <field name="academicyear_id"/>
+                            <field name="semester_id"/>
+                            <field name="semester_status"/>
+                        </tree>
+                    </field>
+				</xpath>
+			</field>
+		</record>
+		<!--Course Assessment Degrees form-->
+		<record id="course_assessments_degree_form_view" model="ir.ui.view">
+			<field name="name">Course Assessment Degrees</field>
+			<field name="model">op.course.assessments.dgrees</field>
+			<field name="arch" type="xml">
+				<form string="Course Assessment Degrees">
+					<sheet>
+						<group>
+							<field name="subject_id" options="{'no_create_edit': True}"/>
+							<field name="assessment_id"/>
+							<field name="degree"/>
+							<field name="showinresult"/>
+							<field name="create_uid"  />
+							<field name="create_date"  />
+							<field name="write_uid"/>
+							<field name="write_date"/>
+							<!-- <field name="__last_update"  /> -->
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+		<!--Course Assessment Degrees tree-->
+		<record model='ir.ui.view' id='course_assessments_degree_tree_view'>
+			<field name="name">Course Assessment Degrees</field>
+			<field name="model">op.course.assessments.dgrees</field>
+			<field name="arch" type="xml">
+				<tree string="assessments">
+					<field name="assessment_id"/>
+					<field name="degree"/>
+					<field name="showinresult"/>
+				</tree>
+			</field>
+		</record>
+		<!--Actions-->
+		<record model="ir.actions.act_window" id="act_open_op_course_assessment_degrees">
+			<field name="name">HUE courseassessment degrees</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">op.course.assessments.dgrees</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

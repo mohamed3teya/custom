@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the existing action and modify the view mode order -->
+        <record id="act_open_op_session_view_inherit" model="ir.actions.act_window">
+            <field name="name">Sessions</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">op.session</field>
+            <field name="binding_view_types">form</field>
+            <!-- Change the order of view modes here -->
+            <field name="view_mode">kanban,tree,form,calendar,pivot</field>
+            <field name="search_view_id" ref="openeducat_timetable.view_op_session_search"/>
+        </record>
+        <record id="view_op_session_tree_ext" model="ir.ui.view">
+            <field name="name">op.session.tree.ext</field>
+            <field name="model">op.session</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_op_session_tree"/>
+            <field name="arch" type="xml">
+                <tree position="attributes">
+                    <attribute name="limit">10</attribute>
+                </tree>
+                <xpath expr="//field[@name='start_datetime']" position="replace">
+                    <field name="faculty_ids" widget="many2many_tags"/>
+                </xpath>
+                <xpath expr="//field[@name='end_datetime']" position="replace">
+                    <field name="session_type"/>
+                </xpath>
+                <xpath expr="//field[@name='faculty_id']" position="replace">
+                    <field name="subject_level" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='classroom_id']" position="after">
+                    <field name="sub_classroom"/>
+                    <field name="facility_id"/>
+                    <field name="reg_student_count"/>
+                    <field name="student_count"/>
+                    <field name="suitable_faculty_ids" column_invisible="1"/>
+                    <field name="suitable_facility_ids" column_invisible="1"/>
+                    <field name="suitable_to_timing_ids" column_invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+        <!--  server action  -->
+        <record id="sync_child_session_action_server" model="ir.actions.server">
+            <field name="name">Sync Child Session</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="hue_timetable.model_op_session"/>
+            <field name="binding_model_id" ref="hue_timetable.model_op_session"/>
+            <field name="state">code</field>
+            <field name="code">
+                if records:
+                    for rec in records:
+                        action = rec.sync_child_session()
+            </field>
+        </record>
+        <!--	similar session wizard	-->
+		<record id="view_hue_similarity_wizard_form" model="ir.ui.view">
+            <field name="name">hue.similarity.wizard.form</field>
+            <field name="model">hue.similarity.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Exam Room Distribution">
+                    <group col="4">
+                        <field name="course_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                        <field name="subject_id" options="{'no_quick_create': True, 'no_create_edit' : True, 'no_open' : True}"/>
+                        <field name="suitable_subject_ids" invisible="1"/>
+                        <field name="all_subject"/>
+                    </group>
+                    <footer>
+                        <button string="Create Similar" class="oe_highlight" type="object" name="similar_session"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+		<record id="act_open_hue_similarity_wizard_view" model="ir.actions.act_window" >
+            <field name="name">Session Similarity</field>
+            <field name="res_model">hue.similarity.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_hue_similarity_wizard_form" />
+            <field name="target">new</field>
+        </record>
+        <!--op.sesseion inherite-->
+        <record id="view_hue_op_session_form_ext" model="ir.ui.view">
+            <field name="name">op.session.form.time.ext</field>
+            <field name="model">op.session</field>
+            <field name="inherit_id" ref="openeducat_timetable.view_op_session_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='course_id']" position="after">
+                    <field name="batch_id" position='move'/>
+                </xpath>
+				<xpath expr="//field[@name='type']" position="after">
+                    <field name="subject_level"/>
+					<field name="student_count"/>
+                    <field name="session_type" readonly="id!=False"/>
+					<field name="sub_classroom" readonly="id!=False"/>
+					<field name="reg_student_count"/>
+                    <field name="parent_session" readonly="id!=False"/>
+                    <field name="session_date" required="1" readonly="id!=False"/>
+                    <field name="similar_session_ids" readonly="id!=False"/>
+                    <field name="student_ids" readonly="id!=False"/> 
+                    <field name="child_session" readonly="id!=False"/>
+				</xpath>
+                <xpath expr="//button[@name='lecture_cancel']" position="after">
+                    <button name="%(act_open_hue_similarity_wizard_view)d" type="action" string="Similar Sessions"
+                            class="oe_highlight" invisible="reg_student_count > 0"/>
+                </xpath> 
+                <xpath expr="//field[@name='classroom_id']" position="after">
+                    <field name="timing_id" readonly="reg_student_count > 0"/>
+					<field name="to_timing_id" readonly="reg_student_count > 0"/>
+                    <field name="facility_id"/>
+					<field name="faculty_ids" widget="many2many_tags"/>
+                    <field name="q_faculty_ids" widget="many2many_tags" />
+                    <field name="similarity" readonly="id!=False"/>
+					<field name="synced" readonly="id!=False"/>
+					<field name="is_parent" readonly="id!=False"/>
+                    <field name="suitable_faculty_ids" invisible="1"/>
+                    <field name="suitable_facility_ids" invisible="1"/>
+                    <field name="suitable_to_timing_ids" invisible="1"/>
+				</xpath>
+                <xpath expr="//field[@name='to_timing_id']" position="after">
+                    <field name="classroom_id" position='move'/>
+                </xpath>
+                <xpath expr="//field[@name='course_id']" position="attributes">
+                    <attribute name="readonly">id!=False</attribute>
+                </xpath>
+                <xpath expr="//field[@name='batch_id']" position="attributes">
+                    <attribute name="readonly">id!=False</attribute>
+                </xpath>
+                <xpath expr="//group[1]/group[2]/label[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group[1]/group[2]/div[1]/i[1]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='start_datetime']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='end_datetime']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='faculty_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='subject_id']" position="attributes">
+                    <attribute name="readonly">id!=False</attribute>
+                    <attribute name="context">{'batch_id': batch_id,'get_subjects':1}</attribute>
+                </xpath>
+			</field>
+		</record>
+        <!-- uncomment this to hide start and end session time from kanban view -->
+        <record id="view_op_session_kanban_ext" model="ir.ui.view">
+            <field name="name">op.session.kanban.ext</field>
+            <field name="model">op.session</field>
+            <field name="priority" eval="8"/>
+            <field name="inherit_id" ref="openeducat_timetable.view_session_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[2]/div[1]/div[1]/div[2]/li[6]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//t[2]/div[1]/div[1]/div[2]/li[5]" position="after">
+                    <li t-if="record.session_date.raw_value">
+                        <b>Session Date:</b>
+                        <field name="session_date"/>
+                    </li>
+                </xpath>
+                <xpath expr="//t[2]/div[1]/div[1]/div[2]/li[5]" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='timing']" position="replace">
+                    <field name="timing_id"/>
+                    -
+                    <field name="to_timing_id"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

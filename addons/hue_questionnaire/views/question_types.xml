@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+        <!--questionTypes_tree_view-->
+        <record id="questionTypes_tree_view" model="ir.ui.view">
+            <field name="name">question Types</field>
+            <field name="model">question.types</field>
+            <field name="arch" type="xml">
+                <tree string="Question Category">
+                     <field name="category_name" />
+                     <field name="enable"/>
+                     <field name="types"/>
+                </tree>
+            </field>
+        </record>
+        <!--questionTypes_form_view-->
+        <record id="questionTypes_form_view" model="ir.ui.view">
+            <field name="name">question Types</field>
+            <field name="model">question.types</field>
+            <field name="arch" type="xml">
+                <form string=" Question Category">
+                    <sheet>
+                        <group col="2">
+                            <field name="category_name" />
+                            <field name="enable"/>
+                            <field name="types"/>
+                        </group>  
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <!--questionTypes_action-->
+		<record model="ir.actions.act_window" id="questionTypes_action">
+			<field name="name">question Types</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">question.types</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

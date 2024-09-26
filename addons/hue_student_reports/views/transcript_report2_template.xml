@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="report_transcript_internal">
+        <t t-call="web.html_container">
+            <!--         <t t-foreach="docs" t-as="o">-->
+            <t t-call="web.basic_layout">
+            <t t-set="medicine_semester_six" t-value="0"/>
+                <table class="table">
+                    <tr>
+                        <td width="33.33%">
+                            <span t-if="docs['logo']"><img src="/web/binary/company_logo?company=1"/></span>
+                        </td>
+                        <td width="33.33%" class="text-center" style="font-size: 18px;text-decoration:bold;vertical-align:middle;">
+                            <h2 t-if="docs['title'] and docs['report_type'] == 'transcript'">Transcript</h2>
+                            <h2 t-elif="docs['title'] and docs['report_type'] == 'status'">افادة</h2>
+                        </td>
+                        <td width="33.33%" class="text-right">
+                            <img t-if="docs['student_pic']" height="100" alt="Pic" class="kt-radius-100" t-att-src="'data:image/png;base64,%s' % to_text(docs['student_id'].image)"/>
+                        </td>
+                    </tr>
+                </table>
+                <div>
+                    <div t-if="docs['to']" class="col-md-12">
+                        <span style="font-size: 18px;">Submitted to</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['to']" />
+                    </div>
+                    <div style="border:1px;" class="col-md-6">
+                        <span style="font-size: 18px;">Name</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].name" />
+                    </div>
+                    <div t-if="docs['student_code_show']" class="col-md-6">
+                        <span style="font-size: 18px;">Code</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].student_code" />
+                    </div>
+
+                    <div t-if="docs['course']" class="col-md-6">
+                        <span style="font-size: 18px;">Course</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].faculty.name" />
+                    </div>
+                    <div t-if="docs['level']" class="col-md-6">
+                        <span style="font-size: 18px;">Level</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].level.name" />
+                    </div>
+                    
+                    <t t-if="docs['student_id'].course_id.id != 15">
+                        <t t-set="gpa_ch" t-value="get_gpa_ch(docs['student_id'])"/>
+                        <div style="border:1px;" class="col-md-6">
+                            <span style="font-size: 18px;">CGPA</span>
+                            :
+                            <t t-if="not docs['student_id'].checkblock()">
+                             <span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].new_gpa"/>
+                            </t>
+                            <t t-else ="">
+                            <span style="font-size: 16px;" t-esc="'%.2f'%  docs['student_id'].cgpa"/>
+                            </t>
+                             <!-- <span style="font-size: 16px;" t-esc="'%.2f'%  gpa_ch[0]"/>-->
+                        </div>
+                        <div  class="col-md-6">
+                            <span style="font-size: 18px;">Earned Hours</span>
+                            :
+                             <t t-if="not docs['student_id'].checkblock()">
+                           <span style="font-size: 16px;" t-esc="docs['student_id'].new_crh" />
+                           </t>
+                            <t t-else ="">
+                                <span style="font-size: 16px;" t-esc="docs['student_id'].crh" />
+                            </t>
+                                
+                           
+                   <!--         <span style="font-size: 16px;" t-esc="gpa_ch[1]" />-->
+<!--                            <span style="font-size: 16px;" t-esc="gpa_ch[2]" />
+-->                        </div>
+                    </t>
+                    <div t-if="docs['national_id']" class="col-md-6">
+                        <span style="font-size: 18px;">National ID</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].national_id" />
+                    </div>
+                    <div t-if="docs['nationality']" class="col-md-6">
+                        <span style="font-size: 18px;">Nationality</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].student_nationality.name" />
+                    </div>
+                    <div t-if="docs['birthday']" class="col-md-6">
+                        <span style="font-size: 18px;">Birthday</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].birth_date" />
+                    </div>
+                    <div t-if="docs['birth_place']" class="col-md-6">
+                        <span style="font-size: 18px;">City</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].student_city.name" />
+                    </div>
+                    <div t-if="docs['address']" class="col-md-6">
+                        <span style="font-size: 18px;">Address</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].address" />
+                    </div>
+                    <div t-if="docs['prev_cert']" class="col-md-6">
+                        <span style="font-size: 18px;">Student Certificate</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].student_certificates.name" /> -
+                        <span style="font-size: 18px;">Percentage</span> :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].percentage" />% -
+                        <span style="font-size: 18px;">Year</span> :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].year" />
+                    </div>
+                    <div t-if="docs['military']" class="col-md-6">
+                        <span style="font-size: 18px;">Military Status</span>
+                        :
+                        <span style="font-size: 16px;" t-esc="docs['student_id'].military_status" />
+                    </div>
+                    <div class="clearfix"><br /><br /></div>
+                    <t t-if="docs['results']" t-foreach="student" t-as="StuAcc">
+                        <t t-foreach="StuAcc" t-as="AcadSemester">
+                            <div class="card-sub">
+                                <B><font color="#1f4791" size="3"><span t-esc="AcadSemester.academicyear_id.name" />
+                                    - Semester : <span t-esc="AcadSemester.semester_id.name.split('|')[1]" /> <br />
+                                </font></B></div>
+
+                            <t t-if="not isinstance(AcadSemester.block_result.name, bool) " >
+                                <div class="table-responsive">
+                                    <div class="alert alert-danger " role="alert">
+                                        <strong>Warning!</strong> Result Blocked for <span t-esc="AcadSemester.block_result.name" />
+                                    </div>
+                                </div>
+                            </t>
+
+                            <t t-if="invoice_count > 0 and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id" >
+                                <div class="alert alert-danger " role="alert">
+                                    <strong>Warning!</strong> Result Blocked for Unpaid Invoices
+                                    <a href="/my/invoices" > Show Invoices<fa class="fas fa-external-link-alt"></fa></a>
+                                </div>
+                            </t>
+                                <t t-if="not AcadSemester.student_id.questionnaire_done() and AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id" >
+                                <div class="alert alert-danger " role="alert">
+                                    <strong>Warning!</strong> Result Blocked for Unanswered Questionnaire
+                                  </div>
+                                </t>
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr style='background:#f4f5f7;'>
+                                            <th style='width:15%'>Subject Code</th>
+                                            <th style='width:65%'>Subject Name</th>
+                                            <th style='width:10%'>Credit</th>
+                                            <!--<th>Degree</th>-->
+                                            <th style='width:10%'>Grade</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="totalCH" t-value="0" />
+                                        <t t-foreach="AcadSemester.accum_semesters_subjects_ids" t-as="SemesterSubjects">
+                                            <t t-set="totalCH" t-value="totalCH+SemesterSubjects.subject_id.subject_credithours" />
+                                            <tr>
+                                                <td><span t-esc="SemesterSubjects.subject_id.code.split('|')[0]" /></td>
+                                                <td style='white-space:nowrap'><span t-esc="SemesterSubjects.subject_id.name.split('|')[0]" /></td>
+                                                <td><span t-esc="SemesterSubjects.subject_id.subject_credithours" /></td>
+                                                <!--<td><span t-esc="SemesterSubjects.subject_degree" /></td>-->
+                                                <td>
+                                                    <!-- <t t-if="not isinstance(SemesterSubjects.final_grade.name, bool) and is_published(SemesterSubjects.course_id.id,SemesterSubjects.academicyear_id.id,SemesterSubjects.semester_id.id)">
+                                                        <t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+                                                            <t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+                                                                <span t-esc="SemesterSubjects.final_grade.name.split('|')[1]"/>
+                                                            </t>
+                                                        </t>
+                                                        <t t-else=""> -->
+                                                            <span t-esc="SemesterSubjects.final_grade.name.split('|')[1]"/>
+                                                        <!-- </t>
+                                                    </t> -->
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <t t-if="AcadSemester.course_id.id != 15">
+                                            <t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+                                                <t t-if="not docs['student_id'].checkblock()">
+                                                    <table class="table table-bordered">
+                                                        <tr style='background:#f4f5f7;'>
+                                                            <td><B>
+                                                                    Semester GPA :
+                                                                <font color="green"><span t-esc="'%.2f'%   AcadSemester.semester_gpa" /></font></B></td>
+                                                            <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                            <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                            <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                             <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <table class="table table-bordered">
+                                                    <tr style='background:#f4f5f7;'>
+                                                        <td><B>
+                                                                Semester GPA :
+                                                            <font color="green"><span t-esc="'%.2f'%   AcadSemester.semester_gpa" /></font></B></td>
+                                                        <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                        <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                        <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                         <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                    </tr>
+                                                </table>
+                                            </t>
+                                            </t>
+                                             <t t-else="">
+                                                <t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+                                                <t t-if="not docs['student_id'].checkblock()">
+                                                    <table class="table table-bordered">
+                                                        <tr style='background:#f4f5f7;'>
+                                                            <td><B>
+                                                                     <t t-if="medicine_semester_six &lt; 6">
+                                                                        Overall GPA :
+                                                                    </t>
+                                                                     <t t-else="">
+                                                                        SGPA
+                                                                     </t>
+                                                                <font color="green"><span t-esc="'%.2f'%   AcadSemester.semester_gpa" /></font></B></td>
+                                                            <t t-if="medicine_semester_six &lt; 6">
+                                                            <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                            </t>
+                                                            <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                            <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                             <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                               <t t-if="medicine_semester_six &lt; 6">
+                                                                <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.final_grade.name" /></font></B></td>
+                                                               </t>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <table class="table table-bordered">
+                                                    <tr style='background:#f4f5f7;'>
+                                                        <td><B>
+                                                                <t t-if="medicine_semester_six &lt; 6">
+                                                                    Overall GPA :
+                                                                </t>
+                                                                 <t t-else="">
+                                                                    SGPA
+                                                                 </t>
+                                                            <font color="green"><span t-esc="'%.2f'%   AcadSemester.semester_gpa" /></font></B></td>
+                                                        <t t-if="medicine_semester_six &lt; 6">
+                                                        <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                        </t>
+                                                        <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                        <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                         <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                         <t t-if="AcadSemester.control_grade">
+                                                            <t t-if="not docs['student_id'].checkblock()">
+                                                                 <t t-if="medicine_semester_six &lt; 6">
+                                                                <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.final_grade.name" /></font></B></td> 
+                                                            </t></t>
+                                                            <t t-else="">
+                                                                 <t t-if="medicine_semester_six &lt; 6">
+                                                            <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.grade.name" /></font></B></td>
+                                                         </t>
+                                                        </t> </t>
+                                                         <t t-else="">
+                                                             <t t-if="medicine_semester_six &lt; 6">
+                                                            <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.final_grade.name" /></font></B></td>
+                                                        </t> </t>
+                                                    </tr>
+                                                </table>
+                                            </t>
+                                              </t>
+<!--                                            <t t-if="is_published(AcadSemester.course_id.id,AcadSemester.academicyear_id.id,AcadSemester.semester_id.id)">
+                                                <t t-if="AcadSemester.academicyear_id.id == AcadYearID and  AcadSemester.semester_id.id == semester_id">
+                                                    <t t-if="invoice_count == 0 and AcadSemester.student_id.questionnaire_done() and isinstance(AcadSemester.block_result.name, bool) ">
+                                                        <table class="table table-bordered">
+                                                            <tr style='background:#f4f5f7;'>
+                                                                <td><B>
+                                                                    <t t-if="AcadSemester.course_id.id == 15">
+                                                                        Overall GPA :
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        Semester GPA :
+                                                                    </t>
+                                                                    <font color="green"><span t-esc="'%.2f'%   AcadSemester.semester_gpa" /></font></B></td>
+                                                                <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                                <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                                <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                                 <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                                <t t-if="AcadSemester.course_id.id == 15">
+                                                                    <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.final_grade.name" /></font></B></td>
+                                                                </t>
+                                                            </tr>
+                                                        </table>
+                                                    </t>
+                                                </t>
+                                                <t t-else="">
+                                                    <table class="table table-bordered">
+                                                        <tr style='background:#f4f5f7;'>
+                                                            <td><B>
+                                                                <t t-if="AcadSemester.course_id.id == 15">
+                                                                    Overall GPA :
+                                                                </t>
+                                                                <t t-else="">
+                                                                    Semester GPA :
+                                                                </t>
+                                                                <font color="green"><span t-esc="'%.2f'%  AcadSemester.semester_gpa" /></font></B></td>
+                                                            <td><B>GPA :  <font color="green"><span t-esc="'%.2f'%  AcadSemester.current_gpa" /></font></B></td>
+                                                            <td><B>Attempted Hours :  <font color="green"><span t-esc="totalCH" /></font></B></td>
+                                                            <td><B>Earned Hours : <font color="green"><span t-esc="AcadSemester.semester_hr" /></font></B></td>
+                                                            <td><B>Accumulated Hours : <font color="green"><span t-esc="AcadSemester.accumulated_hours" /></font></B></td>
+                                                            <t t-if="AcadSemester.course_id.id == 15">
+                                                                <td><B>Overall Grade : <font color="green"><span t-esc="AcadSemester.final_grade.name" /></font></B></td>
+                                                            </t>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+
+                                            </t>-->
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </t>
+                    </t>
+                </div>
+                <div t-if="docs['report_type'] == 'status'" class="text-center" style="direction:rtl;">
+                    <h3>
+                        اسم الطالب:
+                        <span t-esc="docs['student_id'].name"/>
+                        رقم اكاديمي:
+                        <span t-esc="docs['student_id'].student_code"/>
+                        <br />
+                        تفيد جامعة حورس بأن الطالب المذكور اسمه اعلاه مقيد في
+                        <span t-esc="docs['student_id'].faculty.name_ar"/>
+                        في المستوى الدراسي
+                        <span t-esc="docs['student_id'].level.name"/>
+                        للعام الدراسي
+                        <span t-esc="docs['student_id'].level.name"/>
+                        <br />
+                        والطالب يستحق عليه رسوم دراسية مبلغ وقدره:
+                        <span t-esc="docs['student_id'].level.name"/>
+                        لاغير
+                        <br />
+                        فى الفصل الدراسى الواحد ومبلغ قدره
+                        <span t-esc="docs['student_id'].level.name"/>
+                        للعام الدراسى كامل
+                        <span t-esc="docs['student_id'].level.name"/>
+                        ونود الإشاره الى ان العام الدراسى يبدأ فى
+                        <span t-esc="docs['student_id'].level.name"/>
+                        وينتهى فى
+                        <span t-esc="docs['student_id'].level.name"/>
+                        ومدة الدراسه بالكليه
+                        <span t-esc="docs['student_id'].level.name"/>
+                        اعوام
+                        <br />
+                        وقد اعطيت له هذه الإفاده بناء على طلبه لها لتقديمها الى
+                        <span t-if="docs['to']"  t-esc="docs['to']"/>
+                        <span t-else="">
+                            من يهمه الامر
+                        </span>
+                    </h3>
+                </div>
+
+                <div t-if="docs['notes']" class="col-md-12 text-center">
+                    <span style="font-size: 16px;" t-esc="docs['notes']" />
+                </div>
+            </t>
+            <!--         </t>-->
+        </t>
+    </template>
+</odoo>

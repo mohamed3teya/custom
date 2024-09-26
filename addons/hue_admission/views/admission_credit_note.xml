@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="view_hue_op_admission_credit_note_form" model="ir.ui.view">
+            <field name="name">Admission Credit Note</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <form string="Assessments">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,open,paid"/>
+                    </header>
+                <!--<div groups="account.group_account_invoice" class="alert alert-info" role="alert" style="margin-bottom:0px;">-->
+                <!--    You have <bold><a class="alert-link" href="#outstanding" role="button">outstanding debits</a></bold> for this supplier. You can allocate them to mark this bill as paid.-->
+                <!--</div>-->
+                <sheet string="Vendor Bill">
+                    <div>
+                        <h1 class="mt0">
+                            <field name="number" class="oe_inline" invisible ="state=='draft'"/>
+                            <div invisible ="sequence_prefix==False">
+                                <field name="sequence_prefix" class="oe_inline"/>
+                                <field name="sequence_number" class="oe_inline"/>
+                            </div>
+                            
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field string="Vendor" name="partner_id"/>
+                            <field name="ref" string="Vendor Reference"/>
+                        </group>
+                        <group>
+                            <field name="invoice_origin" invisible ="invoice_origin==False"/>
+                            <field name="date_invoice" string="Bill Date"/>
+                            <field name="invoice_date_due"  force_save="1" readonly ="invoice_payment_term_id != False or state in ['open', 'paid']"/>
+                            <!--<field name="move_name" invisible="1"/>-->
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>
+                            <field name="company_currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Bill">
+                            <field name="invoice_line_ids">
+                                <tree string="Bill lines" editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" context="{'partner_id': parent.partner_id}" domain="[('purchase_ok','=',True)]"/>
+                                    <field name="name"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="account_id"/>
+                                    <!--<field name="account_analytic_id"/>-->
+                                    <!--<field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags" options="{'color_field': 'color'}"/>-->
+                                    <field name="quantity"/>
+                                    <!--<field name="uom_id" groups="product.group_uom"/>-->
+                                    <field name="price_unit"/>
+                                    <field name="discount"/>
+                                    <!--<field name="invoice_line_tax_ids" widget="many2many_tags" options="{'no_create': True}" context="{'type':parent.type}" domain="[('type_tax_use','=','purchase'),('company_id', '=', parent.company_id)]"/>-->
+                                    <field name="price_subtotal"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group>
+                                    <div class="oe_inline">
+                                        <!--<field name="tax_line_ids">
+                                            <tree editable="bottom" string="Taxes">
+                                                <field name="name"/>
+                                                Need invisible fields for on_change to create all necessary info
+                                                <field name="tax_id" invisible="1"/>
+                                                <field name="sequence" invisible="1"/>
+                                                <field name="manual" invisible="1"/>
+                                                <field name="account_id" groups="account.group_account_user"/>
+                                                <field name="account_analytic_id"/>
+                                                <field name="amount"/>
+                                                <field name="amount_rounding" invisible="1"/>
+                                                <field name="amount_total" invisible="1"/>
+                                                <field name="currency_id" invisible="1" force_save="1"/>
+                                            </tree>
+                                        </field>-->
+                                    </div>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="amount_untaxed"/>
+                                    <field name="amount_tax"/>
+                                    <field name="amount_total" class="oe_subtotal_footer_separator"/>
+                                    <!--<field name="payments_widget" colspan="2" nolabel="1" widget="payment"/>-->
+                                    <field name="amount_residual" class="oe_subtotal_footer_separator" invisible="state=='draft'"/>
+                                    <field name="has_reconciled_entries" invisible="1"/>
+                                    <!--<field name="outstanding_credits_debits_widget" colspan="2" nolabel="1" widget="payment" attrs="{'invisible': [('state', 'not in', 'open')]}"/>-->
+                                </group>
+                            </group>
+                            <div>
+                                <field name="comment" placeholder="Additional notes..."/>
+                            </div>
+                        </page>
+                        <page string="Other Info" name="other_info">
+                            <group>
+                                <group>
+                                    <!--<field name="journal_id" groups="account.group_account_user" options="{'no_create': True}" attrs="{'readonly':[('move_name','!=',False)]}"/>-->
+                                    <field domain="[('partner_id', '=', partner_id)]" name="partner_bank_id" invisible="1"/>
+                                    <field name="user_id" string="Responsible"/>
+                                    <field name="account_id" groups="account.group_account_user"/>
+                                    <field name="invoice_payment_term_id" options="{'no_create': True}"/>
+                                    <field name="name"/>
+                                </group>
+                                <group>
+                                    <field name="fiscal_position_id" options="{'no_create': True}" placeholder="Auto-detect"/>
+                                    <!--<field name="move_id" groups="account.group_account_user" attrs="{'invisible': [('move_id', '=', False)]}"/>-->
+                                    <field name="date"/>
+                                    <field name="company_id" /><!--options="{'no_create': True}" groups="base.group_multi_company"-->
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <!--<field name="message_follower_ids" widget="mail_followers"/>-->
+                    <!--<field name="activity_ids" widget="mail_activity"/>-->
+                    <!--<field name="message_ids" widget="mail_thread"/>-->
+                </div>
+                </form>
+            </field>
+        </record>
+        
+        <record id="view_hue_op_admission_credit_note_tree" model="ir.ui.view">
+            <field name="name">Admission Credit Note</field>
+            <field name="model">account.move</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" string="Invoice" delete="0" >
+                    <field name="student_code"/>
+                    <field name="partner_id" groups="base.group_user" string="Customer"/>
+                    <field name="student_status"/>
+                    <field name="faculty"/>
+                    <field name="date_invoice"/>
+                    <field name="number"/>
+                    <!--<field name="type"/>-->
+                    <field name="commercial_partner_id" invisible="1"/>
+                    <field name="ref" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <field name="journal_id" invisible="1"/>
+                   <!-- <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>-->
+                    <field name="user_id"/>
+                   <!--<field name="date_due"/>-->
+                    <field name="academic_year"/>
+                    <field name="academic_term"/>
+                    <field name="move_type"/>
+                    <!--<field name="origin"/>-->
+                    <field name="amount_total_signed" string="Total" sum="Total"/>
+                    <field name="amount_residual_signed" string="Amount Due" sum="Amount Due"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="state"/>
+                    <field name="invoice_line_ids" widget="many2many_tags"/>
+                    <!--<field name="type" invisible="context.get('type',True)"/>-->
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_hue_open_op_admission_credit_notes">
+            <field name="name">Admission Credit Note</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.move</field>
+            <!--<field name="view_id" ref="account.invoice_tree"/>-->
+            <field name="domain">[('is_application', '=', True),('move_type', '=', 'out_refund')]</field>
+            <field name="context">{'move_type':'out_refund'}</field>
+            <field name="binding_view_types">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,85 @@
+<odoo>
+	<data>
+        <!--transferred_students_tree_view-->
+        <record id="transferred_students_tree_view" model="ir.ui.view">
+            <field name="name">Transferred Student</field>
+            <field name="model">transferred.student</field>
+            <field name="arch" type="xml">
+                <tree string="Transferred Student">        
+                    <field name="course_id"/>
+                    <field name="student_id"/>
+                     <field name="student_code"/>
+                    <field name="advisor"/>
+                    <field name="academic_year_id"/>
+                    <field name="semester_id"/>
+                    <field name="suitable_student_ids" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <!--transferred_students_form_view-->
+        <record id="transferred_students_form_view" model="ir.ui.view">
+            <field name="name">Transferred Student</field>
+            <field name="model">transferred.student</field>
+            <field name="arch" type="xml">
+                <form string="Transferred Student">
+                    <header>
+                        <button name="button_done" string="Finish" class="oe_highlight" type="object"
+                                invisible="state=='done'"/>
+                        <button name="get_draft" string="set draft" class="oe_highlight" type="object" 
+                                groups="hr_extention.group_service_manager" invisible="state=='draft'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
+                    </header>
+                    <sheet> 
+                        <group col="4">
+                            <field name="course_id" widget="selection"  readonly="state=='done'"/><!--options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"-->
+                            <field name="parent_id" invisible="1" />
+                            <field name="student_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"
+                                   readonly="state=='done'"/>
+                            <field name="student_code"/>
+                            <field name="advisor"/>
+                            <field name="academic_year_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"
+                                   readonly="state=='done'"/>
+                            <field name="semester_id" options="{'no_open': True,'no_quick_create':True,'no_create_edit':True}"
+                                   readonly="state=='done'"/>
+                            <field name="suitable_student_ids" invisible="1"/>
+                            <field name="date" readonly="id!=False"/>
+                            <field name="transfer_type" readonly="state=='done'"/>
+                            <field name="university_country" invisible="transfer_type=='internal'"/>
+                            <field name="university_id" invisible="transfer_type=='internal'"/>
+                            <field name="earned_hour"/>
+                            <field name="gpa"/>
+                        </group>
+                        <notebook>
+                            <page string="Student Subjects">
+                                <field name="student_subjects" options="{'no_open': True}" readonly="state=='done'">
+                                    <tree limit="20" string="Student Subjects" class="student_subjects" editable="bottom" options="{'no_open': True}">
+                                        <field name="seq" widget="handle"/>
+                                        <field name="sub_code" string="Code" />
+                                        <field name="subject_id" string="Subject"/>
+                                        <!--domain="['|',('course_id','=',parent.course_id),('course_id','=',parent.parent_id)]"-->
+                                        <field name="suitable_subject_ids" column_invisible="1"/>
+                                        <field name="suitable_grade_ids" column_invisible="1"/>
+                                        <field name="sub_credit" string="Credit" />    
+                                        <field name="grade" string="Grade" />
+                                        <field name="degree" string="Degree" />
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+		<!--Actions-->
+		<record id="transferred_student_action" model="ir.actions.act_window">
+			<field name="name">Transferred Student</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">transferred.student</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+	</data>
+</odoo>

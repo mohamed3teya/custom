@@ -1,0 +1,37 @@
+<odoo>
+	<data>
+        <!--military student wizard view-->
+        <record id="military_student_wizard_view" model="ir.ui.view">
+            <field name="name">military.student.wizard</field>
+            <field name="model">military.student.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="faculity_id"/>
+                        <field name="academic_year_id"/>
+                        <field name="semester_id"/>
+                        <field name="military_num"/>
+                         <field name="level"/>
+                         <field name="student_status"  widget="many2many_tags"  />
+                        <field name="no_military"/>
+                        <field name="graduation_std"/>
+                    </group>
+                    <footer>
+                        <button name="check_report" string="Search" type="object" default_focus="1"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+		<!--Actions-->
+		<record id="action_military_student_wizard" model="ir.actions.act_window">
+            <field name="name">Military Student</field>
+            <field name="res_model">military.student.wizard</field>
+            <field name="view_id" ref="military_student_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+	</data>
+</odoo>
+

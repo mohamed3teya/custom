@@ -1,0 +1,860 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="HrDashboardMain">
+        <!--<link rel="stylesheet" href="/openeducat_admission/static/src/css/admission_dashboard.css" />
+        <link rel="stylesheet" href="/openeducat_admission/static/lib/dataTables/datatables.min.css"/>
+        <link rel="stylesheet" href="/openeducat_admission/static/lib/dataTables/buttons.dataTables.min.css"/>-->
+
+        <div class="o_dashboards">
+            <div class="container o_hr_dashboard"></div>
+        </div>
+        <p>"Hello template"</p>
+       <!--  <script type="text/javascript" src="/openeducat_admission/static/src/js/Chart.min.js"/>
+            <script type="text/javascript" src="/openeducat_admission/static/src/js/Chart.bundle.min.js"/>-->      
+       <!-- Datatable scripts -->
+       <!--  <script type="text/javascript" src="/openeducat_admission/static/lib/dataTables/datatables.min.js"/>
+            <script type="text/javascript" src="/openeducat_admission/static/lib/dataTables/dataTables.buttons.min.js"/>
+            <script type="text/javascript" src="/openeducat_admission/static/lib/dataTables/buttons.print.min.js"/> -->
+   
+   </t>
+   <t t-name="LoginEmployeeDetails">
+        <div>
+            <div class="content-wrapper">
+                <div class="content-body">
+                    <!-- stats -->
+                    <div class="row">
+                        <div class="col-md-2 ">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span> Admission Registers</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong> التقديمات المتاحة</strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                                <h3 class="pink">
+                                                    <t t-esc="widget.admission_data.admission_registers_count" />
+                                                </h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa fa-university pink font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span> Registered Students</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong>  الطلاب المسجلين</strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                                <h3 class="teal">
+                                                    <t t-esc="widget.admission_data.total_registered_students" />
+                                                </h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa fa-users teal font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span>  Applications Registered</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong> الرغبات المسجلة </strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                                <h3 class="teal"> <t t-esc="widget.admission_data.total_Applications" /></h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa  fa-clipboard deep-orange  font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span> Applicant Students</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong> الطلاب المتقدمين </strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                               
+                                                <h3 class="teal">
+                                                    <t t-esc="widget.admission_data.total_registers_count" /></h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa fa-users deep-orange font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span> Candidate Students</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong> الطلاب المرشحون </strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                                <h3 class="teal">
+                                                    <t t-esc="widget.admission_data.total_candidate_count" /></h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa fa-bookmark-o  font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="card">
+                                <div class="card-body">
+                                    <i class="fa fa-circle warning" />
+                                    <span> Enrolled Students</span>
+                                    <br />
+                                    <i class="fa fa-circle warning" />
+                                    <strong> الطلاب المقبولين </strong>
+                                    <div class="card-block">
+                                        <div class="media">
+                                            <div class="media-body text-xs-left">
+                                                <h3 class="teal"><t t-esc="widget.admission_data.total_erolled_count" /></h3>
+                                            </div>
+                                            <div class="media-right media-middle">
+                                                <i class="fa fa-check green font-large-2 float-xs-right" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ stats -->
+                    <div class="container">
+                        <section id="fancyTabWidget" class="tabs t-tabs">
+                            <ul class="nav nav-tabs fancyTabs" role="tablist">
+                                <li class="tab fancyTab active">
+                                    <div class="arrow-down">
+                                        <div class="arrow-down-inner"></div>
+                                    </div>
+                                    <a id="tab0" href="#tabBody0" role="tab" aria-controls="tabBody0" aria-selected="true" data-toggle="tab" tabindex="0">
+                                        <span class="fa fa-desktop"></span>
+                                        <span class="hidden-xs">General Statistics <br/> (تقارير عامة)</span>
+                                    </a>
+                                    <div class="whiteBlock"></div>
+                                </li>
+                                <li class="tab fancyTab">
+                                    <div class="arrow-down">
+                                        <div class="arrow-down-inner"></div>
+                                    </div>
+                                    <a id="tab1" href="#tabBody1" role="tab" aria-controls="tabBody1" aria-selected="true" data-toggle="tab" tabindex="0">
+                                        <span class="fa fa-firefox"></span>
+                                        <span class="hidden-xs">Registered Students <br/> الطلاب المتقدمين</span>
+                                    </a>
+                                    <div class="whiteBlock"></div>
+                                </li>
+                                <li class="tab fancyTab">
+                                    <div class="arrow-down">
+                                        <div class="arrow-down-inner"></div>
+                                    </div>
+                                    <a id="tab2" href="#tabBody2" role="tab" aria-controls="tabBody2" aria-selected="true" data-toggle="tab" tabindex="0">
+                                        <span class="fa fa-envira"></span>
+                                        <span class="hidden-xs">Candidate Students <br/> أحصائيات  المرشحون</span>
+                                    </a>
+                                    <div class="whiteBlock"></div>
+                                </li>
+                                <li class="tab fancyTab">
+                                    <div class="arrow-down">
+                                        <div class="arrow-down-inner"></div>
+                                    </div>
+                                    <a id="tab3" href="#tabBody3" role="tab" aria-controls="tabBody3" aria-selected="true" data-toggle="tab" tabindex="0">
+                                        <span class="fa fa-mortar-board"></span>
+                                        <span class="hidden-xs">Enrolled Students <br/> أحصائيات  المقبولين</span>
+                                    </a>
+                                    <div class="whiteBlock"></div>
+                                </li>
+                            </ul>
+                            <div id="myTabContent" class="tab-content fancyTabContent" aria-live="polite">
+                                <div class="tab-pane  fade active in" id="tabBody0" role="tabpanel" aria-labelledby="tab0" aria-hidden="false" tabindex="0">
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="card-body">
+                                                    <!--<div class="emp_graph"/>-->
+                                                    <canvas id="myChart" style="width: 100% !important;" />
+                                                    <div class="table-responsive">
+                                                        <table class="table table-hover mb-0">
+                                                            <thead class="bg-teal bg-lighten-4">
+                                                                <tr>
+                                                                    <th>Faculties (Admission Registers)</th>
+                                                                    <th>Applicant (المتقدمين)</th>
+                                                                    <th>Candidate (المرشحون)</th>
+                                                                    <th>Enrolled (المقبولين)</th>
+                                                                    <th>Total</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr t-foreach="widget.admission_data.admission_registers" t-as="e">
+                                                                    <td>
+                                                                        <span t-esc="e['0']" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="e['1']" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="e['2']" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <span t-esc="e['3']" />
+                                                                    </td>
+                                                                                                                                                                                                    <td>
+                                                                        <span t-esc="e['1']+e['2']+e['3']" />
+                                                                    </td>    
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane  fade" id="tabBody1" role="tabpanel" aria-labelledby="tab1" aria-hidden="true" tabindex="0">
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-university pink float-xs-right"></i>   Registered Students  Statistics  by Faculty  ( أحصائيات  الطلاب المتقدمين بالكاليات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-4">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_enrolled' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.admission_registers" t-as="e">
+                                                                        <t t-set='total_enrolled' t-value="total_enrolled+e['1']" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['0']" />
+                                                                           </td>
+                                                                           <td>
+                                                                              <span t-esc="e['1']" />
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <th> <span t-esc="total_enrolled" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="Registeredbyfaculty"/>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i> All  Registered Students  List ( بيانات  الطلاب المتقدمين  )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 30px;">
+                                                        <table id="enrolled_tb" class="display" style="width:100%">
+                                                           <thead>
+                                                               <tr>
+                                                                   <th>Application num</th>
+                                                                   <th>Name</th>
+                                                                   <th>Admission Date</th>
+                                                                   <th>Admission Register</th>
+                                                                   <th>open</th>
+                                                               </tr>
+                                                           </thead>
+                                                           <tbody>
+                                                             <tr t-foreach="widget.admission_data.registred_table" t-as="e">
+                                                                 <td><span t-esc="e['application_number']"/></td>
+                                                                 <td><span t-esc="e['name']"/></td>
+                                                                 <td><span t-esc="e['date']"/></td>
+                                                                 <td><span t-esc="e['admission_register']"/></td>
+                                                                 <td>
+                                                                   <a href="javascript:;" class="dashboard-block open_app" t-att-id="e['admission_id']">
+                                                                        <div class="rotate">
+                                                                            <i class="fa fa-file"/>
+                                                                        </div>
+                                                                   </a>
+                                                                 </td>
+                                                             </tr>
+                                                           </tbody>
+                                                       </table>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>                                  
+                                </div>
+                                <div class="tab-pane  fade" id="tabBody2" role="tabpanel" aria-labelledby="tab2" aria-hidden="true" tabindex="0">
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-university pink float-xs-right"></i>   Candidate Students  Statistics  by Faculty  ( أحصائيات  الطلاب المرشحون بالكاليات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-4">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_enrolled' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.admission_registers" t-as="e">
+                                                                        <t t-set='total_enrolled' t-value="total_enrolled+e['2']" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['0']" />
+                                                                           </td>
+                                                                           <td>
+                                                                              <span t-esc="e['2']" />
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <th> <span t-esc="total_enrolled" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="Candidatebyfaculty"/>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i>   Candidate Students  Statistics  by Certificates  ( أحصائيات  الطلاب المرشحون بالشهادات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-12">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <t t-foreach="widget.admission_data.certificate_label" t-as="e">
+                                                                           <th> <span t-esc="e" /></th>
+                                                                        </t>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_cer_candidate' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.certificate_data" t-as="e">
+                                                                        <t t-set='cer_candidate' t-value="0" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['label']" />
+                                                                           </td>
+                                                                           <t t-foreach="e['data']" t-as="data">
+                                                                              <t t-set='cer_candidate' t-value="cer_candidate+data" />
+                                                                              <t t-set='total_cer_candidate' t-value="total_cer_candidate+data" />
+                                                                              <td>
+                                                                                 <span t-esc="data" />
+                                                                              </td>
+                                                                           </t>
+                                                                           <td>
+                                                                              <span t-esc="cer_candidate" /> 
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <t t-foreach="widget.admission_data.candidate_certificate_sum" t-as="e">
+                                                                           <th> <span t-esc="e" /> </th>
+                                                                        </t>
+                                                                        <th> <span t-esc="total_cer_candidate" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="Candidatebycertificate" />
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i>   Candidate Students  Statistics by Nationalities  ( أحصائيات  الطلاب المرشحون بالجنسيات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-12">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <t t-foreach="widget.admission_data.nationality_label" t-as="e">
+                                                                           <th> <span t-esc="e" /></th>
+                                                                        </t>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_cer_nationality' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.nationality_data" t-as="e">
+                                                                        <t t-set='cer_nationality' t-value="0" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['label']" />
+                                                                           </td>
+                                                                           <t t-foreach="e['data']" t-as="data">
+                                                                              <t t-set='cer_nationality' t-value="cer_nationality+data" />
+                                                                              <t t-set='total_cer_nationality' t-value="total_cer_nationality+data" />
+                                                                              <td>
+                                                                                 <span t-esc="data" />
+                                                                              </td>
+                                                                           </t>
+                                                                           <td>
+                                                                              <span t-esc="cer_nationality" /> 
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <t t-foreach="widget.admission_data.candidate_nationality_sum" t-as="e">
+                                                                           <th> <span t-esc="e" /> </th>
+                                                                        </t>
+                                                                        <th> <span t-esc="total_cer_nationality" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="CandidatebyNationality" />
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i> All  Candidate Students  List ( بيانات  الطلاب المرشحون  )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 30px;">
+                                                        <table id="candidate_tb" class="display" style="width:100%">
+                                                           <thead>
+                                                               <tr>
+                                                                   <th>Application num</th>
+                                                                   <th>Name</th>
+                                                                   <th>Admission Date</th>
+                                                                   <th>Admission Register</th>
+                                                                   <th>open</th>
+                                                               </tr>
+                                                           </thead>
+                                                           <tbody>
+                                                             <tr t-foreach="widget.admission_data.candidate_table" t-as="e">
+                                                                 <td><span t-esc="e['application_number']"/></td>
+                                                                 <td><span t-esc="e['name']"/></td>
+                                                                 <td><span t-esc="e['date']"/></td>
+                                                                 <td><span t-esc="e['admission_register']"/></td>
+                                                                 <td>
+                                                                   <a href="javascript:;" class="dashboard-block open_app" t-att-id="e['admission_id']">
+                                                                        <div class="rotate">
+                                                                            <i class="fa fa-file"/>
+                                                                        </div>
+                                                                   </a>
+                                                                 </td>
+                                                             </tr>
+                                                           </tbody>
+                                                       </table>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>                                    
+                                    
+     
+                                </div>
+                                <div class="tab-pane  fade" id="tabBody3" role="tabpanel" aria-labelledby="tab3" aria-hidden="true" tabindex="0">
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-university pink float-xs-right"></i>   Enrolled Students  Statistics  by Faculty  ( أحصائيات  الطلاب المقبولين بالكاليات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-4">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_enrolled' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.admission_registers" t-as="e">
+                                                                        <t t-set='total_enrolled' t-value="total_enrolled+e['3']" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['0']" />
+                                                                           </td>
+                                                                           <td>
+                                                                              <span t-esc="e['3']" />
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <th> <span t-esc="total_enrolled" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="Enrolledbyfaculty"/>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i>   Enrolled Students  Statistics  by Certificates  ( أحصائيات  الطلاب المقبولين بالشهادات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-12">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <t t-foreach="widget.admission_data.certificate_label" t-as="e">
+                                                                           <th> <span t-esc="e" /></th>
+                                                                        </t>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_cer_candidate' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.enrolled_data" t-as="e">
+                                                                        <t t-set='cer_candidate' t-value="0" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['label']" />
+                                                                           </td>
+                                                                           <t t-foreach="e['data']" t-as="data">
+                                                                              <t t-set='cer_candidate' t-value="cer_candidate+data" />
+                                                                              <t t-set='total_cer_candidate' t-value="total_cer_candidate+data" />
+                                                                              <td>
+                                                                                 <span t-esc="data" />
+                                                                              </td>
+                                                                           </t>
+                                                                           <td>
+                                                                              <span t-esc="cer_candidate" /> 
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <t t-foreach="widget.admission_data.enrolled_certificate_sum" t-as="e">
+                                                                           <th> <span t-esc="e" /> </th>
+                                                                        </t>
+                                                                        <th> <span t-esc="total_cer_candidate" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="Enrolledbycertificate" />
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i>   Enrolled Students  Statistics by Nationalities  ( أحصائيات  الطلاب المقبولين بالجنسيات )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                   <div class="col-md-12">
+                                                      <div class="portlet light ">
+                                                         <div class="portlet-body">
+                                                            <div class="table-scrollable table-scrollable-borderless">
+                                                               <table class="table table-striped table-bordered table-hover">
+                                                                  <thead>
+                                                                     <tr class="uppercase">
+                                                                        <th> Admission (Faculty) Registers  </th>
+                                                                        <t t-foreach="widget.admission_data.nationality_label" t-as="e">
+                                                                           <th> <span t-esc="e" /></th>
+                                                                        </t>
+                                                                        <th> Total Students </th>
+                                                                     </tr>
+                                                                  </thead>
+                                                                  <tbody>
+                                                                     <t t-set='total_cer_nationality' t-value="0" />
+                                                                     <t t-foreach="widget.admission_data.enrolled_nationality_data" t-as="e">
+                                                                        <t t-set='cer_nationality' t-value="0" />
+                                                                        <tr>
+                                                                           <td>
+                                                                              <span t-esc="e['label']" />
+                                                                           </td>
+                                                                           <t t-foreach="e['data']" t-as="data">
+                                                                              <t t-set='cer_nationality' t-value="cer_nationality+data" />
+                                                                              <t t-set='total_cer_nationality' t-value="total_cer_nationality+data" />
+                                                                              <td>
+                                                                                 <span t-esc="data" />
+                                                                              </td>
+                                                                           </t>
+                                                                           <td>
+                                                                              <span t-esc="cer_nationality" /> 
+                                                                           </td>
+                                                                        </tr>
+                                                                     </t>
+                                                                     <tr class="uppercase">
+                                                                        <th>  </th>
+                                                                        <t t-foreach="widget.admission_data.enrolled_nationality_sum" t-as="e">
+                                                                           <th> <span t-esc="e" /> </th>
+                                                                        </t>
+                                                                        <th> <span t-esc="total_cer_nationality" /> </th>
+                                                                     </tr>
+                                                                  </tbody>
+                                                               </table>
+                                                            </div>
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- Bar Chart -->
+                                                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                      <div >
+                                                         <div class="body">
+                                                            <canvas id="EnrolledbyNationality" />
+                                                         </div>
+                                                      </div>
+                                                   </div>
+                                                   <!-- #END# Bar Chart -->
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class='row'>
+                                       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                          <div class="card">
+                                             <div class="header">
+                                                <h2>
+                                                   <i class="fa fa-cube pink float-xs-right"></i> All  Enrolled Students  List ( بيانات  الطلاب المقبولين  )
+                                                </h2>
+                                             </div>
+                                             <div class="body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding: 30px;">
+                                                        <table id="enrolled_tb" class="display" style="width:100%">
+                                                           <thead>
+                                                               <tr>
+                                                                   <th>Application num</th>
+                                                                   <th>Name</th>
+                                                                   <th>Admission Date</th>
+                                                                   <th>Admission Register</th>
+                                                                   <th>open</th>
+                                                               </tr>
+                                                           </thead>
+                                                           <tbody>
+                                                             <tr t-foreach="widget.admission_data.enrolled_table" t-as="e">
+                                                                 <td><span t-esc="e['application_number']"/></td>
+                                                                 <td><span t-esc="e['name']"/></td>
+                                                                 <td><span t-esc="e['date']"/></td>
+                                                                 <td><span t-esc="e['admission_register']"/></td>
+                                                                 <td>
+                                                                   <a href="javascript:;" class="dashboard-block open_app" t-att-id="e['admission_id']">
+                                                                        <div class="rotate">
+                                                                            <i class="fa fa-file"/>
+                                                                        </div>
+                                                                   </a>
+                                                                 </td>
+                                                             </tr>
+                                                           </tbody>
+                                                       </table>
+                                                    </div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+   </t>
+   <t t-name="EmployeeWarning">
+        <div>
+            <p>Error : Could not find employee linked to user</p>
+            <p>Please contact system admin for the setup</p>
+        </div>
+   </t>
+</templates>

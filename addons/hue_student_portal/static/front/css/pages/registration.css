@@ -1,0 +1,30 @@
+#Coursescontent{height:321px;overflow-y:auto;}
+#Coursescontent .Courses-label{display:block;width:100%;color:rgb(42, 36, 89);padding:0px;font-size: 11px;margin:1px 0px;font-weight: 600;}
+#Coursescontent .extra-data{display:block;width:100%;font-weight:600;padding:0px 25px;margin:0px;color:rgb(184, 139, 26);font-size:0.99em;}
+.CoursesDetailsTable{overflow-y:auto;height:300px;font-size: 11px;}
+.CoursesDetailsTable table{border-collapse:collapse;width:100%;}
+.CoursesDetailsTable th,.CoursesDetailsTable td{padding:8px 16px;}
+.CoursesDetailsTable th{background:rgb(255, 255, 255);color:rgb(42, 36, 89);}
+.CoursesDetailsTable thead th{z-index:999;position:sticky;top:0px;}
+.CoursesDetailsTable p{line-height:15px;padding:0px;margin:0px;color:rgb(42, 36, 89);}
+.CoursesDetailsTable .Instructor{text-align: center;}
+.CoursesDetailsTable td{font-weight:600;color:rgb(42, 36, 89);}
+.CoursesDetailsTable .fa{color: rgb(184 139 26);margin:0px 2px;font-size: 13px;}
+.Courses-label{cursor:pointer;}
+@media only screen and (max-width:760px), (min-device-width:768px) and (max-device-width:1024px){.CoursesDetailsTable .table > tbody > tr > td, .table > tfoot > tr > td{border-top:1px solid rgb(255 255 255);}
+ .CoursesDetailsTable table, .CoursesDetailsTable table thead, .CoursesDetailsTable table tbody, .CoursesDetailsTable table th, .CoursesDetailsTable table td, .CoursesDetailsTable table tr{display:block;}
+ .CoursesDetailsTable thead tr{position:absolute;top:-9999px;left:-9999px;}
+ .CoursesDetailsTable tr{border-bottom:1px solid #2a2459;}
+ .CoursesDetailsTable td{border:none;border-bottom:1px solid #eee;position:relative;padding-left:50%;}
+ .CoursesDetailsTable td:before{position:absolute;top:6px;left:6px;width:45%;padding-right:10px;white-space:nowrap;}
+ .CoursesDetailsTable td:nth-of-type(1):before{font-family:"FontAwesome";content:"\f046";}
+ .CoursesDetailsTable td:nth-of-type(2):before{content:"Available";}
+ .CoursesDetailsTable td:nth-of-type(3):before{content:"Day";}
+ .CoursesDetailsTable td:nth-of-type(4):before{content:"From Time";}
+ .CoursesDetailsTable td:nth-of-type(5):before{content:"To Time";}
+ .CoursesDetailsTable td:nth-of-type(6):before{content:"Type";}
+ .CoursesDetailsTable td:nth-of-type(7):before{content:"Group";}
+ .CoursesDetailsTable td:nth-of-type(8):before{content:"Facility";}
+ .CoursesDetailsTable td:nth-of-type(9):before{content:"Instructor";}
+ .CoursesDetailsTable td:nth-of-type(10):before{content:"Status";}
+}
