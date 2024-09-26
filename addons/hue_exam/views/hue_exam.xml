@@ -15,7 +15,9 @@
 				</xpath>
 				<xpath expr="//field[@name='session_id']" position="before">
 					<field name="course_id" readonly="state=='schedule'"/>
+					<field name="suitable_course_ids" invisible="1"/>
 					<field name="suitable_session_ids" invisible="1"/>
+					<field name="suitable_subject_ids" invisible="1"/>
 				</xpath>
 				<xpath expr="//field[@name='subject_id']" position="after">
 					<field name="similarity" />
@@ -121,7 +123,9 @@
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='subject_id']" position="after">
 					<field name="subject_code" />
+					<field name="suitable_course_ids" column_invisible="1"/>
 					<field name="suitable_session_ids" column_invisible="1"/>
+					<field name="suitable_subject_ids" column_invisible="1"/>
 				</xpath>
 			</field>
 		</record>
