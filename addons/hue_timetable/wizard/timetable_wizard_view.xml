@@ -12,15 +12,16 @@
                         <div>
                             <group colspan="8" cols="8">
                                 <group>
-                                    <field name="course_id" required="not facility_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
-                                    <field name="subject_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
-                                    <field name="facility_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
-                                    <field name="student_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="course_id" required="course_batch_required or batch_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="subject_id" readonly="not course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="facility_id" readonly="faculty_id and not course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="student_id" readonly="not course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="course_batch_required" invisible="1"/>
                                 </group>
                                 <group>
-                                    <field name="batch_id" required="not facility_id" context="{'course_id': course_id,'get_parent_batch':1}" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
-                                    <field name="faculty_id"  options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
-                                    <field name="level_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+                                    <field name="batch_id" required="course_batch_required or course_id" context="{'course_id': course_id,'get_parent_batch':1}" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}"/>
+                                    <field name="faculty_id"  readonly="facility_id and not course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
+                                    <field name="level_id" readonly="not course_id" options="{'no_quick_create':True,'no_create_edit':True,'no_open':True}" />
                                     <field name="actual_lectures"/>
                                 </group>
                             </group>

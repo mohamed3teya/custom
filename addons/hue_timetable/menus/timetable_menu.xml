@@ -7,12 +7,12 @@
 		<!-- <menuitem id="op_session_classroom_admin_menu" name="Classroom Admin" sequence="1"
 		          parent="hue_tiemtable_classroom_root" action="openeducat_classroom.act_open_op_classroom_view"/> -->
 		<!--hue_session_root-->
-		<!-- <menuitem id="hue_tiemtable_session_root" name="Session" sequence="3" parent="openeducat_timetable.menu_op_timetable_root"/> -->
+		<menuitem id="hue_tiemtable_session_root" name="Session Register" sequence="3" parent="openeducat_timetable.menu_op_timetable_root"/>
 		<!--Session submenus-->
-		<!-- <menuitem id="op_session_registration_menu" name="Session Registration" sequence="1"
+		<menuitem id="op_session_registration_menu" name="Session Registration" sequence="1"
 		          parent="hue_tiemtable_session_root" action="op_session_registration_action"/>
         <menuitem id="op_session_registration_enrollment_menu" name="Session Registration Enrollment" sequence="2"
-		          parent="hue_tiemtable_session_root" action="op_session_registration_enrollment_action"/> -->
+		          parent="hue_tiemtable_session_root" action="op_session_registration_enrollment_action"/>
 		<!-- timetable root action -->
 		<record model="ir.ui.menu" id="openeducat_timetable.menu_op_timetable_root">
         	<field name="action" ref="act_open_op_session_view_inherit"/>

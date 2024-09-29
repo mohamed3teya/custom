@@ -18,8 +18,12 @@ class TimetableWizard(models.TransientModel):
     student_id = fields.Many2one('op.student')
     level_id = fields.Many2one('op.levels')
     actual_lectures = fields.Boolean('Actual lectures!')
+    course_batch_required = fields.Boolean(string='Course Required', compute='_compute_course_required', store=False)
     
-    
+    @api.onchange('facility_id', 'faculty_id')
+    def _compute_course_required(self):
+        self.course_batch_required = not (self.facility_id or self.faculty_id)
+        
     @api.onchange('course_id')
     def onchange_course(self):
         if self.batch_id and self.course_id:

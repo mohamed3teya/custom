@@ -3,6 +3,10 @@ from odoo.http import request
 from datetime import time, datetime, timedelta ,date
 import json
 import logging
+import werkzeug
+import random
+import string
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 _logger = logging.getLogger(__name__)
 
@@ -57,6 +61,38 @@ class HUECourseController(http.Controller):
             if closed == 'close' or  closed == 'publish':
                 return True
         return False
+    
+    def _response(self, headers, body, status=200):
+        try:
+            fixed_headers = {str(k): v for k, v in list(headers.items())}
+        except Exception as e:
+            fixed_headers = headers
+        response = werkzeug.Response(
+            response=body, status=status, headers=fixed_headers)
+        """It will return response of auth2"""
+        return response
+    
+    def getdatezone(self, x_date):
+        date_time_obj = datetime.strptime(str(x_date), '%Y-%m-%d %H:%M:%S.%f')
+        final_date=datetime.strftime(date_time_obj,'%Y-%m-%dT%H:%M:%S.%fZ')
+        return final_date
+    
+    def getcourselevel(self, levelid):
+        level = ''
+        if levelid.name == '0':
+            level = 'PR'
+        elif levelid.name == '1':
+            level = '01'
+        elif levelid.name == '2':
+            level = '02'
+        elif levelid.name == '3':
+            level = '03'
+        elif levelid.name == '4':
+            level = '04'
+        elif levelid.name == '5':
+            level = '05'
+        return level
+    
     
     #APIS
     #courses
@@ -150,7 +186,7 @@ class HUECourseController(http.Controller):
     @http.route(['/WSNJ/HUEstaff'], type="http", auth="none", methods=["GET"], csrf=False)
     def NJS_HUEstaff(self, index=None, **payload):
         if index == 'staffData':
-            # curr_academic_year = request.env['hue.academic.years'].sudo().search([('current', '=', True)]).id
+            # curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)]).id
             # curr_semester = request.env['op.semesters'].sudo().search([('current', '=', True)]).id
             staff_data = request.env['op.faculty']
             staff_data_ = staff_data.sudo().search([])
@@ -1058,3 +1094,758 @@ class HUECourseController(http.Controller):
         
         # In case index doesn't match 'ExamTimetable'
         return http.Response("Invalid index", status=400)
+    
+############################ New SDS #############################################
+    @http.route(["/ims/oneroster2/v1p1/academicSessions"], type="http", auth="none", methods=["GET"], csrf=False)
+    def oneroster_academicSessions2(self, id=None, **payload):
+        domain = []
+        limit = False
+        offset = False
+        check = False
+        check2 = False
+        filters = False
+        if payload.get("offset"):
+            offset = int(payload["offset"])
+        if payload.get("limit"):
+            limit = int(payload.get("limit"))
+        role = False
+        if payload.get("filter"):
+            filters = (payload.get("filter"))
+            dict_Of_filters = {}
+        curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)])
+        curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)])
+            # role = str(filters.split('=')[1]).replace("'", "")
+            # role = role.replace("AND status", "").replace(" ", "")
+        try:
+            if role:
+                domain.append(('school_year', '=', role))
+            if filters:
+                if "dateLastModified" in filters:
+                    check = True
+                    check2 == False
+                if "sourcedId" in filters :
+                    check2 = True
+                    academicSessions_json = []
+                    batches_count = 0
+            academicSessions_json = []
+            children = []
+            batches_count = 0
+            if check2 == False:
+                if check:
+                    batches = request.env['op.batch'].sudo().search([('semester', '=', curr_semester.id), ('academic_year', '=', curr_academic_year.id),('write_date','>',filters.split('>')[1])], offset=offset,limit=limit)
+                    batches_count = request.env['op.batch'].sudo().search_count([('semester', '=', curr_semester.id), ('academic_year', '=', curr_academic_year.id),('write_date','>',filters.split('>')[1])])
+                else:
+                    batches = request.env['op.batch'].sudo().search([('semester', '=', curr_semester.id), ('academic_year', '=', curr_academic_year.id)], offset=offset,limit=limit)
+                    batches_count = request.env['op.batch'].sudo().search_count([('semester', '=', curr_semester.id), ('academic_year', '=', curr_academic_year.id)])
+                parent = {
+                        "href": "/ims/oneroster2/v1p1/academicSessions",                
+                        "sourcedId": str(curr_academic_year.id),
+                        "type" : "schoolYear",
+                        }
+                if batches:
+                    for batch in batches:
+                        print("batch.write_date", batch.write_date)
+                        item = {"sourcedId": str(batch.id),
+                                "status": 'active',
+                                'dateLastModified' : self.getdatezone(batch.write_date),
+                                'title': batch.name,
+                                'startDate': str(batch.start_date),
+                                'endDate': str(batch.end_date),
+                                'parent' : parent,
+                                'type': 'term',
+                                'schoolYear': str(int(batch.academic_year.year)+1)
+                        }
+                        item2 = {
+                            "href": "/ims/oneroster2/v1p1/academicSessions",                
+                            "sourcedId":str(batch.id),
+                            "type" : "academicSession",
+                        }
+                        children.append(item2)
+                        academicSessions_json.append(item)
+                    academicSessions_json.append(
+                            {"sourcedId": str(curr_academic_year.id),
+                             "status": 'active',
+                             'dateLastModified' : self.getdatezone(curr_academic_year.write_date),
+                             # "dateLastModified": datetime.strptime(curr_academic_year.write_date, "%Y-%m-%dT%H:%M:%S.%f%Z"),
+                             'title': curr_academic_year.name,
+                             "children" : children,
+                             'startDate': str(curr_academic_year.start_date),
+                             'endDate': str(curr_academic_year.end_date),
+                             'type': 'schoolYear',
+                             'schoolYear': str(int(curr_academic_year.year)+1)
+                                }
+                    )
+            data = {"academicSessions": academicSessions_json}
+            print("data", data)
+            if data:
+                body = json.dumps(data)
+               
+                headers = [
+                    ("X-Total-Count", batches_count),
+                    ("Content-Type", "application/json; charset=utf-8")]
+                status = 200
+                return self._response(headers, body, status)
+        except Exception as e:
+            return http.Response(json.dumps({'error': e.__str__(), 'status_code': 500},
+                                       sort_keys=True, indent=4),
+                            content_type='application/json;charset=utf-8', status=200) 
+    
+    # Classes
+    @http.route(["/ims/oneroster2/v1p1/classes"], type="http", auth="none", methods=["GET"],csrf=False)
+    def oneroster_classes2(self, id=None, school_id=None, **payload):
+        domain = []
+        limit = False
+        offset = False
+        check = False
+        check2 = False
+        filters = False
+        if payload.get("offset"):
+            offset = int(payload["offset"])
+        if payload.get("limit"):
+            limit = int(payload.get("limit"))
+        if payload.get("filter"):
+            filters = (payload.get("filter"))
+        classes_json = []
+        curr_classes_count = 0
+        company = request.env['res.company'].sudo().search([], limit=1).id
+        class_obj = request.env['op.session.registration']
+        # try:
+        curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)])
+        curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)]).id
+        print('curr_academic_year', curr_academic_year,'curr_semester', curr_semester)
+        classes_objc = "classes"
+        if filters:
+            if "dateLastModified" in filters:
+                check = True
+                check2 == False
+            if "sourcedId" in filters :
+                check2 = True
+                classes_json = []
+                classes_count = 0
+        if check2 == False:
+            if check:
+                batches = request.env['op.batch'].sudo().search([('semester','=',curr_semester),('academic_year','=',curr_academic_year.id),('write_date','>',filters.split('>')[1])]).ids
+            else:
+                batches = request.env['op.batch'].sudo().search([('semester','=',curr_semester),('academic_year','=',curr_academic_year.id)]).ids
+            domain.append(('batch_id', 'in', batches))
+            domain.append(('session_sync_type', '=', 'team'))
+            classes_count = class_obj.sudo().search_count(domain)
+            classes = class_obj.sudo().search(domain, offset=offset, limit=limit)
+            print("classes", classes)
+            if classes:
+                for classe in classes:
+                    if classe.status == 'inactive':
+                        status = 'tobedeleted'
+                    else:
+                        status = 'active'
+                    course = {
+                            "href": "/ims/oneroster2/v1p1/courses" ,               
+                            "sourcedId":str(classe.subject_id.id+1000),
+                            "type" : "course",
+                            }
+                    school = {
+                        "href": "/ims/oneroster2/v1p1/orgs",
+                        "sourcedId": str(classe.course_id.id),
+                        "type": "program",
+                    }
+        
+                    term = [{
+                        "href": "/ims/oneroster2/v1p1/academicSessions",
+                        "sourcedId": str(classe.batch_id.id),
+                        "type": "term",
+                    }]
+                    sem = ''
+                    if curr_semester == 1:
+                        sem = 'Fall'
+                    elif curr_semester == 2:
+                        sem = 'Spring'
+                    elif curr_semester == 3:
+                        sem = 'Summer'
+                    
+                    yearcode = curr_academic_year.year_code
+                    # yearcode_ = curr_academic_year.split(" ")[0]
+                    print(yearcode)
+                    # print(yearcode_) 
+                    item = {"sourcedId": str(classe.id),
+                            "status": status,
+                            "dateLastModified": self.getdatezone(classe.write_date),
+                            'title':  sem + '-'+ str(yearcode) +'-'+ classe.name,
+                            'classCode': classe.subject_id.code,
+                            'classType': 'scheduled',
+                            # 'location': classe.facility_id.name,
+                            # 'subjectCodes': [classe.subject_id.code],
+                            # 'periods':[session.timing_id.name],
+                            'subjects': [classe.subject_id.name],
+                            'course':course,
+                            'school': school,
+                            'terms': term,
+                            'grades' : [self.getsubjectlevel(classe.subject_id,classe.course_id)]
+                            }
+                    
+                    classes_json.append(item)
+        data = {classes_objc: classes_json}
+        if data:
+            # print(data)
+            body = json.dumps(data)
+            headers = [
+                ("X-Total-Count", classes_count),
+                ("Content-Type", "application/json; charset=utf-8")]
+            status = 200
+            return self._response(headers, body, status)    
+    
+    #Courses = Subjects
+    @http.route(["/ims/oneroster2/v1p1/courses"], type="http", auth="none",methods=["GET"], csrf=False)
+    def oneroster_courses2(self, id=None, **kw):
+        domain = []
+        courses_objc = 'courses'
+        limit = False
+        offset = False
+        filters = False
+        check = False
+        check2 = False
+        if kw.get("offset"):
+            offset = int(kw["offset"])
+        if kw.get("limit"):
+            limit = int(kw.get("limit"))
+        if kw.get("filter"):
+            filters = (kw.get("filter"))
+        # courses = request.env['op.subject'].sudo().search([], offset=offset, limit=limit)
+        
+        curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)]).id
+        curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)]).id
+        courses = []
+        course_count = 0
+        try:
+            if filters:
+                # print(filters.split('=')[1])
+                if "dateLastModified" in filters:
+                    check = True
+                    check2 == False
+                if "sourcedId" in filters :
+                    check2 = True
+                    courses = []
+                    course_count = 0
+            if check2 == False:
+                if check:
+                    batches = request.env['hue.subject.registration'].sudo().search([('batch_id.academic_year','=',curr_academic_year),('batch_id.semester','=',curr_semester),('write_date','>',filters.split('>')[1])], offset=offset, limit=limit)
+                    course_count = request.env['hue.subject.registration'].sudo().search_count([('batch_id.academic_year','=',curr_academic_year),('batch_id.semester','=',curr_semester),('write_date','>',filters.split('>')[1])])
+                else:
+                    batches = request.env['hue.subject.registration'].sudo().search([('batch_id.academic_year','=',curr_academic_year),('batch_id.semester','=',curr_semester)], offset=offset, limit=limit)
+                    course_count = request.env['hue.subject.registration'].sudo().search_count([('batch_id.academic_year','=',curr_academic_year),('batch_id.semester','=',curr_semester)])
+                for course in batches:
+                    item = ""
+                    academicsession = {
+                        "href": "/ims/oneroster2/v1p1/academicSessions",
+                        "sourcedId": str(course.batch_id.id),
+                        "type": "term",
+                        }
+                    schools = {
+                        "href": "/ims/oneroster2/v1p1/orgs",
+                        "sourcedId": str(course.batch_id.course_id.id),
+                        "type": "program",
+                        }
+                    item = {"sourcedId": str(course.subject_id.id+1000),
+                           "status": 'active',
+                           "dateLastModified": self.getdatezone(course.write_date),
+                           "title": str(course.subject_id.name),
+                           "schoolYear": academicsession,
+                           "courseCode": course.subject_id.code,
+                           "grades": [self.getcourselevel(course.subject_level)],
+                           "subjects": [str(course.subject_id.name)],
+                           "org" : schools
+                           }
+                    courses.append(item)
+            data = {courses_objc: courses}
+            body = json.dumps(data)
+            headers = [
+                ("X-Total-Count", course_count),
+                ("Content-Type", "application/json; charset=utf-8")]
+            status = 200
+            return self._response(headers, body, status)
+        except Exception as e:
+            return http.Response(json.dumps({'error': e.__str__(), 'status_code': 500},
+                                       sort_keys=True, indent=4),
+                            content_type='application/json;charset=utf-8', status=200)
+    
+    #Enrollments
+    @http.route(["/ims/oneroster2/v1p1/enrollments"],type="http", auth="none", methods=["GET"], csrf=False)
+    def oneroster_enrollments2(self, id=None, **payload):
+        domain = []
+        limit = False
+        offset = False
+        filters = False
+        check = False
+        check2 = False
+        if payload.get("offset"):
+            offset = int(payload["offset"])
+        if payload.get("limit"):
+            limit = int(payload.get("limit"))
+        if payload.get("filter"):
+            filters = (payload.get("filter"))
+        enrollments_json = []
+        enrollments_objc = ""
+        enrollment_count = 0
+        # if offset == 100 :
+        # offset = 100000000000
+        status_ids = request.env['hue.std.data.status'].sudo().search([('active_invoice', '=', True)])._ids
+        try:
+            enrollments_objc = "enrollments"
+            # if filters:
+            #     role = str(filters.split('=')[1]).replace("'", "")
+            # else:
+            #     role = False
+            # _school_id = int(school_id)
+            curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)]).id
+            curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)]).id
+            batches = request.env['op.batch'].sudo().search([('semester','=',curr_semester),('academic_year','=',curr_academic_year)]).ids
+            
+            domain.append(('batch_id', 'in', batches))
+            domain.append(('session_sync_type', '=', 'team'))   
+            sessions = request.env['op.session.registration'].sudo().search(domain).ids
+            print(len(sessions))
+            if filters:
+                if "dateLastModified" in filters:
+                    check = True
+                    check2 == False
+                if "sourcedId" in filters :
+                    check2 = True
+                    enrollments_json = []
+                    enrollment_count = 0
+            if check2 == False:
+                if check:
+                    enrollment_ids = request.env['op.session.registration.enrollment'].sudo().search([('registration_enrollment_id', 'in', sessions),('write_date','>',filters.split('>')[1])], offset=offset, limit=limit)
+                    enrollment_count = request.env['op.session.registration.enrollment'].sudo().search_count([('registration_enrollment_id', 'in', sessions),('write_date','>',filters.split('>')[1])])
+                else:
+                    enrollment_ids = request.env['op.session.registration.enrollment'].sudo().search([('registration_enrollment_id', 'in', sessions)], offset=offset, limit=limit)
+                    enrollment_count = request.env['op.session.registration.enrollment'].sudo().search_count([('registration_enrollment_id', 'in', sessions)])
+                    
+                if enrollment_ids:
+                    for enrollment in enrollment_ids:
+                        school = {
+                            "href": "/ims/oneroster2/v1p1/orgs",
+                            "sourcedId": str(enrollment.course_id.id),
+                            "type": "program",
+                            }
+                        student_class = {
+                            "href": "/ims/oneroster2/v1p1/classes",
+                            "sourcedId": str(enrollment.registration_enrollment_id.id),
+                            "type": "class",
+                        }
+                        if enrollment.role == 'student':
+                            if enrollment.student_id.student_status.id not in status_ids:
+                                continue
+        
+                            user = {
+                                "href": "/ims/oneroster2/v1p1/users",
+                                "sourcedId": str(int(enrollment.student_id.id)+2000000),
+                                "type": "user",
+                            }
+                            role = 'student'
+                        if enrollment.role == 'teacher':
+                            user = {
+                                "href": "/ims/oneroster2/v1p1/users",
+                                "sourcedId": str(int(enrollment.teacher_id.id)+1000000),
+                                "type": "user",
+                            }
+                            role = 'teacher'
+                        if enrollment.role == 'administrator':
+                            user = {
+                                "href": "/ims/oneroster2/v1p1/users",
+                                "sourcedId": str(int(enrollment.teacher_id.id)+1000000),
+                                "type": "user",
+                            }
+                            role = 'administrator'
+                        
+                        status = 'active'
+                        if enrollment.status == 'inactive':
+                            status = 'tobedeleted'
+                        if enrollment.id == 1495904:
+                            item = {"sourcedId": str(enrollment.id),
+                                    "status": status,
+                                    # "dateLastModified": self.getdatezone(enrollment.write_date),
+                                    "dateLastModified": "2023-07-26T13:01:01.521Z",
+                                    'role': role,
+                                    'primary': enrollment.primary,
+                                    'user': user,
+                                    'class': student_class,
+                                    'school': school,
+                                    'beginDate': str(enrollment.registration_enrollment_id.batch_id.start_date),
+                                    'endDate': str(enrollment.registration_enrollment_id.batch_id.end_date),
+                                }
+                        else:
+                            item = {"sourcedId": str(enrollment.id),
+                                    "status": status,
+                                    #"dateLastModified": self.getdatezone(enrollment.write_date),
+                                    "dateLastModified": "2023-11-15T13:00:00.000000Z",
+                                    'role': role,
+                                    'primary': enrollment.primary,
+                                    'user': user,
+                                    'class': student_class,
+                                    'school': school,
+                                    'beginDate': str(enrollment.registration_enrollment_id.batch_id.start_date),
+                                    'endDate': str(enrollment.registration_enrollment_id.batch_id.end_date),
+                                }
+                        enrollments_json.append(item)
+            
+            data = {enrollments_objc: enrollments_json}
+            if data:
+                body = json.dumps(data)
+                # print(data)
+                headers = [
+                    ("X-Total-Count", enrollment_count),
+                    ("Content-Type", "application/json; charset=utf-8"), ("Cache-Control", "no-store"),
+                    ("Pragma", "no-cache")]
+                status = 200
+                return self._response(headers, body, status)
+        except Exception as e:
+            return http.Response(json.dumps({'error': e.__str__(), 'status_code': 500},
+                                       sort_keys=True, indent=4),
+                            content_type='application/json;charset=utf-8', status=200)
+    
+    # Users    
+    @http.route(["/ims/oneroster2/v1p1/users"], type="http", auth="none", methods=["GET"], csrf=False)
+    def oneroster_users2(self, id=None, **payload):
+        limit = False
+        offset = False
+        filters = False
+        check = False
+        check2 = False
+        Stds = request.env['op.student']
+        teachers = request.env['op.faculty']
+        status_ids = request.env['hue.std.data.status'].sudo().search([('active_invoice', '=', True)])._ids
+        domain = []
+        domain_t = []
+        if payload.get("offset"):
+            offset = int(payload["offset"])
+        if payload.get("limit"):
+            limit = int(payload.get("limit"))
+        if payload.get("filter"):
+            filters = (payload.get("filter"))
+        users_json = []
+        
+        try:
+            users_objc = "users"
+            curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)]).id
+            curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)]).id
+            
+            # domain.append(('student_status', 'in', status_ids))
+            students_count = Stds.sudo().search_count(domain)
+            users = Stds.sudo().search(domain, offset=offset, limit=limit)
+            ##### teachers
+            users_count = 0
+            if filters:
+                # print(filters.split('=')[1])
+                if "dateLastModified" in filters:
+                    check = True
+                    check2 == False
+                if "sourcedId" in filters :
+                    check2 = True
+                    users_json = []
+                    # students_count = 0
+                    # teachers_count = 0
+                    users_count = 0
+            if check2 == False:
+                if check:
+                    batches = request.env['op.batch'].sudo().search([('semester', '=', curr_semester), ('academic_year', '=', curr_academic_year)]).ids
+                    # users = request.env['op.student'].sudo().search([('student_status', 'in', status_ids),('write_date','>',filters.split('>')[1])], offset=offset, limit=limit) ,('write_date','>',filters.split('>')[1])
+                else:
+                    batches = request.env['op.batch'].sudo().search([('semester', '=', curr_semester), ('academic_year', '=', curr_academic_year)]).ids
+                    
+                sessions_ids = request.env['op.session.registration'].sudo().search([('batch_id', 'in', batches)]).ids
+    
+                sessions = request.env['op.session.registration.enrollment'].sudo().search(
+                    [('registration_enrollment_id', 'in', sessions_ids), ('role', 'in', ['teacher', 'administrator', 'student'])])
+                print("sessions", sessions)
+                allusers = []
+                faculty_ids = sessions.mapped('teacher_id')
+                print("faculty_ids", faculty_ids)
+                allusers.append(faculty_ids)
+                student_ids = sessions.mapped('student_id')
+                allusers.append(student_ids)
+                sql = ("select id,(select name from hr_employee where id = t1.emp_id) username \n"
+                        + " ,(select work_email from hr_employee where id = t1.emp_id) email \n"
+                        + " ,(select mobile_phone from hr_employee where id = t1.emp_id) mobile,'1000' course_id,write_date,'teacher' usertype from op_faculty t1 where id in "+str(faculty_ids._ids)+" \n"
+                        + " union \n"
+                        + " select id,en_name username,cast(student_code as varchar),stumobile,course_id,write_date,'student' usertype from op_student where en_name is not null and student_status in "+str(status_ids)+" \n"
+                        )
+                request.env.cr.execute(sql)
+                users = request.env.cr.dictfetchall()
+                users_count = len(users)
+                if limit :
+                    sql = ("select id,(select name from hr_employee where id = t1.emp_id) username \n"
+                            + " ,(select work_email from hr_employee where id = t1.emp_id) email \n"
+                            + " ,(select mobile_phone from hr_employee where id = t1.emp_id) mobile,'1000' course_id,write_date,'teacher' usertype from op_faculty t1 where id in "+str(faculty_ids._ids)+" \n"
+                            + " union \n"
+                            + " select id,en_name username,cast(student_code as varchar),stumobile,course_id,write_date,'student' usertype from op_student where en_name is not null and student_status in "+str(status_ids)+" \n"
+                            + " LIMIT "+str(limit)+" OFFSET "+ str(offset)
+                            )
+                    request.env.cr.execute(sql)
+                    users = request.env.cr.dictfetchall()
+                _logger.info('sql..............................')
+                _logger.info(sql)
+                _logger.info('sssssssssssssssssssssssssssssssssssssss')
+                for user in users:
+                    if user["username"] != '':
+                        name = (user["username"]).lstrip(' ')
+                        data = name.split(" ")
+                        try:
+                            familyName = data[1]
+                        except:
+                            familyName = data[0]
+                    else:
+                        name = ''
+                        familyName = ''
+                    email = ''
+                    userid = ''
+                    levelID = False
+                    if user["usertype"] == 'teacher' or user["usertype"] == 'administrator':
+                        orgs = [{
+                            "href": "/ims/oneroster2/v1p1/orgs",
+                            "sourcedId": "1000",
+                            "type": "university",
+                        }]
+                        email = user["email"]
+                        userid = str(user["id"])
+                    else:
+                        orgs = [{
+                            "href": "/ims/oneroster2/v1p1/orgs",
+                            "sourcedId": str(user["course_id"]),
+                            "type": "program",
+                        }]
+                        email = user["email"]+'@horus.edu.eg'
+                        userid = str(user["id"])
+                        stuID = request.env['op.student'].sudo().search([('id', '=', int(user["id"]))], limit=1)
+                        levelID = self.getstulevel(stuID.level.id)
+                                    
+                    username = email.split("@", 1)
+                    if user["mobile"] != None:
+                        if levelID:
+                            item = {"sourcedId": str(int(userid)+2000000),
+                                "status": 'active',
+                                "dateLastModified": self.getdatezone2(user["write_date"]),
+                                'username': username[0],
+                                'givenName': data[0],
+                                'familyName': familyName,
+                                'enabledUser': 'true',
+                                'role': str(user["usertype"]),
+                                'email': email,
+                                'identifier': str(user["email"]),
+                                'sms': '+2'+str(user["mobile"]),
+                                'phone': '+2'+str(user["mobile"]),
+                                'orgs': orgs,
+                                'grades': [levelID],
+                                }
+                        else:
+                            item = {"sourcedId": str(int(userid)+1000000),
+                                "status": 'active',
+                                "dateLastModified": self.getdatezone2(user["write_date"]),
+                                'username': username[0],
+                                'givenName': data[0],
+                                'familyName': familyName,
+                                'enabledUser': 'true',
+                                'role': str(user["usertype"]),
+                                'email': email,
+                                'identifier': str(user["email"]),
+                                'sms': '+2'+str(user["mobile"]),
+                                'phone': '+2'+str(user["mobile"]),
+                                'orgs': orgs,
+                                }
+                    else:
+                        if levelID:
+                            item = {"sourcedId": str(int(userid)+2000000),
+                                "status": 'active',
+                                "dateLastModified": self.getdatezone2(user["write_date"]),
+                                'username': username[0],
+                                'givenName': data[0],
+                                'familyName': familyName,
+                                'enabledUser': 'true',
+                                'role': str(user["usertype"]),
+                                'email': email,
+                                'identifier': str(user["email"]),
+                                'orgs': orgs,
+                                'grades': [levelID],
+                                }
+                        else:
+                            item = {"sourcedId": str(int(userid)+1000000),
+                                "status": 'active',
+                                "dateLastModified": self.getdatezone2(user["write_date"]),
+                                'username': username[0],
+                                'givenName': data[0],
+                                'familyName': familyName,
+                                'enabledUser': 'true',
+                                'role': str(user["usertype"]),
+                                'email': email,
+                                'identifier': str(user["email"]),
+                                'orgs': orgs
+                                }
+                    users_json.append(item)
+                
+            data = {users_objc: users_json}
+            if data:
+                # print(users_json)
+                body = json.dumps(data)
+                headers = [
+                    ("X-Total-Count", users_count),
+                    ("Content-Type", "application/json; charset=utf-8"), ("Cache-Control", "no-store"),
+                    ("Pragma", "no-cache")]
+                status = 200
+                return self._response(headers, body, status)
+        except Exception as e:
+            return http.Response(json.dumps({'error': e.__str__(), 'status_code': 500},
+                                       sort_keys=True, indent=4),
+                            content_type='application/json;charset=utf-8', status=200)    
+    
+    # Org 
+    @http.route(["/ims/oneroster2/v1p1/orgs"], type="http", auth="none",methods=["GET"], csrf=False)
+    def oneroster_org2(self, id=None, **kw):
+        faculty = request.env['hue.faculties']
+        domain = []
+        org_objc = 'orgs'
+        limit = False
+        offset = False
+        filters = False
+        check = False
+        check2 = False
+        if kw.get("offset"):
+            offset = int(kw["offset"])
+        if kw.get("limit"):
+            limit = int(kw.get("limit"))
+        if kw.get("filter"):
+            filters = (kw.get("filter"))
+            
+        curr_academic_year = request.env['op.academic.year'].sudo().search([('current', '=', True)]).id
+        curr_semester = request.env['op.semesters'].sudo().search([('sds_current', '=', True)]).id
+        # curr_semester = 1
+        try:
+            if filters:
+                # print(filters.split('=')[1])
+                if "dateLastModified" in filters:
+                    check = True
+                    check2 == False
+                if "sourcedId" in filters :
+                    check2 = True
+                    courses = []
+                    orgs_count = 0
+            if check2 == False:
+                if check:
+                    orgs = faculty.sudo().search([('write_date','>',filters.split('>')[1])], offset=offset, limit=limit)
+                    orgs_count = faculty.sudo().search_count([('write_date','>',filters.split('>')[1])])
+                else:
+                    orgs = faculty.sudo().search([], offset=offset, limit=limit)
+                    orgs_count = faculty.sudo().search_count(domain)
+                faculty = []
+                courses = []
+                if orgs:
+                    for fac in orgs:
+                        schools = []
+                        domain = []
+                        domain.append(('faculty_id', '=', fac.id))
+                        schools_data = request.env['op.course'].sudo().search(domain, offset=offset, limit=limit)
+                        
+                        faculty.append(
+                            {
+                            "href": "/ims/oneroster2/v1p1/orgs",                
+                            "sourcedId":str(fac.id+100),
+                            "type" : "college",
+                            }
+                        )
+                        
+                        parent = {
+                                "href": "/ims/oneroster2/v1p1/orgs",                
+                                "sourcedId":str("1000"),
+                                "type" : "university",
+                                }
+                        for school in schools_data:
+                            item = {
+                                "href": "/ims/oneroster2/v1p1/orgs",
+                                "sourcedId": str(school.id),
+                                "type": "program",
+                            }
+                            schools.append(item)
+                        
+                        children = [schools]
+                        org = {"sourcedId": str(fac.id+100),
+                                   "status": 'active',
+                                   "dateLastModified": self.getdatezone(fac.write_date),
+                                   "name": str(fac.name),
+                                   "type": 'college',
+                                   "identifier": str(fac.name),
+                                   "children" : children,
+                                   "parent" : parent
+                                   # "org" : schools
+                                   }
+                        courses.append(org)
+                    
+                    hue_data = request.env['res.company'].sudo().search([])
+                    courses.append(
+                            {"sourcedId": 1000,
+                                   "status": 'active',
+                                   "dateLastModified": self.getdatezone(fac.write_date),
+                                   "name": hue_data.vat,
+                                   "type": 'university',
+                                   "identifier": hue_data.name,
+                                   "children" : faculty
+                            })
+                    
+                    schools_data = request.env['op.course'].sudo().search([])
+                    
+                    for school in schools_data:
+                        parent_fac = {
+                                "href": "/ims/oneroster2/v1p1/orgs",                
+                                "sourcedId":str(school.faculty_id.id+100),
+                                "type" : "college",
+                                }
+                        item ={
+                            "sourcedId": str(school.id),
+                               "status": 'active',
+                               "dateLastModified": self.getdatezone(school.write_date),
+                               "name": str(school.name),
+                               "type": 'program',
+                               "identifier": str(school.name),
+                               "parent" : parent_fac,
+                        }
+                        courses.append(item)
+            
+            data = {org_objc: courses}
+            body = json.dumps(data)
+            print(body)
+            headers = [
+                ("X-Total-Count", orgs_count),
+                ("Content-Type", "application/json; charset=utf-8")]
+            status = 200
+            return self._response(headers, body, status)
+        except Exception as e:
+            return http.Response(json.dumps({'error': e.__str__(), 'status_code': 500},
+                                       sort_keys=True, indent=4),
+                            content_type='application/json;charset=utf-8', status=200)
+            
+    
+    @http.route('/oauth2/access_token', type='http', methods=["POST"], auth='public', csrf=False)
+    def access_token(self, **kw):
+        """This method is used for generate access token for auth2 as a service"""
+        _logger.info('token...........111111111111111111111..................................')
+        grant_type = kw.get('grant_type', False)
+        client_id = kw.get('client_id', False)
+        client_secret = kw.get('client_secret', False)
+        error = {}
+        ACCESS_TOKEN_EXPIRE_SECONDS = 60 * 60
+        expires = datetime.now() + timedelta(seconds=ACCESS_TOKEN_EXPIRE_SECONDS)
+        access_token = ''.join([random.choice(string.ascii_letters + string.digits) for n in range(40)])
+        body = json.dumps({
+            'access_token': access_token,
+            'token_type': 'bearer',
+            'access_token_validity': expires.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+            # 'refresh_token': refresh_token,
+        })
+        headers = [("Cache-Control", "no-store"), ("Pragma", "no-cache")]
+        status = 200
+        token_vals = {
+            'access_token': access_token,
+            'access_token_validity': expires.strftime(DEFAULT_SERVER_DATETIME_FORMAT),
+        }
+        
+        _logger.info(token_vals)
+        _logger.info('token.............................................')
+        print("token_vals")
+        print(token_vals)
+        return self._response(headers, body, status)
