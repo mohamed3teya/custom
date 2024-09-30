@@ -260,10 +260,10 @@ class CustomStudent(models.Model):
         conn.start_tls()
         ldap_base = ldap_conn[1]
         print("11111111111")
-        status_ids = self.env['hue.std.data.status'].sudo().search([('id', 'not in',[2,42,48,])])._ids
+        status_ids = self.env['hue.std.data.status'].sudo().search([('name', 'not in',['مستجد'])])._ids
         i = 1
         for rec in self.search([('student_status', 'in', status_ids)]):
-            ldap_base = 'OU=HUE-Faculties,DC=horus,DC=edu,DC=eg'
+            ldap_base = 'OU=HUE-Faculties,DC=mca,DC=edu,DC=eg'
             search_dn = conn.search(format(ldap_base),search_filter='(|(sAMAccountName='+str(rec.student_code)+')(mail='+rec.email+'))',search_scope=SUBTREE,attributes=['distinguishedName','userAccountControl'])
             if search_dn:
                 userdn = str(conn.response[0]['attributes']['distinguishedName'])
@@ -317,7 +317,7 @@ class CustomStudent(models.Model):
                 userdn = 'CN=' + str(rec.student_code) + ',' + rec.faculty.ldap_dn
                 username = str(rec.student_code)
                 application_en_full_name = self.env['op.admission'].search([('Student_code', '=', rec.student_code)], limit=1).english_name
-                ldap_base = 'OU=HUE-Faculties,DC=horus,DC=edu,DC=eg'
+                ldap_base = 'OU=HUE-Faculties,DC=mca,DC=edu,DC=eg'
                 search_dn = conn.search(format(ldap_base), search_filter='(|(sAMAccountName=' + str(
                     rec.student_code) + ')(mail=' + rec.email + '))', search_scope=SUBTREE,
                                         attributes=['distinguishedName', 'userAccountControl'])
@@ -344,9 +344,9 @@ class CustomStudent(models.Model):
                     data = conn.add(userdn, attributes={
                         'objectClass': ['organizationalPerson', 'person', 'top', 'user'],
                         'sAMAccountName': username,
-                        'userPrincipalName': "{}@{}".format(username, "horus.edu.eg"),
+                        'userPrincipalName': "{}@{}".format(username, "mca.edu.eg"),
                         'displayName': application_en_full_name,
-                        'mail': str(rec.student_code) + "@horus.edu.eg"  # optional
+                        'mail': str(rec.student_code) + "@mca.edu.eg"  # optional
                     })
                     # Print the resulting entries.
                     # for entry in conn.entries:
@@ -390,10 +390,10 @@ class CustomStudent(models.Model):
                     'name': str(rec.name) +" "+ last_name,
                     'image': rec.image,
                     'partner_id': rec.partner_id.id,
-                    'login': str(rec.student_code)+"@horus.edu.eg",
+                    'login': str(rec.student_code)+"@mca.edu.eg",
                     'active': True,
                     'oauth_provider_id': provider,
-                    'oauth_uid': str(rec.student_code)+"@horus.edu.eg",
+                    'oauth_uid': str(rec.student_code)+"@mca.edu.eg",
                     'is_student': True,
                     'groups_id': [(6, 0, [group_portal.id])]
                 }

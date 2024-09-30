@@ -31,7 +31,7 @@ class StudentEduData(models.Model):
         accum = self.env['op.student.accumulative']
         accum_sem = self.env['op.student.accumlative.semesters']
         sem_sub = self.env['op.student.semesters.subjects']
-        students = self.env['op.student'].search([('course_id','=',2)])#2,3,4,5,6,7,8,9,10,11,12,13 done
+        students = self.env['op.student'].search([('course_id','=',13)])#2,3,4,5,6,7,8,9,10,11,12,13 done
         codes = []
         for stu in students:
             if stu.student_code and len(str(stu.student_code)) == 4:
@@ -41,7 +41,7 @@ class StudentEduData(models.Model):
         # print("studentiddddddddddddddd: ",student)
         missed_data = ""
         for stu_code in codes:
-            stu_code = 4897
+            # stu_code = 4897
             url = "https://sys.mc.edu.eg/WebServiceMCI?index=GetStudentCoursesGrades&ID=" + str(stu_code)
             # print("URL", url)
             # url = "https://sys.mc.edu.eg/WebServiceMCI?index=GetStudentCoursesGrades&ID=4371"
@@ -65,21 +65,31 @@ class StudentEduData(models.Model):
                 missed_data += "student: "+str(stu_code)+" misssed_URL,"
                 print("missed_data-11111111111111111111111111111111", missed_data)
                 continue
+            acad_year_arr = []
             for  rec in data:
                 # print("rec:-----", rec)
                 acad_year = rec["AcadYearName"]
                 academic_year = self.env['op.academic.year'].search([('name','ilike',acad_year)]).id
+                print("academic_year:--------------------", academic_year)
                 if not academic_year:
                     raise UserError("Please update your academic year table")
                 stu = self.env['op.student'].search([('student_code','=',stu_code)])
-                course = stu.course_id
+                course_initial = stu.course_id
+                previous_course = stu.previous_course_id
+                course = stu.course_id        
                 if not course:
                     raise UserError("Please update your course table")
-                print("academic_year:-----------------", academic_year)
-                print('course:--------------------', course)
+                if not acad_year_arr:
+                    acad_year_arr.append(academic_year)
+                    if stu.course_id.parent_id:
+                        course = stu.course_id.parent_id
+                    print('acad_year_arr:--------', acad_year_arr)
+                    print("course_acad_array:----------",course)
+                # print("academic_year:-----------------", academic_year)
+                # print('course:--------------------', course)
                 
-                accum_id = accum.search([('student_id','=',stu.id)]).id
-                if not accum_id:
+                accum_id = accum.search([('student_id','=',stu.id),('academicyear_id','=',academic_year)]).id
+                if not accum_id:    
                     accum.create({
                         'student_id':stu.id, 
                         'course_id':course.id,
@@ -87,7 +97,7 @@ class StudentEduData(models.Model):
                         'acumgpa':rec["cumGPA"], 
                         'acumhr':rec["cumHrs"]
                     })
-                accum_id = accum.search([('student_id','=',stu.id)]).id
+                accum_id = accum.search([('student_id','=',stu.id),('academicyear_id','=',academic_year)]).id
                 print("accum_id:-------------",accum_id)
                 # op.student.accumulative created
                 
@@ -121,32 +131,36 @@ class StudentEduData(models.Model):
                             'semester_status' : semester_status.id,
                         })
                     accum_sem_id = accum_sem.search([('student_id','=',stu.id),('semester_id','=',sem_id),('academicyear_id','=',academic_year)], limit=1).id
-                    print("accum_sem_id", accum_sem_id)    
+                    # print("accum_sem_id", accum_sem_id)    
                     # op.student.accumlative.semesters created
                     #loop through subjects
                     for sub in sem["Courses"]:
-                        print("CourseCode:--------------",sub["CourseCode"].split('|')[0].strip())
-                        sub_id = self.env['op.subject'].search([('code','ilike',sub["CourseCode"].split('|')[0].strip()),('course_id','=',course.id)],limit=1).id
+                        # print("CourseCode:--------------",sub["CourseCode"].split('|')[0].strip())
+                        sub_id = self.env['op.subject'].search([('code','ilike',sub["CourseCode"].split('|')[0].strip()),('course_id','in',[course.id,course.parent_id.id,course_initial.id])],limit=1).id
                         if not sub_id:
-                            sub_id = self.env['op.subject'].search([('code','ilike',sub["CourseCode"].split('|')[0].strip()),('course_id','=',course.parent_id.id)]).id
+                            sub_id = self.env['op.subject'].search([('code','ilike',sub["CourseCode"].split('|')[0].strip()),('course_id','in',[previous_course.id])],limit=1).id
                         if not sub_id:
-                            missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+",")
+                            sub_id = self.env['op.subject'].search([('code','ilike',sub["CourseCode"].split('|')[0].strip())],limit=1).id                        
+                        # print("sub_id:---------------------", sub_id)
+                        if not sub_id:
+                            missed_data+=('student: '+str(stu_code)+' missed_subject_no_id_for_code: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+","+'\n')
                             print("missed_data-22222222222222222222222",missed_data)
                             # self.missed_student_transfer.append("missed subjects"+str(stu_code)+','+str(sub["CourseCode"].split('|')[0].strip())+str(academic_year)+str(sem_id)+",")
                             continue    
                         sem_sub_id = sem_sub.search([('student_id','=',stu.id),('student_semester_id','=',accum_sem_id),('academicyear_id','=',academic_year),('subject_id','=',sub_id)], limit=1)
                         if not sem_sub_id:    
-                            print("sub_id:==============", sub_id)
+                            # print("sub_id:==============", sub_id)
                             if sub["CourseStatus"] == "un unanswerd Questionnaire":
-                                missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+",")
+                                missed_data+=('student: '+str(stu_code)+' missed_subject_no_Questionnaire: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+","+'\n')
                                 continue
                             try:
                                 grade_final = sub["FinaltermDegree"]
                                 if sub["FinaltermDegree"] == "z":
-                                    missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+",")
-                                    continue
+                                    grade_final = -1
+                                    # missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+","+'\n')
+                                    # continue
                             except:
-                                missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+",")
+                                missed_data+=('student: '+str(stu_code)+' missed_subject_grade_final_z: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+","+'\n')
                                 continue
                             if grade_final == 'غ':
                                 grade_final = 0.05
@@ -171,7 +185,7 @@ class StudentEduData(models.Model):
                             if sub["Grade"]:                           
                                 subject_grades = self.env["op.grades"].search([('name','ilike',sub["Grade"].split('|')[0].strip())])
                             else:
-                                missed_data+=('student: '+str(stu_code)+' missed_subject: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+",")
+                                missed_data+=('student: '+str(stu_code)+' missed_subject_no_grade: '+str(sub["CourseCode"].split('|')[0].strip())+'-'+str(acad_year)+'-'+str(sem_name)+","+'\n')
                                 continue
                             if len(subject_grades) > 1:
                                 # print("subject_grade",subject_grades)
@@ -181,7 +195,7 @@ class StudentEduData(models.Model):
                                         break
                             else:
                                 subject_grade = subject_grades
-                            print("subject_grade:------------------------", subject_grades)
+                            # print("subject_grade:------------------------", subject_grades)
                             sem_sub.create({
                                 'academicyear_id' : academic_year,
                                 'student_semester_id' : accum_sem_id,
