@@ -210,13 +210,4 @@
 		<field name="report_name">hue_register.military_student_report</field>
 		<field name="binding_model_id" ref="hue_register.model_military_student_wizard"/>
 	</record>
-	<!--<report
-        id="action_military_student_report"
-        model="military.student.wizard"
-        string="Military Student"
-        report_type="qweb-html"
-        file="hue_register.military_student_report"
-        name="hue_register.military_student_report"
-        
-    />-->
 </odoo>

@@ -30,7 +30,15 @@
         <menuitem id="hue_student_registration_missing_subject_menu" name="Registration Missing Subject" action="hue_student_registration_missing_subject_action"
                   parent="registration_menu" sequence="5" />
 		
-		<!--transferred student menu-->
+        <!-- Registration Reports -->
+        <menuitem id="mc_registration_reports_menu" name="Registration Reports" sequence="70"/>
+        <menuitem id="mc_registration_reports_sub_menu" name="Registration Reports" 
+                    parent="mc_registration_reports_menu" sequence="1"/>
+        <menuitem id="menu_registration_level_wizard" name="Registration By Level"
+					  parent="mc_registration_reports_sub_menu"
+					  action="action_registration_level_wizard" sequence="1"/>
+		
+        <!--transferred student menu-->
 		<menuitem id="transferred_student" name="Transferred" parent="openeducat_core.menu_op_school_config" sequence="10"/>
         <menuitem id="transferred_student_menu" name="Transferred Student" parent="transferred_student"
                   action="transferred_student_action" sequence="1"/>

@@ -82,7 +82,7 @@
                 </t>
             </t>
         </template>
-         <record id="action_report_timetable" model="ir.actions.report">
+        <record id="action_report_timetable" model="ir.actions.report">
             <field name="name">timetable</field>
             <field name="model">op.session</field>
             <field name="report_type">qweb-html</field>

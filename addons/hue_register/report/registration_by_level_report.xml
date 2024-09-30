@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="registration_by_level_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+<!--                  statistics -->
+                          <t t-if=" not docs.course_id ">
+                             <t t-set="total_no_reg" t-value="0"/>
+                            <t t-set="total_finish_reg" t-value="0"/>
+                            <t t-set="fin_total" t-value="0"/>
+                            <t t-foreach="courses" t-as="course_id">
+                                <table class="table table-bordered" style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                                      <t t-set="levels_id" t-value="get_level(course_id)"/>
+                                        <tbody>
+                                            <tr style="color:#fff;background-color:#00438b">
+                                                <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Course</font>
+                                                </th>
+                                              <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Level</font>
+                                                </th>
+                                               <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">No Reg</font>
+                                                </th>
+                                                <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Finish Reg</font>
+                                                </th>
+                                                <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                    <font size="3">Total</font>
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center" t-att-rowspan="len(levels_id)+1"
+                                                    style="font-size: 18px;vertical-align: middle;">
+                                                    <span style="font-size: 18px;vertical-align: middle;"
+                                                          t-esc="course_id.sudo().name.split('|')[0]"/>
+                                                </td>
+                                            </tr>
+                                            <t t-set="no_reg" t-value="0"/>
+                                            <t t-set="finish_reg" t-value="0"/>
+                                            <t t-set="total" t-value="0"/> 
+                                            <t t-foreach="levels_id" t-as="level">
+                                                <tr>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="level.name"/>
+                                                    </td>
+                                                     
+                                                        <td>
+                                                            <t t-set="get_std_func"
+                                                               t-value="get_std(level.id,course_id,docs.batch_id,docs.subject_id)"/>
+                                                            <span style="font-size: 18px;" t-esc="get_std_func[0]"/>
+                                                            <t t-set="no_reg" t-value="no_reg+get_std_func[0]"/>
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-size: 18px;" t-esc="get_std_func[1]"/>
+                                                            <t t-set="finish_reg" t-value="finish_reg+get_std_func[1]"/>
+                                                        </td>
+                                                        <td>
+                                                            <span style="font-size: 18px;" t-esc="get_std_func[2]"/>
+                                                            <t t-set="total" t-value="total+get_std_func[2]"/>
+                                                        </td>        
+                                                </tr>
+                                            </t>
+                                            <t t-set="total_no_reg" t-value="total_no_reg+no_reg"/>
+                                            <t t-set="total_finish_reg" t-value="total_finish_reg+finish_reg"/>
+                                            <t t-set="fin_total" t-value="fin_total+total"/>
+                                        </tbody>
+                                        <tr>
+                                            <td style="font-size: 18px;text-align:center;" colspan="2">Totals</td>
+                                        
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="no_reg"/>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="finish_reg"/>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="total"/>
+                                            </td>
+                                        </tr>
+<!--                                        total course-->
+                       
+                                </table>
+                               
+                                </t>
+                                <table class="table table-bordered" style="background: #B68918; border-collapse: collapse;" dir="ltr">
+                                    
+                              <tbody>
+                                 <tr>
+                                            <td style="font-size: 18px;text-align:center;" colspan="2">Totals</td>
+                                        
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="total_no_reg"/>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="total_finish_reg"/>
+                                            </td>
+                                            <td>
+                                                <span style="font-size: 18px;" t-esc="fin_total"/>
+                                            </td>
+                                        </tr>
+                                 <tr>
+                                            <td style="font-size: 18px;text-align:center;" colspan="2">Student Registration Percentage</td>
+                                            <td style="font-size: 18px;text-align:center;" colspan="3">
+                                                <span style="font-size: 18px;" t-esc="round((total_finish_reg /fin_total)*100 )"/>
+                                                <span style="font-size: 18px;" > %</span>
+                                            </td>
+                                            
+                                        </tr>
+                              </tbody>
+                             
+                           </table>
+                        </t>
+<!--                          ###-->
+                        <t t-if="docs.course_id">
+                            <t t-if="docs.subject_id">
+                                <table style="border:1px;" class="table table-striped table-bordered" dir="rtl">
+                                    <tr>
+                                        <td  style="direction:rtl;">
+                                            <img  class="text-left" src="https://o17.mc.edu.eg/web/binary/company_logo"></img>
+                                            <div class="text-center">
+                                                 <h3   style="position:absolute; top:50px;right:35%;font-weight: bold; color:#00438b; ">Students Registered in </h3><br />
+                                            <span  style="font-size: 18px; color:#00438b;" t-esc="docs.subject_id.sudo().name.split('|')[0]"/>
+    
+                                            <br/>
+                                                <!--<t t-if="docs.batch_id">-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;"-->
+                                                <!--    t-esc="docs.batch_id.sudo().academic_year.name.split('|')[0]"/>-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;">- Semester:</span>-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;"-->
+                                                <!--    t-esc="docs.batch_id.sudo().semester.name.split('|')[1]"/> -->
+                                                <!--</t>-->
+                                                <!--<t t-else="">-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;"-->
+                                                <!--    t-esc="docs.batch_id.sudo().academic_year.current.name.split('|')[0]"/>-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;">- Semester:</span>-->
+                                                <!--    <span  style="font-size: 18px; color:#00438b;"-->
+                                                <!--    t-esc="docs.batch_id.sudo().semester.current.name.split('|')[1]"/>  -->
+                                                <!--</t>-->
+                                           
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                            <t t-else="">
+                                <table style="border:1px;" class="table table-striped table-bordered" dir="rtl">
+                                    <tr>
+                                      <td  style="direction:rtl;">
+                                           <img  class="text-left" src="https://o17.mc.edu.eg/web/binary/company_logo"></img>
+                                            <div class="text-center">
+                                            <span style="font-size: 18px; color:#00438b;">Registration By Level</span>
+                                            <!--<t t-if="docs.batch_id">-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;"-->
+                                            <!--        t-esc="docs.batch_id.sudo().academic_year.name.split('|')[0]"/>-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;">- Semester:</span>-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;"-->
+                                            <!--        t-esc="docs.batch_id.sudo().semester.name.split('|')[1]"/> -->
+                                            <!--    </t>-->
+                                            <!--    <t t-else="">-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;"-->
+                                            <!--        t-esc="docs.batch_id.sudo().academic_year.current.name.split('|')[0]"/>-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;">- Semester:</span>-->
+                                            <!--        <span  style="font-size: 18px; color:#00438b;"-->
+                                            <!--        t-esc="docs.batch_id.sudo().semester.current.name.split('|')[1]"/>  -->
+                                            <!--    </t>-->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </t>
+                            <!--                        <t t-if="docs.subject_id==False">-->
+                            <div class="table-responsive" t-if="not docs.show_missing">
+                             <table class="table table-bordered" style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+    
+                                    <tbody>
+                                        <tr style="color:#fff;background-color:#00438b">
+                                            <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                <font size="3">Course</font>
+                                            </th>
+                                          <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                <font size="3">Level</font>
+                                            </th>
+                                           <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                <font size="3">No Reg</font>
+                                            </th>
+                                            <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                <font size="3">Finish Reg</font>
+                                            </th>
+                                            <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                                <font size="3">Total</font>
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center" t-att-rowspan="len(levels)+1"
+                                                style="font-size: 18px;vertical-align: middle;">
+                                                <span style="font-size: 18px;vertical-align: middle;"
+                                                      t-esc="docs.course_id.sudo().name.split('|')[0]"/>
+                                            </td>
+                                        </tr>
+                                        <t t-set="no_reg" t-value="0"/>
+                                        <t t-set="finish_reg" t-value="0"/>
+                                        <t t-set="total" t-value="0"/>
+                                        <t t-foreach="levels" t-as="level">
+                                            <tr>
+                                                <td>
+                                                    <span style="font-size: 18px;" t-esc="level.name"/>
+                                                </td>
+                                                 
+                                                    <td>
+                                                        <t t-set="get_std_func"
+                                                           t-value="get_std(level.id,docs.course_id,docs.batch_id,docs.subject_id)"/>
+                                                        <span style="font-size: 18px;" t-esc="get_std_func[0]"/>
+                                                        <t t-set="no_reg" t-value="no_reg+get_std_func[0]"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="get_std_func[1]"/>
+                                                        <t t-set="finish_reg" t-value="finish_reg+get_std_func[1]"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="get_std_func[2]"/>
+                                                        <t t-set="total" t-value="total+get_std_func[2]"/>
+                                                    </td>        
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                    <tr>
+                                        <td style="font-size: 18px;text-align:center;" colspan="2">Totals</td>
+    
+                                        <td>
+                                            <span style="font-size: 18px;" t-esc="no_reg"/>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 18px;" t-esc="finish_reg"/>
+                                        </td>
+                                        <td>
+                                            <span style="font-size: 18px;" t-esc="total"/>
+                                        </td>
+                                    </tr>
+                            </table>
+                            </div>
+                            <!--                        </t>-->
+                                <t t-if="docs.show_missing" class="table-responsive">
+                                    <table class="table table-bordered" dir="ltr">
+                                        <tbody>
+                                            <tr style="color:#fff;background-color:#031f4a;">
+                                          <th  width="40%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Student</font>
+                                                </th>
+                                             <th  width="30%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Code</font>
+                                                </th>
+                                           <th  width="30%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Level</font>
+                                                </th>
+                                            </tr>
+                                            <t t-set="no_student" t-value="1"/>
+                                            <t t-foreach="missing_std" t-as="student">
+                                              <tr t-if="student[1]">
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student[0].name"/>
+                                                    </td>
+                                                  <td>
+                                                        <span style="font-size: 18px;" t-esc="student[0].id"/>
+                                                    </td>
+                                                <td>
+                                                    <ol>
+                                              <t t-foreach="student[1]" t-as="missing">
+    
+                                                        <span style="font-size: 18px;" t-esc="missing.id"/>,
+    
+                                              </t>  </ol>
+                                                    </td>
+                                              </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            <div  t-if="not docs.show_missing">
+                                <t t-if="docs.show_std" class="table-responsive">
+                                    <table class="table table-bordered" dir="ltr">
+                                        <tbody>
+                                            <tr style="color:#fff;background-color:#031f4a;">
+                                      <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">#</font>
+                                                </th>
+                                    <th  width="50%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Student</font>
+                                                </th>
+                                                   <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Code</font>
+                                                </th>
+                                                <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Level</font>
+                                                </th>
+                                                <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Status</font>
+                                                </th>
+                                            </tr>
+                                            <t t-set="no_student" t-value="1"/>
+                                            <t t-foreach="students" t-as="student">
+                                                <tr>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="no_student"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.student_code"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.level.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.student_status.name"/>
+                                                    </td>
+                                                    <t t-set="no_student" t-value="no_student+1"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                                <t t-else="">
+                                    <table class="table table-bordered" dir="ltr">
+                                        <tbody>
+                                            <tr style="color:#fff;background-color:#031f4a;">
+                                                <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">#</font>
+                                                </th>
+                                               <th  width="50%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Student</font>
+                                                </th>
+                                              <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Code</font>
+                                                </th>
+                                                <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Level</font>
+                                                </th>
+                                                <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+    
+                                                    <font size="3">Status</font>
+                                                </th>
+                                            </tr>
+                                            <t t-set="no_student" t-value="1"/>
+                                            <t t-foreach="reg_students" t-as="student">
+                                                <tr>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="no_student"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.student_code"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.level.name"/>
+                                                    </td>
+                                                    <td>
+                                                        <span style="font-size: 18px;" t-esc="student.student_status.name"/>
+                                                    </td>
+                                                    <t t-set="no_student" t-value="no_student+1"/>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </t>
+                            </div>
+                        </t>
+                      
+<!--                        -->
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_registration_by_level_report" model="ir.actions.report">
+            <field name="name">Registration By Level</field>
+            <field name="model">hue.student.registration</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">hue_register.registration_by_level_report</field>
+            <field name="report_file">hue_register.registration_by_level_report</field>
+        </record>
+    <!-- <report
+            id="action_registration_by_level_report"
+            model="report.hue_timetable.registration_by_level_report"
+            string="Registration By Level"
+            report_type="qweb-html"
+            name="hue_timetable.registration_by_level_report"
+            file="hue_timetable.registration_by_level_report"
+    /> -->
+</odoo>
