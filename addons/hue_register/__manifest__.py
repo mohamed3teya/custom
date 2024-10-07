@@ -34,6 +34,7 @@
         'wizard/registration_statistics_wizard.xml',
         'report/military_student_report.xml',
         'report/registration_by_level_report.xml',
+        'report/registration_statistics_report.xml',
         'menus/registration_menu.xml',
     ],
     'assets': {

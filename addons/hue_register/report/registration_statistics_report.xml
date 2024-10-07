@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="registration_statistics">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.basic_layout">
+                    <div class="page">
+                        <t t-if="docs.subject_id">
+                            <table class="table table-bordered"
+                               style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                            <tr>
+                                <td class="text-center" style="position:relative;">
+                                    <span style="font-size: 20px;color:#00438b !important">Student Registration Statistics</span>
+                                     <br/>
+                                  <span style="font-size: 18px;color:#00438b !important">Course</span>
+                                    :
+                                    <span style="font-size: 18px;" t-esc="docs.course_id.name.split('|')[1]" />
+                                    <br/>
+                                           <span style="font-size: 18px;color:#00438b !important">Subject :</span>
+                                       <span style="font-size: 18px;" t-esc="docs.subject_id.sudo().name" />
+                                     <span>
+                                        <img style="position:absolute; top:5px; right:20px;"
+                                             src="https://o17.mc.edu.eg/web/binary/company_logo"
+                                             alt="Horus University" height="60" width="200"/>
+                                        <span style="position: absolute;top: 67px;right: 17px;font-size: 18px;float: right;margin-right:50px;">
+                                            جامعة حورس مصر
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered" style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                            <tbody>
+                                <tr style="color:#fff;background-color:#00438b">
+                                    <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                        <font size="3">Total student</font>
+                                    </th>
+                                  <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                        <font size="3">Reg</font>
+                                    </th>
+                                   <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                        <font size="3">No Reg</font>
+                                   </th>
+                                </tr>
+                                    <tr>
+                                        <td class="text-center" 
+                                            style="font-size: 18px;vertical-align: middle;">
+                                            <span t-esc="len(student_ids)"/>
+                                        </td>
+                                        <td class="text-center" 
+                                            style="font-size: 18px;vertical-align: middle;">
+                                            <span t-esc="len(student_registration)"/>
+                                        </td>
+                                         <td class="text-center"
+                                            style="font-size: 18px;vertical-align: middle;">
+                                            <span t-esc="student_no_registration"/>
+                                        </td>
+                                    </tr>
+                                        </tbody>
+                                </table>
+                         </t>
+                        <t t-else="">
+                            <table class="table table-bordered"
+                               style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                            <tr>
+                                <td class="text-center" style="position:relative;">
+                                    <span style="font-size: 20px;color:#00438b !important">Student Registration Statistics</span>
+                                     <br/>
+                                  <span style="font-size: 18px;color:#00438b !important">Course</span>
+                                    :
+                                    <span style="font-size: 18px;" t-esc="docs.course_id.name.split('|')[1]" />
+                                    <br/>
+                                    <br/>
+                                     <span>
+                                        <img style="position:absolute; top:5px; right:20px;"
+                                             src="https://o17.mc.edu.eg/web/binary/company_logo"
+                                             alt="Horus University" height="60" width="200"/>
+                                        <span style="position: absolute;top: 67px;right: 17px;font-size: 18px;float: right;margin-right:50px;">
+                                            جامعة حورس مصر
+                                        </span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table table-bordered" style="background: #f2ffff; border-collapse: collapse;" dir="ltr">
+                            <tbody>
+                            <tr style="color:#fff;background-color:#00438b">
+                                 <th  width="20%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                    <font size="3">subject</font>
+                                </th>
+                                <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                    <font size="3">Total student</font>
+                                </th>
+                              <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                    <font size="3">Reg</font>
+                                </th>
+                               <th  width="10%" style="font-size: 18px;border: 1px solid #ccc;text-align: left;  border-color: #051D33;color:#B68918;background-color:#00438b;font-weight: bold; padding: 10px;border-color: #9abad9;">
+                                    <font size="3">No Reg</font>
+                               </th>
+                            </tr>
+                            <t t-foreach="subjects" t-as="subject">
+                            <t t-set="get_registration"  t-value="get_reg(docs.course_id,subject)"/>
+                                <tr>
+                                    <td class="text-center" 
+                                        style="font-size: 18px;vertical-align: middle;">
+                                        <span t-esc="subject.subject_name"/>
+                                    </td>
+                                    <td class="text-center" 
+                                        style="font-size: 18px;vertical-align: middle;">
+                                        <span t-esc="len(student_ids)"/>
+                                    </td>
+                                   <td class="text-center" 
+                                            style="font-size: 18px;vertical-align: middle;">
+                                            <span t-esc="len(get_registration[0])"/>
+                                    </td>
+                                     <td class="text-center"
+                                        style="font-size: 18px;vertical-align: middle;">
+                                        <span t-esc="get_registration[1]"/>
+                                    </td>
+                                </tr>
+                                </t>
+                                </tbody>
+                            </table>
+                       </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <record id="action_registration_statistics" model="ir.actions.report">
+		<field name="name">registration statistics</field>
+		<field name="model">hue.student.registration</field>
+		<field name="report_type">qweb-html</field>
+		<field name="report_name">hue_register.registration_statistics</field>
+		<field name="report_file">hue_register.registration_statistics</field>
+	</record>
+</odoo>
