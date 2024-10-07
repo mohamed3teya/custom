@@ -38,7 +38,7 @@ class WebsiteRegistration(http.Controller):
 
         student_fields_to_read = ['first_name', 'middle_name', 'last_name', 'blood_group', 'gender', 'nationality', 'emergency_contact', 'visa_info', 'id_number', 'partner_id', 'user_id', 'gr_no', 'category_id', 'course_detail_ids', 'active', 'id', 'fees_detail_ids', 'fees_details_count', 'parent_ids', 'library_card_id', 'media_movement_lines', 'media_movement_lines_count', 'advisor', 'allow_registration', 'already_partner', 'alumni_academicyear_id', 'alumni_semester_id', 'approval_num', 'approval_type', 'bank_account_count', 'bank_ids', 'brother_discount', 'certificate_degree', 'certificate_country', 'cgpa', 'commercial_partner_country_id', 'conflict_crh', 'conflict_gpa', 'contracts_count', 'core_crh', 'course_id', 'crh', 'customer', 'decisionno', 'd_name', 'elective_crh', 'en_name', 'faculty', 'father_discount', 'father_job', 'father_mail', 'father_mobile', 'father_name', 'father_nationality', 'father_phone', 'final_degree', 'gardian_mobile', 'gardian_name', 'gardian_tele', 'gardian_type', 'gardian_job', 'intern_month', 'join_term', 'join_year', 'level', 'martyrs_discount', 'mc', 'm_graph_id', 'militaryno', 'military_status', 'mother_job', 'mother_mail', 'mother_mobile', 'mother_name', 'mother_nationality', 'mother_phone', 'national_id', 'new_crh', 'new_gpa', 'opt_out', 'partner_ledger_label', 'password', 'payment_next_action', 'percentage', 'photo_hide', 'prequaldegree', 'previous_course_id', 'project_crh', 'project_gpa', 'project_grade', 'project_title', 'qualyear', 'registration_block_reason', 'related_student', 'religion', 'result_block_reason', 'sale_order_count', 'scholarship', 'sds_tobedeleted', 'seatno', 'sibling_id', 'sibling_name', 'sibling_student_id', 'special_case', 'specialized_faculty', 'specialneeds', 'student_birth_place', 'student_certificates', 'student_city', 'student_code', 'student_nationality', 'student_school', 'student_status', 'student_term', 'stumobile', 'stutele', 'subject_degree', 'supplier', 'syndicate_discount', 'task_count', 'total_degree', 'total_due', 'transfer_type', 'Pre_join_year', 'pre_transfer_type', 'transferred_from','university_country', 'unreconciled_aml_ids', 'year', 'student_accumlative_ids', 'student_semesters_accumlative_ids', 'student_attendance_ids', 'transport_ids', 'military_done', 'military_id', 'done_military_id', 'military_notes', 'session_tmp_ids', 'university_name', 'session_ids', 'student_advisor_id', 'website_id', 'website_published', 'is_published', 'can_publish', 'website_url', 'email_normalized', 'is_blacklisted', 'name', 'complete_name', 'title', 'parent_id', 'parent_name', 'child_ids', 'ref', 'lang', 'active_lang_count', 'tz', 'tz_offset', 'vat', 'same_vat_partner_id', 'same_company_registry_partner_id', 'company_registry', 'website', 'comment', 'employee', 'function', 'type', 'street', 'street2', 'zip', 'city', 'state_id', 'country_id', 'country_code', 'partner_latitude', 'partner_longitude', 'email', 'email_formatted', 'phone', 'mobile', 'is_company', 'is_public', 'industry_id', 'company_type', 'company_id', 'color', 'user_ids', 'partner_share', 'contact_address', 'commercial_partner_id', 'commercial_company_name', 'company_name', 'barcode', 'self', 'im_status', 'channel_ids', 'contact_address_inline', 'starred_message_ids', 'signup_valid', 'signup_url', 'meeting_count', 'meeting_ids', 'property_product_pricelist', 'team_id', 'partner_gid', 'additional_info', 'phone_sanitized', 'phone_sanitized_blacklisted', 'phone_blacklisted', 'mobile_blacklisted', 'phone_mobile_search', 'certifications_count', 'certifications_company_count', 'payment_token_ids', 'payment_token_count', 'fiscal_country_codes', 'days_sales_outstanding', 'debit_limit', 'currency_id', 'journal_item_count', 'property_account_payable_id', 'property_account_receivable_id', 'property_account_position_id', 'property_payment_term_id', 'property_supplier_payment_term_id', 'ref_company_ids', 'has_unreconciled_entries', 'invoice_ids', 'contract_ids', 'trust', 'invoice_warn', 'invoice_warn_msg', 'supplier_rank', 'customer_rank', 'duplicated_bank_account_partners_count', 'property_stock_supplier', 'picking_warn','is_parent', 'is_student', 'sale_order_ids', 'is_venue']
         request.session['student'] = json.dumps(student.read(student_fields_to_read))
-        print(request.session['student'])
+        # print(request.session['student'])
         if 'student' in request.session and request.session['student'] == True:
             student_j = json.loads(request.session['student'])[0]
 
@@ -46,14 +46,14 @@ class WebsiteRegistration(http.Controller):
             if student_id:
                 # admin_user = True
                 # event_type = 'admin_registration'
-                print('//////////////////////////////// User is ...')
+                # print('//////////////////////////////// User is ...')
                 if request.env.ref('HUE_openeducat_core.group_service_manager') in user.groups_id or request.env.ref(
                         'openeducat_core.group_op_back_office') in user.groups_id:
-                    print('//////////////////////////////// Admin')
+                    # print('//////////////////////////////// Admin')
                     admin_user = True
                     event_type = 'admin_registration'
                 elif request.env.ref('HUE_openeducat_core.group_advisor_admin') in user.groups_id:
-                    print('//////////////////////////////// Adviser')
+                    # print('//////////////////////////////// Adviser')
                     adviser = True
                     event_type = 'adviser_registration'
             request.session['student'] = False
@@ -103,7 +103,7 @@ class WebsiteRegistration(http.Controller):
                     prerequisites.append(obj)
             for cs in stu_course.parent_id.subjects_ids:                
                 for prereq in cs.subject_prerequisites:
-                    print(prereq.name)
+                    # print(prereq.name)
                     obj = {'id': cs.id, 'pre': prereq.id}
                     prerequisites.append(obj)  
             request.session['prerequisites'] = json.dumps(prerequisites)
@@ -160,14 +160,14 @@ class WebsiteRegistration(http.Controller):
                         calendar_j = json.loads(request.session['calendar'])[0]
             else:
                 calendar_j = json.loads(request.session['calendar'])[0]
-            print(stu_course.name)
-            print('_______________calendar_jcalendar_jcalendar_j____________________')
-            print(calendar_j)
+            # print(stu_course.name)
+            # print('_______________calendar_jcalendar_jcalendar_j____________________')
+            # print(calendar_j)
             if calendar_j:
                 closed = False
                 # print("stu_course_j[0]['id']:---------", stu_course_j[0]['id'])
-                print("calendar_j['academic_year'][0]:------------", calendar_j['academic_year'][0])
-                print("calendar_j['semester'][0]:----------------", calendar_j['semester'][0])
+                # print("calendar_j['academic_year'][0]:------------", calendar_j['academic_year'][0])
+                # print("calendar_j['semester'][0]:----------------", calendar_j['semester'][0])
                 batch = request.env['op.batch'].sudo().search(
                     [('course_id', '=', stu_course_j[0]['id']), ('academic_year', '=', calendar_j['academic_year'][0]),
                      ('semester', '=', calendar_j['semester'][0]), ('intern_batch', '=', False)], limit=1)
@@ -178,13 +178,13 @@ class WebsiteRegistration(http.Controller):
                                                                     ('intern_batch', '=', False)], limit=1)
                 academic_year = calendar_j['academic_year'][1]
                 semester = calendar_j['semester'][1].split('|')[1]
-        # print(stu_course_j)
-        print("calendar_j:-----------------------", calendar_j)
-        print("batch:-----------------------", batch)
+        # print("stu_course_j:-----------",stu_course_j)
+        # print("calendar_j:-----------------------", calendar_j)
+        # print("batch:-----------------------", batch)
         if calendar_j and batch:
             if batch2:
-                print("2222222222222222222222222222222222222222222222")
-                print("batch2:---------------", batch2)
+                # print("2222222222222222222222222222222222222222222222")
+                # print("batch2:---------------", batch2)
                 sessions = request.env['op.session'].sudo().search([
                     # ('subject_id', '=', subject_id.subject_id.id),
                     # ('course_id','=',subject_id.course_id.id),
@@ -194,9 +194,9 @@ class WebsiteRegistration(http.Controller):
                     ('start_datetime', '>=', batch.default_week_start),
                     ('end_datetime', '<=', str(batch.default_week_end) + ' 23:59:59'),
                 ])
-                print("Sessions2222222222222:---------------", sessions)
+                # print("Sessions2222222222222:---------------", sessions)
             else:
-                print("333333333333333333333333333333333333333333333333")
+                # print("333333333333333333333333333333333333333333333333")
                 sessions = request.env['op.session'].sudo().search([
                     # ('subject_id', '=', subject_id.subject_id.id),
                     # ('course_id','=', subject_id.course_id.id),
@@ -248,6 +248,9 @@ class WebsiteRegistration(http.Controller):
                                 #     degree = int(course_subject.subject_passpercentage)
                                 # else:
                                 #     degree = 60
+                                # Added this line to make sure that if subject taken many times only the last time grade is added
+                                if course_subject.id in taken_subjects:
+                                    taken_subjects.remove(course_subject.id)
                                 if sub.final_grade and sub.final_grade.pass_grade:  # / course_subject.subject_total * 100 >= degree:
                                     print('_____PASSED')
                                     if course_subject.id not in taken_subjects:
@@ -259,7 +262,6 @@ class WebsiteRegistration(http.Controller):
                                         elec_hours += course_subject.subject_credithours
                                     elif course_subject.subject_type == 'project':
                                         project_hours += course_subject.subject_credithours
-
         ###################################
         ##### Subjects to select from #####
         ###################################
@@ -364,22 +366,22 @@ class WebsiteRegistration(http.Controller):
                     if str(lev['level_id'][1]) == str(student_lev_int) and calendar_j['semester'][
                         0] == int(lev['semester_id'][0]) and float(lev['gpa_from']) <= float(
                             student_j['new_gpa']) < float(lev['gpa_to']):
-                        print('________________')
-                        print("lev:------------------------------", lev)
+                        # print('________________')
+                        # print("lev:------------------------------", lev)
                         min_hours = lev['hours_from']
                         max_hours = lev['hours_to']
                     elif float(lev['gpa_to']) == 4 and int(lev['level_id'][1]) == int(student_lev_int) and calendar_j['semester'][0] == int(
                             lev['semester_id'][0]) and float(lev['gpa_from']) <= float(student_j['new_gpa']) <= float(
                             lev['gpa_to']):
-                        print('________________4')
+                        # print('________________4')
                         min_hours = lev['hours_from']
                         max_hours = lev['hours_to']
                     
                 except:
-                    print("-------------------------------pass")
+                    # print("-------------------------------pass")
                     pass
-        print("min_hours:------------------------------", min_hours)
-        print("max_hours:------------------------------", max_hours)
+        # print("min_hours:------------------------------", min_hours)
+        # print("max_hours:------------------------------", max_hours)
         partner = student.partner_id
         domain = [
             ('invoice_type', 'in', ['out_invoice']),
@@ -436,14 +438,14 @@ class WebsiteRegistration(http.Controller):
             ('id', '=', int(subject_id)),
         ])
         if not co_subject:
-            print('______======')
+            # print('______======')
             if course_id[0]['parent_id']:
                 co_subject = request.env['op.subject'].sudo().search([
                     ('course_id', '=', int(course_id[0]['parent_id'][0])),
                     ('id', '=', int(subject_id)),
                 ])
-        if not co_subject:
-            print(subject_id)
+        # if not co_subject:
+        #     print(subject_id)
         return co_subject
     
     def _get_group(self):
@@ -459,16 +461,16 @@ class WebsiteRegistration(http.Controller):
             security=1
         else :
             employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', request.env.user.id)], limit=1)
-            print("employee_id:----------", employee_id)
+            # print("employee_id:----------", employee_id)
             faculty = request.env['op.faculty'].sudo().search([('emp_id', '=', employee_id.id)], limit=1)
-            print("faculty:--------------", faculty)
+            # print("faculty:--------------", faculty)
             hue_direction_lines = request.env['hue.academic.direction.line'].sudo().search([
                 ('to_date', '=', False),('faculty_id', '=',faculty.id),('student_id', '=',  student_id)])
             if hue_direction_lines :
                 security=1
             else :
                 security=0
-        print("security:----", security)
+        # print("security:----", security)
         return security
 
     ###########################################################################################
@@ -558,7 +560,7 @@ class WebsiteRegistration(http.Controller):
                 user = request.env['res.users'].sudo().browse(request.uid)
                 if check_all and reg_hours + co_subject.subject_credithours > rdata['max_hours'] and request.env.ref(
                         'HUE_openeducat_core.group_service_manager') not in user.groups_id:
-                    print("check_reg rdata['max_hours']", rdata['max_hours'])
+                    # print("check_reg rdata['max_hours']", rdata['max_hours'])
                     accept = 'Can not register to Session "' + session.name + '". Max hours Reached!'
                     return accept
 
@@ -638,14 +640,14 @@ class WebsiteRegistration(http.Controller):
 
                         if stu_reg.status == 'Draft' or stu_reg.status == 'Pending' or rdata['admin_user'] or rdata[
                             'adviser']:
-                            print('|||||||||||||| DELETE |||||||||||||||||||')
+                            # print('|||||||||||||| DELETE |||||||||||||||||||')
 
                             stu_reg.unlink()
                             request.env.cr.commit()
 
         if not err:
-            print(reg_session_types)
-            print(session_types)
+            # print(reg_session_types)
+            # print(session_types)
 
             for stype in session_types:
                 if stype not in reg_session_types:
@@ -708,19 +710,19 @@ class WebsiteRegistration(http.Controller):
         for reg in stu_regs:
             # if reg.session_id.subject_id.id not in stu_regs_count:
             #     stu_regs_count.append(reg.session_id.subject_id.id)
-            print(reg)
-            print(request.env.user.id)
-            print(request.env.user.id)
-            print(request.env.user.id)
+            # print(reg)
+            # print(request.env.user.id)
+            # print(request.env.user.id)
+            # print(request.env.user.id)
 
-            print('AEAFEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSsss')
+            # print('AEAFEEEEEEEEEEEEEESSSSSSSSSSSSSSSSSSSSsss')
             if reg.session_id.id not in rdata['student_obj'].session_ids.ids:
                 check_session = self._check_reg(rdata, reg.session_id, post, False, False)
                 if check_session != 'OK':
                     return check_session
             if rdata['admin_user'] or rdata['adviser']:
                 reg.status = 'Approved'
-                print('11111111155555555555555551111111111')
+                # print('11111111155555555555555551111111111')
                 stuAccID = request.env['op.student.accumulative'].sudo().search(
                     [('student_id', '=', rdata['student']['id']), ('course_id', '=', rdata['batch'].course_id.id),
                      ('academicyear_id', '=', rdata['batch'].academic_year.id)], limit=1)
@@ -740,8 +742,8 @@ class WebsiteRegistration(http.Controller):
                 stuSemSubID = request.env['op.student.semesters.subjects'].sudo().search(
                     [('student_semester_id', '=', StuAccSemID.id), (
                     'subject_id', '=', self._get_course_subject(rdata['stu_course'], reg.session_id.subject_id.id).id)])
-                print(stuSemSubID.approved_by)
-                print('2222222222222222222222222222222222')
+                # print(stuSemSubID.approved_by)
+                # print('2222222222222222222222222222222222')
 
                 if not stuSemSubID:
                     request.env['op.student.semesters.subjects'].sudo().create(
@@ -755,8 +757,8 @@ class WebsiteRegistration(http.Controller):
             request.env.cr.commit()
             sessions.append(reg.session_id.id)
         # if sessions:
-        print("sessions")
-        print(sessions)
+        # print("sessions")
+        # print(sessions)
         #add registered sessions to student
         rdata['student_obj'].session_ids = [(6, 0, sessions)]
         #Add the same odoo calendar sessions to the same student
@@ -769,7 +771,7 @@ class WebsiteRegistration(http.Controller):
                 event.partner_ids = [(6, 0, event_partners)]
         request.env.cr.commit()
         if rdata['batch'].allow_registration_invoicing:
-            print("sessions")
+            # print("sessions")
             term_id = request.env['op.academic.term'].sudo().search([('id', '=', 29)], limit=1).id
             inv_obj = request.env['account.move']
             partner_id = request.env['op.student'].sudo().search([('id', '=', rdata['student']['id']),

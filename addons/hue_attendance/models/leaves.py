@@ -42,7 +42,6 @@ class StudentExtension(models.Model):
     
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
-        print("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
         args = args or []
         recs = self.search([('student_code', operator, name)] + args, limit=limit)
         if not recs.ids:

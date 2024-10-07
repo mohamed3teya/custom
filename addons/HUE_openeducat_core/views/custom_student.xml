@@ -296,7 +296,7 @@
 			<field name="code">model.modify_student_data_fun()</field>
 		</record>
         <!-- Inherit the op.student search view -->
-        <record id="inherit_op_student_search" model="ir.ui.view">
+        <!-- <record id="inherit_op_student_search" model="ir.ui.view">
             <field name="name">op.student.search.inherit</field>
             <field name="model">op.student</field>
             <field name="inherit_id" ref="openeducat_core.view_op_student_search"/>
@@ -305,6 +305,6 @@
                     <field name="student_code"/>
                 </xpath>
             </field>
-        </record>
+        </record> -->
     </data>
 </odoo>

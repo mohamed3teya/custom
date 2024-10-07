@@ -33,14 +33,14 @@ class RegistrationByLevelWizard(models.TransientModel):
                 # for i in courses:
                 #     if i == 15 :
                 #         all_courses = courses.remove(15)
-                if self.env.ref('hue_timetable.group_timetable_user') in self.env.user.groups_id :
-                    batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id),('intern_batch', '!=', True)])
-                elif self.env.ref('hue_timetable.group_timetable_reports') in self.env.user.groups_id :
-                    batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id),('intern_batch', '!=', True)])
+                # if self.env.ref('hue_timetable.group_timetable_user') in self.env.user.groups_id :
+                #     batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id),('intern_batch', '!=', True)])
+                # elif self.env.ref('hue_timetable.group_timetable_reports') in self.env.user.groups_id :
+                #     batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id),('intern_batch', '!=', True)])
                 # elif self.env.ref('__export__.res_groups_128_be2a877a') in self.env.user.groups_id :
                 #     batches = self.env['op.batch'].sudo().search([('course_id', '=', self.course_id.id),('intern_batch', '=', True)])
-                else :
-                    batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id)])
+                # else :
+                batches = self.env['op.batch'].sudo().search([('course_id', '=', rec.course_id.id)])
 
             # domain = {'course_id': [('id', 'in', courses)] , 'batch_id': [('id', 'in', batches.ids)]}
             # return {'domain': domain}

@@ -32,11 +32,18 @@
 		
         <!-- Registration Reports -->
         <menuitem id="mc_registration_reports_menu" name="Registration Reports" sequence="70"/>
-        <menuitem id="mc_registration_reports_sub_menu" name="Registration Reports" 
+        <menuitem id="mc_session_registration_reports_sub_menu" name="Session Registration" 
                     parent="mc_registration_reports_menu" sequence="1"/>
+        <menuitem id="mc_registration_reports_sub_menu" name="Registration Reports" 
+                    parent="mc_registration_reports_menu" sequence="2"/>
+        <menuitem id="op_session_registration_report_menu" name="Session Registration" sequence="1"
+		          parent="mc_session_registration_reports_sub_menu" action="hue_timetable.op_session_registration_action"/>
         <menuitem id="menu_registration_level_wizard" name="Registration By Level"
 					  parent="mc_registration_reports_sub_menu"
 					  action="action_registration_level_wizard" sequence="1"/>
+        <menuitem id="registration_statistics_report" name="Registration Statistics" action="action_registration_statistics_report"
+            parent="mc_registration_reports_sub_menu"
+            sequence="2"/>
 		
         <!--transferred student menu-->
 		<menuitem id="transferred_student" name="Transferred" parent="openeducat_core.menu_op_school_config" sequence="10"/>
@@ -44,7 +51,13 @@
                   action="transferred_student_action" sequence="1"/>
         <menuitem id="university_transfer_menu" name="University Transfer" parent="transferred_student"
                   action="university_transfer_action" sequence="2"/>
-        
+        <!-- transferred_student_separate menu -->
+        <menuitem id="transferred_student_root" name="Transferred student" sequence="80"/>
+        <menuitem id="transferred_student_sub_menu" name="Transferred student" parent="transferred_student_root"/>
+        <menuitem id="transferred_student_main_menu" name="Transferred Student" parent="transferred_student_sub_menu"
+                  action="transferred_student_action" sequence="1"/>
+        <menuitem id="university_transfer_main_menu" name="University Transfer" parent="transferred_student_sub_menu"
+                  action="university_transfer_action" sequence="2"/>
         <!--Services menu-->
         <menuitem id="service_root" name="Services" parent="openeducat_core.menu_op_school_config" sequence="13"/>
         <menuitem id="hue_service_menu" name="Service Type" parent="service_root"
